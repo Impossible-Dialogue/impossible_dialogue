@@ -10,6 +10,7 @@ import time
 import traceback
 
 from funky_lights import connection, messages
+from core.opc import OpenPixelControlClient, create_opc_connection
 from core.serial import SerialWriter
 from core.pattern_generator import PatternGenerator
 from core.websockets import TextureWebSocketsServer, PatternMixWebSocketsServer
@@ -66,23 +67,21 @@ async def main():
     
     # if args.enable_pattern_mix_subscriber:
     #     futures.append(pattern_selector.patternMixWSListener(args.pattern_mix_subscribe_uri))
-
-    # Start serial
-    # loop = asyncio.get_event_loop()
-    # for bus in bus_config['led_busses']:
-    #     # Start the light app
-    #     serial_port = connection.InitializeController(bus['device'], baudrate=bus['baudrate'])
-    #     serial_port.close()
-
-    #     # Start async serial handlers
-    #     serial_serve_handler = functools.partial(
-    #         SerialWriter, 
-    #         generator=pattern_generator, 
-    #         uids=bus['uids'], 
-    #         color_format=messages.ColorFormat[bus['color_format']])
-    #     futures.append(serial_asyncio.create_serial_connection(
-    #         loop, serial_serve_handler, bus['device'], baudrate=bus['baudrate']))
     
+    # Start Open Pixel Control
+    loop = asyncio.get_event_loop()
+    for o in config['objects']:
+        object_id = o['id']
+        if not 'opc_connection' in o.keys():
+            continue
+        connection = o['opc_connection']
+        opc_handler = functools.partial(
+            OpenPixelControlClient, 
+            generator=pattern_generator, 
+            object_id=object_id)
+        futures.append(create_opc_connection(
+            loop, opc_handler, connection['server_ip'], connection['server_port']))
+        
     # Wait forever
     try:
         results = await asyncio.gather(
