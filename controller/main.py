@@ -10,7 +10,7 @@ import time
 import traceback
 
 from funky_lights import connection, messages
-from core.opc import OpenPixelControlClient, create_opc_connection
+from core.opc import OpenPixelControlProtocol, create_opc_connection
 from core.serial import SerialWriter
 from core.pattern_generator import PatternGenerator
 from core.websockets import TextureWebSocketsServer, PatternMixWebSocketsServer
@@ -75,12 +75,12 @@ async def main():
         if not 'opc_connection' in o.keys():
             continue
         connection = o['opc_connection']
-        opc_handler = functools.partial(
-            OpenPixelControlClient, 
+        opc_factory = functools.partial(
+            OpenPixelControlProtocol, 
             generator=pattern_generator, 
             object_id=object_id)
-        futures.append(create_opc_connection(
-            loop, opc_handler, connection['server_ip'], connection['server_port']))
+        futures.append(loop.create_connection(
+            opc_factory, connection['server_ip'], connection['server_port']))
         
     # Wait forever
     try:
