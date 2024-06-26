@@ -403,7 +403,7 @@ class PatternSelector:
             await self.dmxPoll()
 
 
-    async def orientationWSListener(self, url, lock):
+    async def orientationWSListener(self, url):
         poll_interval = 0.1  # In seconds
         reconnect_interval = 5.0  # In seconds
         while True:
