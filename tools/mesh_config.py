@@ -5,7 +5,7 @@ MeshConfig = namedtuple(
 
 mesh_configs = [
     MeshConfig(
-        mesh='../controller/mesh/dome.obj',
+        mesh='../light_controller/mesh/dome.obj',
         cluster_eps=0.03,
         start_offset=0.15,
         end_offset=0.05,
@@ -14,7 +14,7 @@ mesh_configs = [
         actual_csv='../config/dome_actual.csv'
     ),
     MeshConfig(
-        mesh='../controller/mesh/trunk.obj',
+        mesh='../light_controller/mesh/trunk.obj',
         cluster_eps=0.005,
         start_offset=0.01,
         end_offset=0.01,
@@ -23,7 +23,7 @@ mesh_configs = [
         actual_csv='../config/trunk_actual.csv'
     ),
     MeshConfig(
-        mesh='../controller/mesh/eyes.obj',
+        mesh='../light_controller/mesh/eyes.obj',
         cluster_eps=0.02,
         start_offset=0.0,
         end_offset=0.0,
@@ -32,7 +32,7 @@ mesh_configs = [
         actual_csv='../config/eyes_actual.csv'
     ),
     MeshConfig(
-        mesh='../controller/mesh/head.obj',
+        mesh='../light_controller/mesh/head.obj',
         cluster_eps=0.03,
         start_offset=0.0,
         end_offset=0.0,
@@ -41,7 +41,7 @@ mesh_configs = [
         actual_csv='../config/head_actual.csv'
     ),
     MeshConfig(
-        mesh='../controller/mesh/legs.obj',
+        mesh='../light_controller/mesh/legs.obj',
         cluster_eps=0.03,
         start_offset=0.0,
         end_offset=0.0,
@@ -50,7 +50,7 @@ mesh_configs = [
         actual_csv='../config/legs_actual.csv'
     ),
     MeshConfig(
-        mesh='../controller/mesh/tail.obj',
+        mesh='../light_controller/mesh/tail.obj',
         cluster_eps=0.03,
         start_offset=0.0,
         end_offset=0.0,
