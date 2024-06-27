@@ -223,6 +223,8 @@ class PatternSelector:
     
     async def update(self, pattern_time):
         await self.updateHeadOrientation()
+        self.pattern_mix.intensity = 1.0 - abs(self.head_orientation / 180.0)
+
 
         self.handle_pattern_mix_updates(pattern_time)
         self.handle_buttons(pattern_time)

@@ -8,6 +8,7 @@ class PatternMix(Pattern):
         self.base_patterns = []
         self.mix_patterns = []
         self.replace_patterns = []
+        self.intensity = 1.0
 
     def get_patterns_from_id(self, pattern_ids):
         selected_patterns = []
@@ -62,5 +63,9 @@ class PatternMix(Pattern):
                 else:
                     # No mask, copy everything
                     segment.colors += mix_segment.colors
+
+        # Apply intensity
+        for segment in self.segments:
+            segment.colors = segment.colors * self.intensity
 
         return self.segments
