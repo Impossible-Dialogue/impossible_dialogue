@@ -201,4 +201,4 @@ Video of the visualization in action:
 * Photos of Funkadelephant BEFORE the lights upgrades: https://photos.app.goo.gl/gXQorENS9bhVreZ16
 * 3D Mesh files for the Funkadelephant art car: https://drive.google.com/drive/folders/1XdZmZc8DAyeh26kRkMO6nCtN7fgZzTzO?usp=sharing
 
-foo
+foo bar
