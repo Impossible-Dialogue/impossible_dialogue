@@ -61,7 +61,7 @@ args = parser.parse_args(remaining)
 
 head_orientations = {}
 imu_orientation_channel = "imu/head_orientation"
-head_orientations_ws_url = "ws://192.168.86.50:7891"
+head_orientations_ws_url = "ws://10.10.3.10:7891"
 
 async def orientation_ws_client(head_id, url):
     poll_interval = 0.1  # In seconds
