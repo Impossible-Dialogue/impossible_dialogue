@@ -62,6 +62,7 @@ args = parser.parse_args(remaining)
 head_orientations = {}
 imu_orientation_channel = "imu/head_orientation"
 head_orientations_ws_url = "ws://10.10.3.10:7891"
+noise_volume = 0.6
 
 async def orientation_ws_client(head_id, url):
     poll_interval = 0.1  # In seconds
@@ -247,32 +248,32 @@ async def main(** kwargs):
         inputstream_generator(
             head1_audio, 'media/sampler/head_1.wav'),
         inputstream_generator(
-            head1_noise, 'media/sampler/noise_1.wav', volume=0.3),
+            head1_noise, 'media/sampler/noise_1.wav', volume=noise_volume),
         headmixer_generator(head1_mix, head1_audio, head1_noise, 'head_1'),
         inputstream_generator(
             head2_audio, 'media/sampler/head_2.wav'),
         inputstream_generator(
-            head2_noise, 'media/sampler/noise_2.wav', volume=0.3),
+            head2_noise, 'media/sampler/noise_2.wav', volume=noise_volume),
         headmixer_generator(head2_mix, head2_audio, head2_noise, 'head_2'),
         inputstream_generator(
             head3_audio, 'media/sampler/head_3.wav'),
         inputstream_generator(
-            head3_noise, 'media/sampler/noise_3.wav', volume=0.3),
+            head3_noise, 'media/sampler/noise_3.wav', volume=noise_volume),
         headmixer_generator(head3_mix, head3_audio, head3_noise, 'head_3'),
         inputstream_generator(
             head4_audio, 'media/sampler/head_4.wav'),
         inputstream_generator(
-            head4_noise, 'media/sampler/noise_4.wav', volume=0.3),
+            head4_noise, 'media/sampler/noise_4.wav', volume=noise_volume),
         headmixer_generator(head4_mix, head4_audio, head4_noise, 'head_4'),
         inputstream_generator(
             head5_audio, 'media/sampler/head_5.wav'),
         inputstream_generator(
-            head5_noise, 'media/sampler/noise_5.wav', volume=0.3),
+            head5_noise, 'media/sampler/noise_5.wav', volume=noise_volume),
         headmixer_generator(head5_mix, head5_audio, head5_noise, 'head_5'),
         inputstream_generator(
             head6_audio, 'media/sampler/head_6.wav'),
         inputstream_generator(
-            head6_noise, 'media/sampler/noise_6.wav', volume=0.3),
+            head6_noise, 'media/sampler/noise_6.wav', volume=noise_volume),
         headmixer_generator(head6_mix, head6_audio, head6_noise, 'head_6'),
         mastermixer_generator(
             master_mix, [head1_mix, head2_mix, head3_mix, head4_mix, head5_mix, head6_mix]),
