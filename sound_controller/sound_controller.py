@@ -234,6 +234,7 @@ async def main(** kwargs):
     # Pre-fill head-orientations.
     for head_id in ["head_1", "head_2", "head_3", "head_4", "head_5", "head_6"]:
         head_orientations[head_id] = 180.0
+    head_orientations["head_1"] = 0.0
 
     futures = [
         orientation_ws_client('head_1', head_orientations_ws_url),
