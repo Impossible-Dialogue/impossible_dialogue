@@ -7,12 +7,12 @@ You need Python 3.7 or newer to run this.
 import argparse
 import asyncio
 import json
+import logging
 import queue
 import sys
 import traceback
 
 import numpy as np
-
 
 import websockets
 
@@ -21,6 +21,12 @@ from tasks.soundfile import read_soundfile
 from tasks.mixer import orientation_mixer, master_mixer
 from tasks.pyaudio import pyaudio_output
 
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s,%(msecs)d %(levelname)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 
 parser = argparse.ArgumentParser(add_help=False)

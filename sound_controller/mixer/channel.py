@@ -15,16 +15,21 @@ class Channel:
     self._done_task = None
     self._done_event = asyncio.Event()
 
+    def _set_state(self, state):
+        logging.info(
+            f"Channel state transitioning from {self._state} to {state}")
+        self._state = state
+
     async def _wait_to_finish(self):
         await self._done_event.wait()
-        self._state = _STOPPED
+        self._set_state(_STOPPED)
 
     def play(self, filename):
         self._play_task = asyncio.create_task(read_soundfile(
             filename, self._queue, self._done_event))
         self._done_task = self.asyncio.create_task(
             self._wait_to_finish())
-        self._state = _PLAYING
+        self._set_state(_PLAYING)
         return self._play_task
     
     def stop(self, filename):
