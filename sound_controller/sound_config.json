@@ -1,0 +1,38 @@
+{
+    "heads": [
+        {
+            "id": "head_1",
+            "orientation": 0,
+            "orientation_ws_url": "ws://10.10.3.10:7891",
+            "orientation_topic": "imu/head_orientation"
+        }
+    ],
+    "output": {
+        "multiplex": true
+    },
+    "effects": [
+        { "id": "chime", "filename": ""}
+    ],
+    "monologue_segments": [
+        {
+            "id": "yellow",
+            "segments": [
+                { "id": "yellow_1", "filename": "yellow_1.wav"},
+                { "id": "yellow_2", "filename": "yellow_2.wav"},
+                { "id": "yellow_3", "filename": "yellow_3.wav"},
+                { "id": "yellow_4", "filename": "yellow_4.wav"}
+            ]
+        }
+    ],
+    "dialogue_segments": [
+        {
+            "id": "life",
+            "segments": [
+                { "id": "life_1", "filename": "media/sampler/head_1.wav"},
+                { "id": "life_2", "filename": "media/sampler/head_2.wav"},
+                { "id": "life_3", "filename": "media/sampler/head_3.wav"},
+                { "id": "life_4", "filename": "media/sampler/head_4.wav"}
+            ]
+        }
+    ]
+}
