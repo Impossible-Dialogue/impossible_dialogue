@@ -20,13 +20,10 @@ class Source:
         self._idle_task = asyncio.create_task(self._idle())
 
     async def _idle(self):
-        try:
-            while True:
-                block = np.zeros(
-                    (self._blocksize, self._channels), dtype=self._dtype)
-                await self._stream.put(block)
-        except asyncio.CancelledError:
-            logging.info('Canceling _idle')
+        while True:
+            block = np.zeros(
+                (self._blocksize, self._channels), dtype=self._dtype)
+            await self._stream.put(block)
 
     def _done(self, task):
         result = task.result()

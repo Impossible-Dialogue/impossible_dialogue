@@ -5,6 +5,12 @@
             "orientation": 0,
             "orientation_ws_url": "ws://10.10.3.10:7891",
             "orientation_topic": "imu/head_orientation"
+        },
+        {
+            "id": "head_2",
+            "orientation": 0,
+            "orientation_ws_url": "ws://10.10.3.10:7891",
+            "orientation_topic": "imu/head_orientation"
         }
     ],
     "output": {

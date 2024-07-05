@@ -53,16 +53,19 @@ class HeadMixer:
             self._current_segment_index + 1) % len(self._segments)
         self.play_segment(next_segment_index)
 
+    def play_random_segment(self):
+        self.play_segment(random.randrange(len(self._segments)))
+
     def loop(self):
         if self._state == _WAITING_FOR_SEGMENTS:
             if len(self._segments) > 0:
-                self.play_next_segment()
+                self.play_random_segment()
         elif self._state == _PLAY_SEGMENT:
             if self._main_source.is_stopped():
                 self.pause(random.random() * _max_pause_length)
         elif self._state == _PAUSE:
             if time.time() > self._pause_end_time:
-                self.play_next_segment()
+                self.play_random_segment()
 
 
 
