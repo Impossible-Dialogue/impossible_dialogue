@@ -17,7 +17,7 @@
         "multiplex": true
     },
     "effects": [
-        { "id": "chime", "filename": ""}
+        { "id": "chime", "filename": "media/effects/chimes.wav"}
     ],
     "monologue_segments": [
         {
