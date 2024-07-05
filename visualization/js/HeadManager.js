@@ -22,6 +22,15 @@ function HeadManager(editor) {
     const signals = editor.signals;
     const heads = new Map();
 
+    function normalizeAngle(angle) {
+        if (angle > 180.0) {
+            angle = angle - 360.0;
+        } else if (angle < -180.0) {
+            angle = angle + 360.0;
+        }
+        return angle;
+    }
+
     function getAngelFromQuaternion(q) {
         var angle = 2 * Math.acos(q.w);
         var s;
@@ -34,16 +43,9 @@ function HeadManager(editor) {
             s = Math.sqrt(1 - q.w * q.w);
         }
         const axis = new THREE.Vector3(q.x / s, q.y / s, q.z / s);
-        console.log(object.name + ' ' + angle * THREE.MathUtils.RAD2DEG + ' ' + axis.x + ' ' + axis.y + ' ' + axis.z);
         
-        // Normalize angle.
         if (axis.y < 0) {
             angle = 2.0 * Math.PI - angle;
-        }
-        if (angle > Math.PI) {
-            angle = angle - 2.0 * Math.PI;
-        } else if (angle < -Math.PI) {
-            angle = angle + 2.0 * Math.PI;
         }
         return angle;
     }
@@ -56,8 +58,8 @@ function HeadManager(editor) {
         if (head !== undefined) {
             const quaternion = new THREE.Quaternion();
             object.getWorldQuaternion(quaternion);
-            const orientation = getAngelFromQuaternion(quaternion);
-            head.orientation = orientation * THREE.MathUtils.RAD2DEG;
+            const angle = getAngelFromQuaternion(quaternion) * THREE.MathUtils.RAD2DEG;
+            head.orientation = normalizeAngle(angle - head.center);
             signals.headChanged.dispatch(head);
         }
     });
@@ -67,24 +69,36 @@ function HeadManager(editor) {
         const orientation = object_config.orientation;
         var head = new Head();
         head.id = object_id;
-        head.orientation = orientation;
+        head.orientation = 0.0;
         head.center = orientation;
         heads.set(object_id, head);
     });
 
     // Start offering head state messages
     function startWebSocketForHeadStateMessages() {
-        var ws = new WebSocket("ws://" + window.location.hostname + ":5680/");
+        var ws = new WebSocket("ws://" + window.location.hostname + ":7892/");
+        function onHeadChanged(head) {
+            const event = {
+                topic: head.id + '/orientation',
+                value: head.orientation,
+            };
+            ws.send(JSON.stringify(event));
+        };
         ws.onmessage = function (event) {
             const message = event.data;
             const response = toJSON();
             ws.send(JSON.stringify(response));
         };
         ws.onopen = function (event) {
-            console.log('Heads state WebSocket opened.', e.reason);
+            console.log('Heads state WebSocket opened.', event.reason);
+            signals.headChanged.add(onHeadChanged);
+            for (const head of heads.values()) {
+                onHeadChanged(head);
+            }
         };
-        ws.onclose = function (e) {
-            console.log('Head state WebSocket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        ws.onclose = function (event) {
+            console.log('Head state WebSocket is closed. Reconnect will be attempted in 1 second.', event.reason);
+            signals.headChanged.remove(onHeadChanged);
             setTimeout(function () {
                 startWebSocketForHeadStateMessages();
             }, 1000);

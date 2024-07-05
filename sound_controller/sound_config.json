@@ -3,14 +3,14 @@
         {
             "id": "head_1",
             "orientation": 0,
-            "orientation_ws_url": "ws://10.10.3.10:7891",
-            "orientation_topic": "imu/head_orientation"
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_1/orientation"
         },
         {
             "id": "head_2",
             "orientation": 0,
-            "orientation_ws_url": "ws://10.10.3.10:7891",
-            "orientation_topic": "imu/head_orientation"
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_2/orientation"
         }
     ],
     "output": {

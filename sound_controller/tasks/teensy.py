@@ -26,7 +26,10 @@ async def poll_orientation(url, topic, head_state, poll_interval=0.1, reconnect_
             try:
                 await connection.send(topic)
                 res = await connection.recv()
-                head_state.set_orientation(float(res))
+                if res:
+                    head_state.set_orientation(float(res))
+                else:
+                    head_state.set_orientation(0)
             except Exception as exc:
                 logging.error(f'Websocket Error: {exc}')
             await asyncio.sleep(poll_interval)
