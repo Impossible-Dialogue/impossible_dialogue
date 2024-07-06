@@ -10,9 +10,6 @@ pyserial
 pyserial_asyncio
 setuptools
 websockets
-libusb1
-pyusb
-scikit-learn
 sounddevice
 soundfile
 google-cloud-texttospeech
