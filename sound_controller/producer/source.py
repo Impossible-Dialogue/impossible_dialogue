@@ -35,13 +35,13 @@ class Source:
             f"Source state transitioning from {self._state} to {state}")
         self._state = state
 
-    def play(self, soundfile):
-        logging.info(f"Playing {soundfile.filename()}")
+    def play(self, filename):
+        logging.info(f"Playing {filename}")
         if self.is_playing():
             self.stop()
         self._idle_task.cancel()
         self._soundfile_task = asyncio.create_task(
-            read_soundfile(soundfile.filename(), self._stream))
+            read_soundfile(filename, self._stream))
         self._soundfile_task.add_done_callback(self._done)
         self._set_state(_PLAYING)
 

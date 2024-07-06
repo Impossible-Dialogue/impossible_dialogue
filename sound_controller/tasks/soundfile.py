@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import numpy as np
 import soundfile as sf
 
@@ -8,6 +9,8 @@ async def read_soundfile(filename, output_stream, channels=2, blocksize=512, vol
     try:
         while True:
             with sf.SoundFile(filename) as f:
+                logging.info(
+                    f'Opened {filename}. Samplerate: {f.samplerate}, Channels: {f.channels}, Frames: {f.frames}')
                 for block in f.blocks(blocksize=blocksize, dtype='float32'):
                     if channels == 2 and f.channels == 1:
                         block = np.column_stack([block, block])
@@ -19,5 +22,5 @@ async def read_soundfile(filename, output_stream, channels=2, blocksize=512, vol
                 if not loop: 
                     break
     except asyncio.CancelledError:
-        print('Received a request to cancel')
+        logging.error('Received a request to cancel')
 

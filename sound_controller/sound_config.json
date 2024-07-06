@@ -4,40 +4,155 @@
             "id": "head_1",
             "orientation": 0,
             "orientation_ws_url": "ws://localhost:7891",
-            "orientation_topic": "head_1/orientation"
+            "orientation_topic": "head_1/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-B",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            }
         },
         {
             "id": "head_2",
             "orientation": 0,
             "orientation_ws_url": "ws://localhost:7891",
-            "orientation_topic": "head_2/orientation"
+            "orientation_topic": "head_2/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-I",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            }
+        },
+        {
+            "id": "head_3",
+            "orientation": 0,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_3/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-H",
+                "speaking_rate": 0.7,
+                "pitch": -5.0,
+                "volume_gain_db": 0.0
+            }
+        },
+        {
+            "id": "head_4",
+            "orientation": 0,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_4/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-G",
+                "speaking_rate": 0.7,
+                "pitch": 0.0,
+                "volume_gain_db": 0.0
+            }
+        },
+        {
+            "id": "head_5",
+            "orientation": 0,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_5/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-D",
+                "speaking_rate": 0.7,
+                "pitch": -20.0,
+                "volume_gain_db": 0.0
+            }
+        },
+        {
+            "id": "head_6",
+            "orientation": 0,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_6/orientation",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-C",
+                "speaking_rate": 0.7,
+                "pitch": 10.0,
+                "volume_gain_db": 0.0
+            }
         }
+        
     ],
     "output": {
         "multiplex": true
     },
-    "effects": [
-        { "id": "chime", "filename": "media/effects/chimes.wav"}
-    ],
+    "effect_segments": {
+        "id": "effects",
+        "segments": [
+            { "id": "chime", "filename": "chimes.wav"}
+        ]
+    },
     "monologue_segments": [
         {
             "id": "yellow",
+            "head_id": "head_1",
             "segments": [
-                { "id": "yellow_1", "filename": "yellow_1.wav"},
-                { "id": "yellow_2", "filename": "yellow_2.wav"},
-                { "id": "yellow_3", "filename": "yellow_3.wav"},
-                { "id": "yellow_4", "filename": "yellow_4.wav"}
+                { "text": "Ah, yellow. The color of sunlight captured in a single hue, as if distilled from the very essence of a sunbeam. It’s a color that speaks before it’s heard, a burst of warmth and joy that dances across the spectrum. When you think of yellow, you think of more than just a color — you think of emotion."},
+                { "text": "Yellow is the dawn breaking over a horizon, painting the sky with hope and promise. It’s the first daffodil that peeks through the thawing ground, announcing the arrival of spring with its vibrant petals. It’s the flicker of a candle flame, casting a gentle glow that whispers tales of warmth and comfort."},
+                { "text": "But yellow is more than just brightness; it’s the boldness to stand out in a crowd, to defy the muted tones and demand attention. It’s the color of creativity and intellect, sparking ideas and illuminating minds with its clarity. It’s the color of caution, reminding us to proceed with awareness, yet it never loses its optimism."},
+                { "text": "In art, yellow is the stroke that brings a canvas to life, infusing energy into every brushstroke. In nature, it’s the goldfinch flitting through the air, a flash of brilliance against a backdrop of green. In our emotions, yellow is the laughter that bubbles up uncontrollably, the happiness that radiates from within."},
+                { "text": "But yellow can also be delicate, like the soft petals of a buttercup, or bold like the zest of a lemon. It’s a color that adapts to its surroundings, blending harmoniously or standing out defiantly, depending on the context. It’s versatile, capable of conveying both the innocence of sunlight and the intensity of fire."},
+                { "text": "Yellow is the color of beginnings, of inspiration, of enlightenment. It’s a reminder that even in the darkest of times, there is always a ray of hope, a glimmer of light waiting to be discovered. So next time you see yellow, whether in a field of wildflowers or in the flutter of a butterfly’s wings, take a moment to appreciate its vibrancy, its warmth, its sheer optimism. For yellow isn’t just a color; it’s a celebration of life itself."}
             ]
         }
     ],
     "dialogue_segments": [
         {
-            "id": "life",
+            "id": "psychedelics",
             "segments": [
-                { "id": "life_1", "filename": "media/sampler/head_1.wav"},
-                { "id": "life_2", "filename": "media/sampler/head_2.wav"},
-                { "id": "life_3", "filename": "media/sampler/head_3.wav"},
-                { "id": "life_4", "filename": "media/sampler/head_4.wav"}
+                { "head_id": "head_1", "text": "So, has anyone here tried psychedelics? I’ve been reading about how they can expand your mind and offer new perspectives." },
+                { "head_id": "head_3", "text": "Absolutely. I’ve had some profound experiences with psychedelics. They’ve helped me understand myself and the world around me in ways I never thought possible." },
+                { "head_id": "head_5", "text": "I’m skeptical. Aren’t there risks involved? And how much of this is backed by science?" },
+                { "head_id": "head_4", "text": "There are certainly risks, Bob. Psychedelics can have unpredictable effects, and it’s important to approach them with caution. But there is growing scientific evidence suggesting they can be beneficial for certain conditions, like PTSD and depression." },
+                { "head_id": "head_2", "text": "That’s what interests me. But I’m worried about the legal issues and the stigma. What if it affects my career or how people view me?" },
+                { "head_id": "head_6", "text": "The legal and social implications are significant. But there’s also a fascinating philosophical side to consider. Psychedelics can challenge our perceptions of reality and consciousness. What is reality, after all?" },
+                { "head_id": "head_1", "text": "That’s what excites me the most, Frank. The idea that we can explore different levels of consciousness. But how do you ensure a safe experience, Claire?" },
+                { "head_id": "head_3", "text": "It’s all about set and setting. Your mindset and the environment you’re in play crucial roles. I always make sure I’m in a safe, comfortable place, with people I trust. And it’s important to start with a small dose." },
+                { "head_id": "head_5", "text": "I’ve read about the potential for psychological distress, though. Can’t it trigger mental health issues?" },
+                { "head_id": "head_4", "text": "That’s a valid concern. People with a history of mental health problems should be particularly cautious. It’s why these substances need to be respected and used responsibly, ideally under professional supervision." },
+                { "head_id": "head_2", "text": "I’d like to see more research and maybe some changes in the law to allow for safe, controlled use. It seems like we’re missing out on potential benefits because of outdated regulations." },
+                { "head_id": "head_6", "text": "It’s interesting to think about how societal views on psychedelics could change. Historically, many cultures have used these substances for spiritual purposes. Perhaps we’re on the cusp of a new understanding." },
+                { "head_id": "head_1", "text": "I think we are. It’s exciting to be part of a time where we’re questioning and exploring these boundaries. Maybe one day, psychedelics will be a normal part of therapy and personal growth." },
+                { "head_id": "head_3", "text": "That’s my hope. With more education and research, I believe we can integrate these experiences in a positive and meaningful way." },
+                { "head_id": "head_5", "text": "I’m still cautious, but I’m open to learning more. Maybe I’ll start by reading some of the latest studies." },
+                { "head_id": "head_4", "text": "That’s a great approach, Bob. Being informed is the best way to make decisions about these things." },
+                { "head_id": "head_2", "text": "And if the laws and perceptions start to shift, maybe we’ll see a safer, more accepted use of psychedelics in the future." },
+                { "head_id": "head_6", "text": "Until then, the philosophical implications will keep me pondering. Psychedelics might just be the key to unlocking deeper truths about our existence." },
+                { "head_id": "head_1", "text": "Do you think there’s a role for psychedelics outside of therapy, like in creativity or problem-solving?" },
+                { "head_id": "head_3", "text": "Absolutely. Many artists, musicians, and even scientists have credited psychedelics with inspiring their work. They can help break down mental barriers and allow for more free-form thinking." },
+                { "head_id": "head_6", "text": "There’s a long history of creative minds using psychedelics to tap into deeper layers of creativity. They can offer new ways of seeing and understanding the world, which is invaluable in any creative field." },
+                { "head_id": "head_5", "text": "But isn’t there a risk of dependency or reliance? If someone starts using psychedelics to enhance creativity, could they become dependent on them for inspiration?" },
+                { "head_id": "head_4", "text": "That’s a valid concern. Dependency isn’t as common with psychedelics as it is with some other substances, but it’s important to use them mindfully. They should be a tool, not a crutch." },
+                { "head_id": "head_2", "text": "What about microdosing? I’ve read that some people take very small amounts to boost creativity and productivity without experiencing the full psychedelic effects." },
+                { "head_id": "head_3", "text": "Microdosing is becoming quite popular. It’s said to enhance mood, focus, and creativity, though the scientific evidence is still limited. It’s another area where more research is needed." },
+                { "head_id": "head_6", "text": "Microdosing is fascinating from a philosophical standpoint too. It’s like finding a middle path where you can benefit from psychedelics’ subtle effects without the intense experience." },
+                { "head_id": "head_1", "text": "Have any of you tried microdosing?" },
+                { "head_id": "head_3", "text": "I have, and I found it helpful for maintaining a positive outlook and staying focused. It’s not as dramatic as a full trip, but the benefits can be quite profound." },
+                { "head_id": "head_5", "text": "I’m curious, but I’d want to see more scientific studies before trying it myself. It’s important to know what we’re getting into." },
+                { "head_id": "head_4", "text": "That’s wise, Bob. Microdosing affects everyone differently, and what works for one person might not work for another. We need to approach it with the same caution and respect as full doses." },
+                { "head_id": "head_2", "text": "And what about the potential for misuse? Could people start microdosing without understanding the risks, just because it’s trendy?" },
+                { "head_id": "head_3", "text": "That’s definitely a risk. Education and responsible use are crucial. People need to understand what they’re doing and why, and not just follow a trend." },
+                { "head_id": "head_6", "text": "It’s like any powerful tool. It has the potential for great benefit but also for misuse. We need to cultivate a culture of respect and responsibility around psychedelics." },
+                { "head_id": "head_1", "text": "It’s exciting to think about the possibilities, though. Whether for therapy, creativity, or personal growth, psychedelics seem to offer so much potential." },
+                { "head_id": "head_3", "text": "They do. And the more we learn, the better we can harness that potential safely and effectively." },
+                { "head_id": "head_5", "text": "I’m still cautious, but these discussions are helping me see the broader picture. There’s a lot to consider, and it’s good to hear different perspectives." },
+                { "head_id": "head_4", "text": "That’s the key, Bob. Keeping an open mind and continuing to learn. Psychedelics are a complex topic, and we need to approach them with both curiosity and caution." },
+                { "head_id": "head_2", "text": "And hopefully, with more research and understanding, we’ll see a future where psychedelics are used safely and beneficially in many aspects of life." },
+                { "head_id": "head_6", "text": "Indeed. Whether for healing, creativity, or philosophical exploration, the journey with psychedelics is one of discovery. It’s an exciting time to be part of this conversation." },
+                { "head_id": "head_1", "text": "Here’s to continuing the conversation and exploring these new frontiers together." },
+                { "head_id": "head_3", "text": "To understanding and respect for these powerful tools." },
+                { "head_id": "head_5", "text": "And to more research and informed decisions." },
+                { "head_id": "head_4", "text": "To balancing curiosity with caution." },
+                { "head_id": "head_2", "text": "And to a future where psychedelics are integrated into our society in a safe and beneficial way." },
+                { "head_id": "head_6", "text": "To the endless possibilities of human consciousness and understanding." },
+                { "head_id": "head_1", "text": "Cheers to that, everyone. Let’s keep learning and growing together." }
             ]
         }
     ]

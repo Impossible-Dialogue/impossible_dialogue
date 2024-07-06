@@ -21,7 +21,7 @@ class HeadMixer:
         self._effect_source = Source(self._channel_mixer.stream2())
         self._state = _WAITING_FOR_SEGMENTS
         self._pause_end_time = None
-        self._segments = {}
+        self._segment_list = None
         self._current_segment_index = -1
 
     def _set_state(self, state):
@@ -39,26 +39,25 @@ class HeadMixer:
         if self._effect_source.is_stopped():
             self._effect_source.play(filename)
 
-    def play_segments(self, segments):    
-        self._segments = segments
+    def play_segments(self, segment_list):    
+        self._segment_list = segment_list
 
     def play_segment(self, segment_index):
         self._current_segment_index = segment_index
-        segments = list(self._segments.values())
-        self._main_source.play(segments[segment_index])
+        self._main_source.play(self._segment_list.segments[segment_index].filename())
         self._set_state(_PLAY_SEGMENT)
 
     def play_next_segment(self):
         next_segment_index = (
-            self._current_segment_index + 1) % len(self._segments)
+            self._current_segment_index + 1) % self._segment_list.num_segments()
         self.play_segment(next_segment_index)
 
     def play_random_segment(self):
-        self.play_segment(random.randrange(len(self._segments)))
+        self.play_segment(random.randrange(self._segment_list.num_segments()))
 
     def loop(self):
         if self._state == _WAITING_FOR_SEGMENTS:
-            if len(self._segments) > 0:
+            if self._segment_list:
                 self.play_random_segment()
         elif self._state == _PLAY_SEGMENT:
             if self._main_source.is_stopped():
