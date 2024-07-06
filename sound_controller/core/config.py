@@ -32,20 +32,23 @@ class Segment:
         self.segment_list = segment_list
         self.base_folder = base_folder
         self.id = config.get("id", None)
-        self.head_id = config.get("head_id", None)
+        self._head_id = config.get("head_id", None)
         self.text = config.get("text", None)
         self._filename = config.get("filename", None)
 
+    def head_id(self):
+        if self._head_id:
+            return self._head_id
+        else:
+            return self.segment_list.head_id
+    
     def filename(self):
         segment_list_id = self.segment_list.id
         if self._filename:
             return os.path.join(self.base_folder,
                                 segment_list_id, 
                                 self._filename)
-        if self.head_id:
-            head_id = self.head_id
-        else:
-            head_id = self.segment_list.head_id
+        head_id = self.head_id()
         assert head_id
         if self.id:
             id = self.id
@@ -78,3 +81,6 @@ class SegmentLists:
         for config in segment_lists_config:
             id = config["id"]
             self.lists[id] = SegmentList(config, base_folder)
+    
+    def num_lists(self):
+        return len(self.lists)

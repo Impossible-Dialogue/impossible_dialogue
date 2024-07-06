@@ -6,28 +6,34 @@ import random
 from producer.head_mixer import HeadMixer
 from producer.output import Output
 from core.soundfile import SoundFile
-from core.config import SegmentLists, SegmentList, Segment
+from core.config import HeadConfigs, SegmentLists, SegmentList, Segment
 
-_ALL_CENTERED = "ALL_CENTERED"
-_SOME_CENTERED = "SOME_CENTERED"
-_NONE_CENTERED = "_NONE_CENTERED"
-
+_INITIALIZING = "INITIALIZING"
+_START_MONOLOGUE = "START_MONOLOGUE"
+_PLAY_MONOLOGUE = "PLAY_MONOLOGUE"
+_START_DIALOGUE = "START_DIALOGUE"
+_PLAY_DIALOGUE = "PLAY_DIALOGUE"
 
 class Producer:
     def __init__(self, state, config):
-        self._state = state
-        self._previous_state = copy.deepcopy(state)
-        self._config = config
+        self._state = _INITIALIZING
+        self._installation_state = state
+        self._previous_installation_state = copy.deepcopy(state)
+        self._head_configs = HeadConfigs(config["heads"])
         self._output = Output(state, config["output"])
         self._head_mixers = []
-        for i in range(state.num_heads()):
-            mixer = HeadMixer(self._output.input_stream(i))
+        for i, head_config in enumerate(self._head_configs.heads.values()):
+            mixer = HeadMixer(head_config, self._output.input_stream(i))
             self._head_mixers.append(mixer)
         self._effects = SegmentList(config["effect_segments"])
         self._monologue_segments = SegmentLists(
             config["monologue_segments"])
         self._dialogue_segments = SegmentLists(
             config["dialogue_segments"])
+
+    def _set_state(self, state):
+        logging.info(f"State transitioning from {self._state} to {state}")
+        self._state = state
 
     def heads(self):
         return self._heads
@@ -36,21 +42,64 @@ class Producer:
         for mixer in self._head_mixers:
             mixer.play_effect(self._effects.find_segment("chime"))
 
-    def mix_dialogue(self):
-        return
+    def play_dialogue(self):
+        self._set_state(_PLAY_DIALOGUE)
+
+    def play_monologue(self):
+        self._set_state(_PLAY_MONOLOGUE)
+
+    def stop_all_heads(self):
+        for mixer in self._head_mixers:
+            mixer.stop()
+
+    def are_all_heads_stopped(self):
+        for mixer in self._head_mixers:
+            if not mixer.is_stopped():
+                return False
+        return True
+
+    def find_head_mixer(self, head_id):
+        for mixer in self._head_mixers:
+            if mixer.head_id() == head_id:
+                return mixer
+
+    def play_next_dialogue_segment(self):
+        self._current_dialogue_index = (self._current_dialogue_index + 1) % self._current_dialogue.num_segments()
+        self._current_dialogue_segment = self._current_dialogue.segments[self._current_dialogue_index]
+        self._current_dialogue_mixer = self.find_head_mixer(self._current_dialogue_segment.head_id())
+        self._current_dialogue_mixer.play_segment(self._current_dialogue_segment)
+
+    def play_dialogue(self, segment_list):
+        self._current_dialogue = segment_list
+        self._current_dialogue_index = -1
+        self.play_next_dialogue_segment()
+
+    def play_random_dialogue(self):
+        self.play_dialogue(random.choice(list(self._dialogue_segments.lists.values())))
 
     def loop(self):
-        if self._state.all_heads_centered() and not self._previous_state.all_heads_centered():
-            self.play_chime()
+        if self._state == _INITIALIZING:
+            if self._installation_state.last_update():
+                if self._installation_state.all_heads_centered():
+                    self.stop_all_heads()
+                    self._set_state(_START_DIALOGUE)
+                else:
+                    self._set_state(_START_MONOLOGUE)
+        elif self._state == _START_DIALOGUE:
+            if self.are_all_heads_stopped():
+                self.play_random_dialogue()
+                self._set_state(_PLAY_DIALOGUE)
+        elif self._state == _PLAY_DIALOGUE:
+            if self._current_dialogue_mixer.is_stopped():
+                self.play_next_dialogue_segment()
 
         for mixer in self._head_mixers:
-            if mixer.is_waiting_for_segments():
-                id, segment_list = random.choice(
-                    list(self._monologue_segments.lists.items()))
-                logging.info(f"Playing {id}")
-                mixer.play_segments(segment_list)
             mixer.loop() 
-        self._previous_state = copy.deepcopy(self._state)
+
+        if self._installation_state.all_heads_centered() and not self._previous_installation_state.all_heads_centered():
+            self.play_chime()
+
+        self._previous_installation_state = copy.deepcopy(self._installation_state)
 
     async def run(self):
         poll_interval = 0.1

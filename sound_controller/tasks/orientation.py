@@ -3,7 +3,7 @@ import logging
 import websockets
 
 
-async def poll_orientation(url, topic, head_state, poll_interval=0.1, reconnect_interval=5.0):
+async def poll_orientation(url, topic, state, head_id, poll_interval=0.1, reconnect_interval=5.0):
     """Polls a websockets server at url with topic. Stores the received data in the orientations dictionary."""
 
     while True:
@@ -27,9 +27,9 @@ async def poll_orientation(url, topic, head_state, poll_interval=0.1, reconnect_
                 await connection.send(topic)
                 res = await connection.recv()
                 if res:
-                    head_state.set_orientation(float(res))
+                    state.set_head_orientation(head_id, float(res))
                 else:
-                    head_state.set_orientation(0)
+                    state.set_head_orientation(head_id, 0)
             except Exception as exc:
                 logging.error(f'Websocket Error: {exc}')
             await asyncio.sleep(poll_interval)
