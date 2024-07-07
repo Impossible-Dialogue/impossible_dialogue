@@ -86,6 +86,7 @@ class Producer:
                     self.stop_all_heads()
                     self._set_state(_START_DIALOGUE)
                 else:
+                    self.stop_all_heads()
                     self._set_state(_START_MONOLOGUE)
         elif self._state == _START_DIALOGUE:
             if self.are_all_heads_stopped():
@@ -108,7 +109,7 @@ class Producer:
                 self._set_state(_START_DIALOGUE)
             else:
                 for mixer in self._head_mixers:
-                    if mixer.mixer.is_stopped():
+                    if mixer.is_stopped():
                         self.play_random_monologue(mixer)
 
         for mixer in self._head_mixers:

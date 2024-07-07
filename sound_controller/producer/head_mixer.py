@@ -48,9 +48,9 @@ class HeadMixer:
         self._set_state(_PAUSE)
         self._pause_end_time = time.time() + pause_time
 
-    def play_effect(self, filename):
+    def play_effect(self, segment):
         if self._effect_source.is_stopped():
-            self._effect_source.play(filename)
+            self._effect_source.play(segment.filename())
 
     def play_segment_list(self, segment_list):    
         self._segment_list = segment_list
