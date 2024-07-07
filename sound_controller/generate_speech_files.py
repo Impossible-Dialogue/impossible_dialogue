@@ -19,8 +19,8 @@ logging.basicConfig(
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("--config", type=argparse.FileType('r'), default="sound_config.json",
                     help="Sound config file")
-parser.add_argument("--skip_existing", action='store_true',
-                    help="Skip already existing speech files.")
+parser.add_argument("--force_update", action='store_true',
+                    help="Forces update of existing speech files.")
 parser.add_argument('--samplerate', type=int, default=48000, 
                     help='Desired audio file sample rate.')
 parser.add_argument("--base_folder", default='media',
@@ -74,13 +74,13 @@ def process_segment_list(heads, segment_lists):
             if not segment.text:
                 continue
             if segment.head_id:
-                head_id = segment.head_id
+                head_id = segment.head_id()
 
             assert head_id
             audio_config = heads[head_id].audio_config
             text = segment.text
             filename = segment.filename()
-            if args.skip_existing and os.path.exists(filename):
+            if os.path.exists(filename) and not args.force_update:
                 logging.info(f"   Skipping {filename} because it already exists.")
                 continue
 
