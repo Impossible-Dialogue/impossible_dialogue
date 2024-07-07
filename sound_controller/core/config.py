@@ -1,3 +1,4 @@
+import hashlib
 import os
 
 
@@ -42,6 +43,10 @@ class Segment:
         else:
             return self.segment_list.head_id
     
+    def hash(self):
+        data = ''.join(filter(None, (self.text, self._head_id, self._filename)))
+        return hashlib.sha256(data.encode('utf-8')).hexdigest()[:8]
+
     def filename(self):
         segment_list_id = self.segment_list.id
         if self._filename:
@@ -53,10 +58,10 @@ class Segment:
         if self.id:
             id = self.id
         else:
-            id = self.index
+            id = self.hash()
         return os.path.join(self.base_folder,
                             segment_list_id,
-                            head_id + '_' + str(id) + '.wav')
+                            str(self.index).zfill(3) + '_' + head_id + '_'  + str(id) + '.wav')
 
 class SegmentList:
     def __init__(self, config, base_folder="media"):
