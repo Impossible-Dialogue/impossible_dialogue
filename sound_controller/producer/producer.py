@@ -42,12 +42,6 @@ class Producer:
         for mixer in self._head_mixers:
             mixer.play_effect(self._effects.find_segment("chime"))
 
-    def play_dialogue(self):
-        self._set_state(_PLAY_DIALOGUE)
-
-    def play_monologue(self):
-        self._set_state(_PLAY_MONOLOGUE)
-
     def stop_all_heads(self):
         for mixer in self._head_mixers:
             mixer.stop()
@@ -77,6 +71,14 @@ class Producer:
     def play_random_dialogue(self):
         self.play_dialogue(random.choice(list(self._dialogue_segments.lists.values())))
 
+    def play_random_monologue(self, mixer):
+        segment_list = random.choice(list(self._monologue_segments.lists.values()))
+        mixer.play_segment_list(segment_list)
+
+    def play_random_monologues(self):
+        for mixer in self._head_mixers:
+            self.play_random_monologue(mixer)
+
     def loop(self):
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
@@ -90,8 +92,24 @@ class Producer:
                 self.play_random_dialogue()
                 self._set_state(_PLAY_DIALOGUE)
         elif self._state == _PLAY_DIALOGUE:
-            if self._current_dialogue_mixer.is_stopped():
-                self.play_next_dialogue_segment()
+            if not self._installation_state.all_heads_centered():
+                self.stop_all_heads()
+                self._set_state(_START_MONOLOGUE)
+            else:
+                if self._current_dialogue_mixer.is_stopped():
+                    self.play_next_dialogue_segment()
+        elif self._state == _START_MONOLOGUE:
+            if self.are_all_heads_stopped():
+                self.play_random_monologues()
+                self._set_state(_PLAY_MONOLOGUE)
+        elif self._state == _PLAY_MONOLOGUE:
+            if self._installation_state.all_heads_centered():
+                self.stop_all_heads()
+                self._set_state(_START_DIALOGUE)
+            else:
+                for mixer in self._head_mixers:
+                    if mixer.mixer.is_stopped():
+                        self.play_random_monologue(mixer)
 
         for mixer in self._head_mixers:
             mixer.loop() 
