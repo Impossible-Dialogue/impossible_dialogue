@@ -86,12 +86,17 @@ class Producer:
         self.play_dialogue(random.choice(list(self._dialogue_segments.lists.values())))
 
     def play_random_monologue(self, mixer):
-        segment_list = random.choice(list(self._monologue_segments.lists.values()))
+        segments_lists = list(filter(lambda x: x.head_id == mixer.head_id(), 
+                                     self._monologue_segments.lists.values()))
+        segment_list = random.choice(segments_lists)
         mixer.play_segment_list(segment_list)
 
     def play_random_monologues(self):
         for mixer in self._head_mixers:
-            self.play_random_monologue(mixer)
+            head_id = mixer.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            if not head_state.is_centered():
+                self.play_random_monologue(mixer)
 
     def loop(self):
         if self._state == _INITIALIZING:
@@ -123,8 +128,14 @@ class Producer:
                 self._set_state(_START_DIALOGUE)
             else:
                 for mixer in self._head_mixers:
-                    if mixer.is_stopped():
-                        self.play_random_monologue(mixer)
+                    head_id = mixer.head_id()
+                    head_state = self._installation_state.head_state(head_id)
+                    if head_state.is_centered():
+                         if not mixer.is_stopped():
+                            mixer.stop()
+                    else:
+                        if mixer.is_stopped():
+                            self.play_random_monologue(mixer)
 
         for mixer in self._head_mixers:
             mixer.loop() 
