@@ -19,8 +19,8 @@ function Sidebar(editor) {
 
     container.addTab('heads', 'Heads', heads);
     container.addTab('sound', 'Sound', sound);
-    container.addTab('config', 'Config', config);
-    container.addTab('object', 'Object', object);
+    // container.addTab('config', 'Config', config);
+    // container.addTab('object', 'Object', object);
     container.select( 'heads' );
 
 	return container;
