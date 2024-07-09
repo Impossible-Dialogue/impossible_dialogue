@@ -66,7 +66,7 @@ def maybe_resample_audio(filename):
     new_data = librosa.resample(data, orig_sr=samplerate, target_sr=args.samplerate)
     sf.write(filename, new_data, args.samplerate)
 
-def process_segment_list(heads, segment_lists):
+def process_segment_list(head_configs, segment_lists):
     for segment_list_id, segment_list in segment_lists.lists.items():
         head_id = segment_list.head_id
         logging.info(f"Processing segment list {segment_list_id}")
@@ -77,7 +77,7 @@ def process_segment_list(heads, segment_lists):
                 head_id = segment.head_id()
 
             assert head_id
-            audio_config = heads[head_id].audio_config
+            audio_config = head_configs.heads[head_id].audio_config
             text = segment.text
             filename = segment.filename()
             if os.path.exists(filename) and not args.force_update:
@@ -92,10 +92,10 @@ def process_segment_list(heads, segment_lists):
 async def main(** kwargs):
     config = json.load(args.config)
     head_configs = HeadConfigs(config["heads"])
-    process_segment_list(head_configs.heads,
-                         SegmentLists(config["monologue_segments"]))
-    process_segment_list(head_configs.heads,
-                         SegmentLists(config["dialogue_segments"]))
+    process_segment_list(head_configs,
+                         SegmentLists(config["monologue_segments"], head_configs))
+    process_segment_list(head_configs,
+                         SegmentLists(config["dialogue_segments"], head_configs))
 
 if __name__ == "__main__":
     try:

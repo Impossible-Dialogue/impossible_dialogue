@@ -29,9 +29,9 @@ class Producer:
             self._head_mixers.append(mixer)
         self._effects = SegmentList(config["effect_segments"])
         self._monologue_segments = SegmentLists(
-            config["monologue_segments"])
+            config["monologue_segments"], self._head_configs)
         self._dialogue_segments = SegmentLists(
-            config["dialogue_segments"])
+            config["dialogue_segments"], self._head_configs)
 
     def _set_state(self, state):
         logging.info(f"State transitioning from {self._state} to {state}")

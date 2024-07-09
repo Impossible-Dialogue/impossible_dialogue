@@ -37,6 +37,9 @@ class Segment:
         self.text = config.get("text", None)
         self._filename = config.get("filename", None)
 
+    def set_head_id(self, head_id):
+        self._head_id = head_id
+
     def head_id(self):
         if self._head_id:
             return self._head_id
@@ -44,7 +47,7 @@ class Segment:
             return self.segment_list.head_id
     
     def hash(self):
-        data = ''.join(filter(None, (self.text, self._head_id, self._filename)))
+        data = ''.join(filter(None, (self.text, self.head_id(), self._filename)))
         return hashlib.sha256(data.encode('utf-8')).hexdigest()[:8]
 
     def filename(self):
@@ -81,11 +84,18 @@ class SegmentList:
 
 
 class SegmentLists:
-    def __init__(self, segment_lists_config, base_folder="media"):
+    def __init__(self, segment_lists_config, head_configs, base_folder="media"):
         self.lists = {}
         for config in segment_lists_config:
             id = config["id"]
-            self.lists[id] = SegmentList(config, base_folder)
+            if config.get("head_id", "") == "all":
+                # Expand segments lists to all heads
+                for head_config in head_configs.heads.values():
+                    head_id = head_config.id
+                    config["head_id"] = head_id
+                    self.lists[id + "_" + head_id]  = SegmentList(config, base_folder)
+            else:
+                self.lists[id]  = SegmentList(config, base_folder)
     
     def num_lists(self):
         return len(self.lists)
