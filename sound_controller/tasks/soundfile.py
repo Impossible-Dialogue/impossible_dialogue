@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import numpy as np
+import os.path
 import soundfile as sf
 
 
@@ -8,6 +9,9 @@ async def read_soundfile(filename, output_stream, channels=2, blocksize=512, vol
     """Reads a sound file from filename and fills output_queue with blocks of sound data."""
     try:
         while True:
+            if not os.path.isfile(filename):
+                logging.error(f'{filename} does not exist.')
+                break
             with sf.SoundFile(filename) as f:
                 logging.info(
                     f'Opened {filename}. Samplerate: {f.samplerate}, Channels: {f.channels}, Frames: {f.frames}')
