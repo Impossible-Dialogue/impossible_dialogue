@@ -32,6 +32,14 @@ class HeadMixer:
         logging.info(f"HeadMixer state transitioning from {self._state} to {state}")
         self._state = state
 
+    def to_dict(self):
+        data = {}
+        data["head_id"] = self.head_id()
+        data["state"] = self._state
+        data["main_source"] = self._main_source.to_dict()
+        data["effect_source"] = self._effect_source.to_dict()
+        return data
+    
     def head_id(self):
         return self._head_config.id
 

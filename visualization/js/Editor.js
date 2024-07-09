@@ -16,6 +16,12 @@ function Editor() {
 
 	this.signals = {
 
+
+        // SoundController
+
+        soundControllerUpdate: new Signal(),
+
+
         // Heads
 
         addHead: new Signal(),

@@ -16,6 +16,7 @@ import numpy as np
 from core.state import InstallationState
 from core.state_updater import StateUpdater
 from producer.producer import Producer
+from producer.websockets import SoundControllerWebSocketsServer
 
 
 logging.basicConfig(
@@ -31,6 +32,10 @@ parser.add_argument("-c", "--config", type=argparse.FileType('r'), default="soun
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
     help='show list of audio devices and exit')
+parser.add_argument("--websockets_port", type=int, default=5681, 
+                    help="The sound controler WebSockets port.")
+parser.add_argument("--websockets_host", default="0.0.0.0", 
+                    help="The sound controler WebSockets host.")
 args, remaining = parser.parse_known_args()
 parser = argparse.ArgumentParser(
     description=__doc__,
@@ -51,9 +56,12 @@ async def main(** kwargs):
     state = InstallationState(config)
     updater = StateUpdater(state, config)
     producer = Producer(state, config)
+    ws = SoundControllerWebSocketsServer(producer, args.websockets_host, args.websockets_port)
+
     tasks = [
         updater.run(),
         producer.run(),
+        ws.run(),
     ]
 
     # Wait forever

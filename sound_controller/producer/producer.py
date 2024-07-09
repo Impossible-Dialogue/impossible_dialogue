@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import copy
 import random
@@ -16,6 +17,7 @@ _PLAY_DIALOGUE = "PLAY_DIALOGUE"
 
 class Producer:
     def __init__(self, state, config):
+        self._event= asyncio.Event()
         self._state = _INITIALIZING
         self._installation_state = state
         self._previous_installation_state = copy.deepcopy(state)
@@ -34,6 +36,18 @@ class Producer:
     def _set_state(self, state):
         logging.info(f"State transitioning from {self._state} to {state}")
         self._state = state
+
+    def to_dict(self):
+        data = {}
+        data["state"] = self._state
+        data["head_producers"] = [mixer.to_dict() for mixer in self._head_mixers]
+        return data
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
+
+    def event(self):
+        return self._event
 
     def heads(self):
         return self._heads
@@ -119,6 +133,7 @@ class Producer:
             self.play_chime()
 
         self._previous_installation_state = copy.deepcopy(self._installation_state)
+        self._event.set()
 
     async def run(self):
         poll_interval = 0.1
