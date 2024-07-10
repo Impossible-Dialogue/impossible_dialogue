@@ -31,14 +31,15 @@ function SidebarLoadConfig( editor) {
 
         function (data) {
             let json = JSON.parse(data);
-            for (var obj of json.objects) {
+            for (var obj of json.heads) {
                 // Create threejs objects
                 createObject(obj);
-
                 // Create a head object.
-                if (obj.type == "head") {
-                    signals.addHead.dispatch(obj);
-                }
+                signals.addHead.dispatch(obj);
+            }
+            for (var obj of json.visualization_objects) {
+                // Create threejs objects
+                createObject(obj);
             }
         },
 

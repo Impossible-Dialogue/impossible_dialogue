@@ -1,6 +1,11 @@
 import hashlib
 import os
 
+class OpcConfig:
+    def __init__(self, config):
+        self.server_ip = config["server_ip"]
+        self.server_port = config["server_port"]
+
 
 class AudioConfigConfig:
     def __init__(self, config):
@@ -18,6 +23,9 @@ class HeadConfig:
         self.orientation_ws_url = config["orientation_ws_url"]
         self.orientation_topic = config["orientation_topic"]
         self.audio_config = AudioConfigConfig(config["audio_config"])
+        self.led_config = config["led_config"]
+        self.led_pattern_id = config["led_pattern_id"]
+        self.opc = OpcConfig(config["opc"])
 
 
 class HeadConfigs:

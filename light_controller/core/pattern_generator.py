@@ -4,7 +4,6 @@ import json
 import time
 
 from core.head_pattern_generator import HeadPatternGenerator
-from core.config import HeadConfigs
 
 class PatternGenerator:
 

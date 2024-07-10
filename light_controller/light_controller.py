@@ -9,7 +9,7 @@ import traceback
 from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
 from core.websockets import LightControllerWebSocketsServer
-from core.config import HeadConfigs
+from impossible_dialogue.config import HeadConfigs
 
 logging.basicConfig(
     level=logging.INFO,
@@ -48,7 +48,7 @@ async def main():
     args = parser.parse_args()
 
     config = json.load(args.config)
-    head_configs = HeadConfigs(config["objects"])
+    head_configs = HeadConfigs(config["heads"])
     
     futures = []
 
@@ -63,7 +63,7 @@ async def main():
     opc = OpenPixelControlConnection(pattern_generator, head_configs)
     futures.append(opc.run())
 
-    for o in config['objects']:
+    for o in config['heads']:
         object_id = o['id']
         if 'imu' in o.keys():
             imu = o['imu']
