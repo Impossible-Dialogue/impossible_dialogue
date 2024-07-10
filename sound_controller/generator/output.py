@@ -1,8 +1,8 @@
 import asyncio
 import logging
 
-from producer.stream import Stream
-from producer.channel_mixer import MultiChannelMixer
+from generator.stream import Stream
+from generator.channel_mixer import MultiChannelMixer
 from tasks.pyaudio import pyaudio_output
 
 

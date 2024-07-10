@@ -15,8 +15,8 @@ import numpy as np
 
 from core.state import InstallationState
 from core.state_updater import StateUpdater
-from producer.producer import Producer
-from producer.websockets import SoundControllerWebSocketsServer
+from generator.sound_generator import SoundGenerator
+from generator.websockets import SoundControllerWebSocketsServer
 
 
 logging.basicConfig(
@@ -55,12 +55,12 @@ async def main(** kwargs):
     config = json.load(args.config)
     state = InstallationState(config)
     updater = StateUpdater(state, config)
-    producer = Producer(state, config)
-    ws = SoundControllerWebSocketsServer(producer, args.websockets_host, args.websockets_port)
+    generator = SoundGenerator(state, config)
+    ws = SoundControllerWebSocketsServer(generator, args.websockets_host, args.websockets_port)
 
     tasks = [
         updater.run(),
-        producer.run(),
+        generator.run(),
         ws.run(),
     ]
 

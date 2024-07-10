@@ -3,8 +3,8 @@ import logging
 import random
 import time
 
-from producer.channel_mixer import TwoChannelMixer
-from producer.source import Source
+from generator.channel_mixer import TwoChannelMixer
+from generator.source import Source
 
 
 _WAITING_FOR_SEGMENTS = "WAITING_FOR_SEGMENTS"
@@ -16,7 +16,7 @@ _STOPPED = "STOPPED"
 
 _max_pause_length = 5
 
-class HeadMixer:
+class HeadSoundGenerator:
     def __init__(self, head_config, output_stream):
         self._head_config = head_config
         self._output_stream = output_stream

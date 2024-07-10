@@ -32,7 +32,6 @@ class SoundControllerWebSocketsServer:
         )
         for task in pending:
             task.cancel()
-
                 
     async def run(self):
         server = await websockets.serve(self._ws_handler, self._host, self._port)

@@ -4,9 +4,8 @@ import logging
 import copy
 import random
 
-from producer.head_mixer import HeadMixer
-from producer.output import Output
-from core.soundfile import SoundFile
+from generator.head_sound_generator import HeadSoundGenerator
+from generator.output import Output
 from core.config import HeadConfigs, SegmentLists, SegmentList, Segment
 
 _INITIALIZING = "INITIALIZING"
@@ -15,7 +14,7 @@ _PLAY_MONOLOGUE = "PLAY_MONOLOGUE"
 _START_DIALOGUE = "START_DIALOGUE"
 _PLAY_DIALOGUE = "PLAY_DIALOGUE"
 
-class Producer:
+class SoundGenerator:
     def __init__(self, state, config):
         self._event= asyncio.Event()
         self._state = _INITIALIZING
@@ -23,10 +22,10 @@ class Producer:
         self._previous_installation_state = copy.deepcopy(state)
         self._head_configs = HeadConfigs(config["heads"])
         self._output = Output(state, config["output"])
-        self._head_mixers = []
+        self._head_generators = []
         for i, head_config in enumerate(self._head_configs.heads.values()):
-            mixer = HeadMixer(head_config, self._output.input_stream(i))
-            self._head_mixers.append(mixer)
+            generator = HeadSoundGenerator(head_config, self._output.input_stream(i))
+            self._head_generators.append(generator)
         self._effects = SegmentList(config["effect_segments"])
         self._monologue_segments = SegmentLists(
             config["monologue_segments"], self._head_configs)
@@ -40,7 +39,7 @@ class Producer:
     def to_dict(self):
         data = {}
         data["state"] = self._state
-        data["head_producers"] = [mixer.to_dict() for mixer in self._head_mixers]
+        data["head_generators"] = [generator.to_dict() for generator in self._head_generators]
         return data
 
     def to_json(self):
@@ -53,29 +52,29 @@ class Producer:
         return self._heads
 
     def play_chime(self):
-        for mixer in self._head_mixers:
-            mixer.play_effect(self._effects.find_segment("chime"))
+        for generator in self._head_generators:
+            generator.play_effect(self._effects.find_segment("chime"))
 
     def stop_all_heads(self):
-        for mixer in self._head_mixers:
-            mixer.stop()
+        for generator in self._head_generators:
+            generator.stop()
 
     def are_all_heads_stopped(self):
-        for mixer in self._head_mixers:
-            if not mixer.is_stopped():
+        for generator in self._head_generators:
+            if not generator.is_stopped():
                 return False
         return True
 
-    def find_head_mixer(self, head_id):
-        for mixer in self._head_mixers:
-            if mixer.head_id() == head_id:
-                return mixer
+    def find_head_generator(self, head_id):
+        for generator in self._head_generators:
+            if generator.head_id() == head_id:
+                return generator
 
     def play_next_dialogue_segment(self):
         self._current_dialogue_index = (self._current_dialogue_index + 1) % self._current_dialogue.num_segments()
         self._current_dialogue_segment = self._current_dialogue.segments[self._current_dialogue_index]
-        self._current_dialogue_mixer = self.find_head_mixer(self._current_dialogue_segment.head_id())
-        self._current_dialogue_mixer.play_segment(self._current_dialogue_segment)
+        self._current_dialogue_generator = self.find_head_generator(self._current_dialogue_segment.head_id())
+        self._current_dialogue_generator.play_segment(self._current_dialogue_segment)
 
     def play_dialogue(self, segment_list):
         self._current_dialogue = segment_list
@@ -85,18 +84,18 @@ class Producer:
     def play_random_dialogue(self):
         self.play_dialogue(random.choice(list(self._dialogue_segments.lists.values())))
 
-    def play_random_monologue(self, mixer):
-        segments_lists = list(filter(lambda x: x.head_id == mixer.head_id(), 
+    def play_random_monologue(self, generator):
+        segments_lists = list(filter(lambda x: x.head_id == generator.head_id(), 
                                      self._monologue_segments.lists.values()))
         segment_list = random.choice(segments_lists)
-        mixer.play_segment_list(segment_list)
+        generator.play_segment_list(segment_list)
 
     def play_random_monologues(self):
-        for mixer in self._head_mixers:
-            head_id = mixer.head_id()
+        for generator in self._head_generators:
+            head_id = generator.head_id()
             head_state = self._installation_state.head_state(head_id)
             if not head_state.is_centered():
-                self.play_random_monologue(mixer)
+                self.play_random_monologue(generator)
 
     def loop(self):
         if self._state == _INITIALIZING:
@@ -116,7 +115,7 @@ class Producer:
                 self.stop_all_heads()
                 self._set_state(_START_MONOLOGUE)
             else:
-                if self._current_dialogue_mixer.is_stopped():
+                if self._current_dialogue_generator.is_stopped():
                     self.play_next_dialogue_segment()
         elif self._state == _START_MONOLOGUE:
             if self.are_all_heads_stopped():
@@ -127,18 +126,18 @@ class Producer:
                 self.stop_all_heads()
                 self._set_state(_START_DIALOGUE)
             else:
-                for mixer in self._head_mixers:
-                    head_id = mixer.head_id()
+                for generator in self._head_generators:
+                    head_id = generator.head_id()
                     head_state = self._installation_state.head_state(head_id)
                     if head_state.is_centered():
-                         if not mixer.is_stopped():
-                            mixer.stop()
+                         if not generator.is_stopped():
+                            generator.stop()
                     else:
-                        if mixer.is_stopped():
-                            self.play_random_monologue(mixer)
+                        if generator.is_stopped():
+                            self.play_random_monologue(generator)
 
-        for mixer in self._head_mixers:
-            mixer.loop() 
+        for generator in self._head_generators:
+            generator.loop() 
 
         if self._installation_state.all_heads_centered() and not self._previous_installation_state.all_heads_centered():
             self.play_chime()
