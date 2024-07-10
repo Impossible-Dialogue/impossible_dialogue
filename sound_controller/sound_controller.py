@@ -13,8 +13,8 @@ import traceback
 
 import numpy as np
 
-from core.state import InstallationState
-from core.state_updater import StateUpdater
+from impossible_dialogue.state import InstallationState
+from impossible_dialogue.state_updater import StateUpdater
 from generator.sound_generator import SoundGenerator
 from generator.websockets import SoundControllerWebSocketsServer
 

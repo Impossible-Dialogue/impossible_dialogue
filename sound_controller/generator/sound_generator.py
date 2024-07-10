@@ -6,7 +6,7 @@ import random
 
 from generator.head_sound_generator import HeadSoundGenerator
 from generator.output import Output
-from core.config import HeadConfigs, SegmentLists, SegmentList, Segment
+from impossible_dialogue.config import HeadConfigs, SegmentLists, SegmentList, Segment
 
 _INITIALIZING = "INITIALIZING"
 _START_MONOLOGUE = "START_MONOLOGUE"

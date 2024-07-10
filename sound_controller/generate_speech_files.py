@@ -7,7 +7,7 @@ import json
 import soundfile as sf
 import librosa
 
-from core.config import HeadConfigs, SegmentLists
+from impossible_dialogue.config import HeadConfigs, SegmentLists
 from google.cloud import texttospeech
 
 logging.basicConfig(
