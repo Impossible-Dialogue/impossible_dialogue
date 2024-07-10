@@ -1,94 +1,75 @@
 import asyncio
+import copy
 import json
 import time
 
-from core.pattern_manager import PatternManager
-from core.pattern_selector import PatternSelector
-from patterns import pattern_config
-
+from core.head_pattern_generator import HeadPatternGenerator
+from core.config import HeadConfigs
 
 class PatternGenerator:
 
     class Results:
-        def __init__(self, led_segments, head_orientation):
+        def __init__(self, head_id, led_segments):
+            self.head_id = head_id
             self.led_segments = led_segments
-            self.head_orientation = head_orientation
 
 
-    def __init__(self, args, config):
-        self.args = args
-        self.config = config
-        self.result = asyncio.Future()
-        self.object_ids = []
-        self.pattern_managers = {}
-        self.pattern_selectors = {}
+    def __init__(self, state, config, args):
+        self._installation_state = state
+        self._previous_installation_state = copy.deepcopy(state)
+        self._config = config
+        self._args = args
+        self._results = asyncio.Future()
+        self._head_configs = HeadConfigs(config["objects"])
+        self._animation_time_delta = 1.0 / args.animation_rate
+        self._cur_animation_time = time.time()
+        self._next_animation_time = self._cur_animation_time + self._animation_time_delta
+        self._prev_log_time = self._cur_animation_time
+        self._log_counter = 0
 
-        for o in config['objects']:
-            object_id = o['id']
-            if not 'led_config' in o.keys():
-                continue
-
-            self.object_ids.append(object_id)
-                            
-            led_config_file = open(o['led_config'])
-            led_config = json.load(led_config_file)
-
-            pattern_manager = PatternManager(pattern_config.DEFAULT_CONFIG, led_config, args)
-            self.pattern_managers[object_id] = pattern_manager
-
-            selector = PatternSelector(
-                pattern_manager, led_config, None, args)
-            selector.current_pattern_id = o['led_pattern_id']
-            self.pattern_selectors[object_id] = selector
+        self._head_generators = []
+        for i, head_config in enumerate(self._head_configs.heads.values()):
+            generator = HeadPatternGenerator(head_config, args)
+            self._head_generators.append(generator)
 
         self._LOG_RATE = 1.0
 
+    def results(self):
+        return self._results
+
+    async def loop(self):
+        self._cur_animation_time = self._next_animation_time
+        self._next_animation_time = self._cur_animation_time + self._animation_time_delta
+
+        # Skip a frame if falling too far behind
+        if time.time() > self._next_animation_time:
+            return
+        
+        results = {}
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            segments = await generator.loop(self._animation_time_delta) 
+            results[head_id] = self.Results(head_id, segments)
+
+        # Update results future for processing by IO
+        self._results.set_result(results)
+        self._results = asyncio.Future()
+
+        # Output update rate to console
+        self._log_counter += 1
+        cur_log_time = time.time()
+        log_time_delta = cur_log_time - self._prev_log_time
+        if log_time_delta > 1.0 / self._LOG_RATE:
+            print("Animation FPS: %.1f" % (self._log_counter / log_time_delta))
+            self._log_counter = 0
+            self._prev_log_time = cur_log_time
+
+        # Sleep for the remaining time
+        await asyncio.sleep(max(0, self._next_animation_time - time.time()))
 
     async def run(self):
-        for object_id in self.object_ids:
-            await self.pattern_managers[object_id].initialize_patterns()
-            await self.pattern_selectors[object_id].initialize()
+        for generator in self._head_generators:
+            await generator.initialize()
 
-        animation_time_delta = 1.0 / self.args.animation_rate
-        cur_animation_time = time.time()
-        next_animation_time = cur_animation_time + animation_time_delta
-        prev_log_time = cur_animation_time
-        log_counter = 0
-
-        while True:
-            cur_animation_time = next_animation_time
-            next_animation_time = cur_animation_time + animation_time_delta
-
-            # Skip a frame if falling too far behind
-            if time.time() > next_animation_time:
-                # print("Falling behind. Skipping frame.")
-                continue
-            
-            # Pattern animation pipeline
-            results = {}
-            for object_id in self.object_ids:
-                selector = self.pattern_selectors[object_id]
-                patterns = await selector.update(cur_animation_time)
-                manager = self.pattern_managers[object_id] 
-                manager.update_pattern_selection(patterns)
-                await manager.animate(animation_time_delta)
-
-                mixer = selector.pattern_mix
-                segments = await mixer.update()
-                results[object_id] = self.Results(segments, selector.head_orientation)
-
-            # Update results future for processing by IO
-            self.result.set_result(results)
-            self.result = asyncio.Future()
-
-            # Output update rate to console
-            log_counter += 1
-            cur_log_time = time.time()
-            log_time_delta = cur_log_time - prev_log_time
-            if log_time_delta > 1.0 / self._LOG_RATE:
-                print("Animation FPS: %.1f" % (log_counter / log_time_delta))
-                log_counter = 0
-                prev_log_time = cur_log_time
-
-            # Sleep for the remaining time
-            await asyncio.sleep(max(0, next_animation_time - time.time()))
+        while (True):
+            await self.loop()

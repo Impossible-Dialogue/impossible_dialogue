@@ -198,12 +198,12 @@ function SidebarLoadConfig( editor) {
                 }
 
                 // Update object orientation
-                const orientation = object_data.orientation;
-                console.log(object_id, orientation);
-                const newRotation = new THREE.Euler(
-                    0, orientation * THREE.MathUtils.DEG2RAD, 0);
-                object.rotation.copy(newRotation);
-                object.updateMatrixWorld(true);
+                // const orientation = object_data.orientation;
+                // console.log(object_id, orientation);
+                // const newRotation = new THREE.Euler(
+                //     0, orientation * THREE.MathUtils.DEG2RAD, 0);
+                // object.rotation.copy(newRotation);
+                // object.updateMatrixWorld(true);
                 
                 // Update mesh color
                 // let center = centerOrientations.get(object_id);

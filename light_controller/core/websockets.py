@@ -27,7 +27,7 @@ class TextureWebSocketsServer:
 
     async def serve(self, websocket, path):
         while True:
-            results = await asyncio.shield(self.pattern_generator.result)
+            results = await asyncio.shield(self.pattern_generator.results())
             event = []
             for object_id, result in results.items():
                 object_data = {}
@@ -35,24 +35,10 @@ class TextureWebSocketsServer:
                 texture_bytes = await self.PrepareTextureMsg(result.led_segments)
                 encoded_data = base64.b64encode(texture_bytes)
                 object_data['texture_data'] = encoded_data.decode("utf-8")
-                object_data['orientation'] = result.head_orientation
 
                 event.append(object_data)
 
             try:
                 await websocket.send(json.dumps(event))
-            except websockets.ConnectionClosed as exc:
-                break
-
-
-class PatternMixWebSocketsServer:
-    def __init__(self, pattern_generator):
-        self.pattern_generator = pattern_generator
-
-    async def serve(self, websocket, path):
-        while True:
-            pattern_mix = await asyncio.shield(self.pattern_generator.pattern_mix)
-            try:
-                await websocket.send(json.dumps(pattern_mix))
             except websockets.ConnectionClosed as exc:
                 break

@@ -71,7 +71,6 @@ class PatternManager:
     def clear_selected_patterns(self):
         self.pattern_selected.clear()
 
-
     async def animate(self, delta):
         for pattern_id in self.pattern_selected:
             await self.pattern(pattern_id).animate(delta)

@@ -43,7 +43,7 @@ async def main():
     futures = []
 
     # Start pattern generator
-    pattern_generator = PatternGenerator(args, config)
+    pattern_generator = PatternGenerator(None, config, args)
     futures.append(pattern_generator.run())
     
     # WS servers for the web visualization
