@@ -7,15 +7,17 @@ from operator import add
 import websockets
 
 
-class TextureWebSocketsServer:
-    def __init__(self, pattern_generator):
-        self.pattern_generator = pattern_generator
-        self.TEXTURE_WIDTH = 128
-        self.TEXTURE_HEIGHT = 128
-        self.TEXTURE_SIZE = self.TEXTURE_WIDTH * self.TEXTURE_HEIGHT * 4
+class LightControllerWebSocketsServer:
+    def __init__(self, pattern_generator, host, port):
+        self._pattern_generator = pattern_generator
+        self._host = host
+        self._port = port
+        self._TEXTURE_WIDTH = 128
+        self._TEXTURE_HEIGHT = 128
+        self._TEXTURE_SIZE = self._TEXTURE_WIDTH * self._TEXTURE_HEIGHT * 4
 
-    async def PrepareTextureMsg(self, segments):
-        out = np.zeros(self.TEXTURE_SIZE, dtype=np.uint8)
+    def _create_texture_message(self, segments):
+        out = np.zeros(self._TEXTURE_SIZE, dtype=np.uint8)
         r = np.concatenate([segment.colors[:, 0] for segment in segments], axis=None)
         g = np.concatenate([segment.colors[:, 1] for segment in segments], axis=None)
         b = np.concatenate([segment.colors[:, 2] for segment in segments], axis=None)
@@ -25,20 +27,37 @@ class TextureWebSocketsServer:
         out[2:color_bytes:4] = b
         return bytearray(out)
 
-    async def serve(self, websocket, path):
+    async def _ws_consumer_handler(self, ws, path):
         while True:
-            results = await asyncio.shield(self.pattern_generator.results())
+            res = await ws.recv()
+
+    async def _ws_producer_handler(self, ws, path):
+        while True:
+            results = await asyncio.shield(self._pattern_generator.results())
             event = []
             for object_id, result in results.items():
                 object_data = {}
                 object_data['object_id'] = object_id
-                texture_bytes = await self.PrepareTextureMsg(result.led_segments)
+                texture_bytes = self._create_texture_message(result.led_segments)
                 encoded_data = base64.b64encode(texture_bytes)
                 object_data['texture_data'] = encoded_data.decode("utf-8")
-
                 event.append(object_data)
-
             try:
-                await websocket.send(json.dumps(event))
-            except websockets.ConnectionClosed as exc:
+                await ws.send(json.dumps(event))
+            except Exception as exc:
+                print(f'Websocket Error: {exc}')
                 break
+
+    async def _ws_handler(self, ws, path):
+        consumer_task = asyncio.create_task(self._ws_consumer_handler(ws, path))
+        producer_task = asyncio.create_task(self._ws_producer_handler(ws, path))
+        done, pending = await asyncio.wait(
+            [consumer_task, producer_task],
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        for task in pending:
+            task.cancel()
+
+    async def run(self):
+        server = await websockets.serve(self._ws_handler, self._host, self._port)
+        await server.serve_forever()

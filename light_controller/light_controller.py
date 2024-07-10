@@ -7,7 +7,7 @@ import traceback
 
 from core.opc import connect_to_opc
 from core.pattern_generator import PatternGenerator
-from core.websockets import TextureWebSocketsServer
+from core.websockets import LightControllerWebSocketsServer
 
 
 async def main():
@@ -19,8 +19,10 @@ async def main():
                         help="Enable pattern caching")
     parser.add_argument("-a", "--animation_rate", type=int, default=20, 
                         help="The target animation rate in Hz")
-    parser.add_argument("--ws_port_texture", type=int, default=5678, 
-                        help="The WebSockets port for the texture server")
+    parser.add_argument("--websockets_port", type=int, default=5678, 
+                        help="The light controler WebSockets port.")
+    parser.add_argument("--websockets_host", default="0.0.0.0", 
+                        help="The light controler WebSockets host.")
     parser.add_argument("--enable_launchpad", action='store_true', 
                         help="Enables support for a USB launchpad device")
     parser.add_argument("--ws_port_launchpad", type=int, default=5679, 
@@ -47,9 +49,8 @@ async def main():
     futures.append(pattern_generator.run())
     
     # WS servers for the web visualization
-    ws_texture = TextureWebSocketsServer(pattern_generator)
-    futures.append(websockets.serve(ws_texture.serve,
-                   '0.0.0.0', args.ws_port_texture))
+    ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
+    futures.append(ws.run())
   
     loop = asyncio.get_event_loop()
     for o in config['objects']:
