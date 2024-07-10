@@ -14,13 +14,12 @@ class PatternGenerator:
             self.led_segments = led_segments
 
 
-    def __init__(self, state, config, args):
+    def __init__(self, state, head_configs, args):
         self._installation_state = state
         self._previous_installation_state = copy.deepcopy(state)
-        self._config = config
         self._args = args
         self._results = asyncio.Future()
-        self._head_configs = HeadConfigs(config["objects"])
+        self._head_configs = head_configs
         self._animation_time_delta = 1.0 / args.animation_rate
         self._cur_animation_time = time.time()
         self._next_animation_time = self._cur_animation_time + self._animation_time_delta

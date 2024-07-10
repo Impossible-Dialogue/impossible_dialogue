@@ -1,14 +1,21 @@
 import argparse
 import json
+import logging
 import asyncio
 
 import websockets
 import traceback
 
-from core.opc import connect_to_opc
+from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
 from core.websockets import LightControllerWebSocketsServer
+from core.config import HeadConfigs
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s %(asctime)s,%(msecs)d %(filename)s(%(lineno)d) %(funcName)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 async def main():
     # Parse command line arguments
@@ -41,24 +48,23 @@ async def main():
     args = parser.parse_args()
 
     config = json.load(args.config)
+    head_configs = HeadConfigs(config["objects"])
     
     futures = []
 
     # Start pattern generator
-    pattern_generator = PatternGenerator(None, config, args)
+    pattern_generator = PatternGenerator(None, head_configs, args)
     futures.append(pattern_generator.run())
     
     # WS servers for the web visualization
     ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
     futures.append(ws.run())
   
-    loop = asyncio.get_event_loop()
+    opc = OpenPixelControlConnection(pattern_generator, head_configs)
+    futures.append(opc.run())
+
     for o in config['objects']:
         object_id = o['id']
-        if 'opc' in o.keys():
-            opc = o['opc']
-            # Start OPC client
-            futures.append(connect_to_opc(loop, object_id, pattern_generator, opc['server_ip'], opc['server_port']))
         if 'imu' in o.keys():
             imu = o['imu']
             url = "ws://" + imu['server_ip'] + ":" + str(imu['server_port'])
