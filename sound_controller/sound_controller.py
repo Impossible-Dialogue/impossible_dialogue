@@ -27,7 +27,7 @@ logging.basicConfig(
 
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("-c", "--config", type=argparse.FileType('r'), default="sound_config.json",
+parser.add_argument("-c", "--config", type=argparse.FileType('r'), default="../config/head_config.json",
                     help="Sound config file")
 parser.add_argument(
     '-l', '--list-devices', action='store_true',
