@@ -6,7 +6,7 @@ import { UIPanel, UIRow, UINumber, UISpan, UIText } from './libs/ui.js';
 function SidebarSound(editor) {
     const strings = editor.strings;
     const signals = editor.signals;
-    const head_producer_states = new Map();
+    const head_generator_states = new Map();
 
     const container = new UISpan();
 
@@ -23,24 +23,24 @@ function SidebarSound(editor) {
 
     signals.addHead.add(function (object_config) {
         const object_id = object_config.id;
-        const head_producer_state = new UIText().setWidth('50px');
-        head_producer_state.setValue("");
-        head_producer_states.set(object_id, head_producer_state); 
+        const head_generator_state = new UIText().setWidth('50px');
+        head_generator_state.setValue("");
+        head_generator_states.set(object_id, head_generator_state); 
         const row = new UIRow();
         row.add(new UIText(object_id).setWidth('90px'));
-        row.add(head_producer_state);
+        row.add(head_generator_state);
         panel.add(row);
     });
 
     signals.soundControllerUpdate.add(function (update) {
         producer_state.setValue(update.state);
-        for (let i = 0; i < update.head_producers.length; i++) {
-            let head_producer = update.head_producers[i];
-            var head_producer_state = head_producer_states.get(head_producer.head_id);
-            if (head_producer_state !== undefined) {
+        for (let i = 0; i < update.head_generators.length; i++) {
+            let head_generator = update.head_generators[i];
+            var head_generator_state = head_generator_states.get(head_generator.head_id);
+            if (head_generator_state !== undefined) {
                 // const value = JSON.stringify(head_producer)
-                const value = head_producer.state
-                head_producer_state.setValue(value);
+                const value = head_generator.state
+                head_generator_state.setValue(value);
             }
         }
     });
