@@ -10,6 +10,8 @@ from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
 from core.websockets import LightControllerWebSocketsServer
 from impossible_dialogue.config import HeadConfigs
+from impossible_dialogue.state import InstallationState
+from impossible_dialogue.state_updater import StateUpdater
 
 logging.basicConfig(
     level=logging.INFO,
@@ -39,6 +41,7 @@ async def main():
 
     tasks = []
 
+    # State updater
     updater = StateUpdater(state, config)
     tasks.append(updater.run())
 
