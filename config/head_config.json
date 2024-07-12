@@ -152,8 +152,11 @@
         }
         
     ],
-    "output": {
-        "multiplex": true
+    "sound_config": {
+        "output": {
+            "multiplex": true
+        },
+        "mode": "SPEECH"
     },
     "effect_segments": {
         "id": "effects",
@@ -430,6 +433,7 @@
             ]
         }
     ],
+    "music_segments": [],
     "visualization_objects": [
         {
             "id": "fire_pit",

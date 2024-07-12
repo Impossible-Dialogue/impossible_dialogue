@@ -42,13 +42,13 @@ class Source:
         data["current_file"] = self._current_filename
         return data
     
-    def play(self, filename):
+    def play(self, filename, loop=False):
         logging.info(f"Playing {filename}")
         if self.is_playing():
             self.stop()
         self._idle_task.cancel()
         self._soundfile_task = asyncio.create_task(
-            read_soundfile(filename, self._stream))
+            read_soundfile(filename, self._stream, loop=loop))
         self._soundfile_task.add_done_callback(self._done)
         self._set_state(_PLAYING)
         self._current_filename = filename

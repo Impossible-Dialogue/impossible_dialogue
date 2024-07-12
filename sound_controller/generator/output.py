@@ -14,11 +14,11 @@ class Output:
         self._blocksize = blocksize
         self._dtype = dtype
 
-        self._multiplex = config["multiplex"]
+        self._multiplex = config.multiplex
         self._output_streams = []
 
         if self._multiplex:
-            output_stream = Stream(channels=channels,
+            output_stream = Stream(queue_size=config.queue_size, channels=channels,
                                    blocksize=blocksize, dtype=dtype)
             self._output_streams.append(output_stream)
             self._multiplexer = MultiChannelMixer(

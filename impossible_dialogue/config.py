@@ -1,6 +1,25 @@
 import hashlib
 import os
 
+class OutputConfig:
+    def __init__(self, config):
+        self.multiplex = config.get("multiplex", False)
+        self.queue_size = config.get("queue_size", 50)
+
+
+class MusicConfig:
+    def __init__(self, config):
+        self.loop_segments = config.get("loop_segments", False)
+
+
+class SoundConfig:
+    def __init__(self, config):
+        self.mode = config["mode"]
+        if "output" in config:
+            self.output_config = OutputConfig(config["output"])
+        if "music_config" in config:
+            self.music_config = MusicConfig(config["music_config"])
+
 class OpcConfig:
     def __init__(self, config):
         self.server_ip = config["server_ip"]
@@ -79,6 +98,7 @@ class SegmentList:
         self.segments = []
         self.id = config["id"]
         self.head_id = config.get("head_id", None)
+        self.loop = config.get("loop", False)
         for i, segment_config in enumerate(config["segments"]):
             self.segments.append(Segment(i, segment_config, self, base_folder))
         

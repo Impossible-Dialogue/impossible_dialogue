@@ -6,22 +6,29 @@ import random
 
 from generator.head_sound_generator import HeadSoundGenerator
 from generator.output import Output
-from impossible_dialogue.config import HeadConfigs, SegmentLists, SegmentList, Segment
+from impossible_dialogue.config import HeadConfigs, SegmentLists, SegmentList, Segment, SoundConfig
 
+# SoundGenerator states
 _INITIALIZING = "INITIALIZING"
 _START_MONOLOGUE = "START_MONOLOGUE"
 _PLAY_MONOLOGUE = "PLAY_MONOLOGUE"
 _START_DIALOGUE = "START_DIALOGUE"
 _PLAY_DIALOGUE = "PLAY_DIALOGUE"
+_PLAY_MUSIC_CENTERED = "PLAY_MUSIC_CENTERED"
+_PLAY_MUSIC_NOT_CENTERED = "PLAY_MUSIC_NOT_CENTERED"
+
+# SoundGenerator states
+_SOUND_MODE_SPEECH = "SPEECH"
+_SOUND_MODE_MUSIC = "MUSIC"
 
 class SoundGenerator:
     def __init__(self, state, config):
         self._event= asyncio.Event()
         self._state = _INITIALIZING
         self._installation_state = state
-        self._previous_installation_state = copy.deepcopy(state)
+        self._sound_config = SoundConfig(config["sound_config"])
         self._head_configs = HeadConfigs(config["heads"])
-        self._output = Output(state, config["output"])
+        self._output = Output(state, self._sound_config.output_config)
         self._head_generators = []
         for i, head_config in enumerate(self._head_configs.heads.values()):
             generator = HeadSoundGenerator(head_config, self._output.input_stream(i))
@@ -31,6 +38,8 @@ class SoundGenerator:
             config["monologue_segments"], self._head_configs)
         self._dialogue_segments = SegmentLists(
             config["dialogue_segments"], self._head_configs)
+        self._music_segments = SegmentLists(
+            config["music_segments"], self._head_configs)
 
     def _set_state(self, state):
         logging.info(f"State transitioning from {self._state} to {state}")
@@ -97,7 +106,17 @@ class SoundGenerator:
             if not head_state.is_centered():
                 self.play_random_monologue(generator)
 
-    def loop(self):
+    def play_random_music_list(self):
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            segments_lists = list(filter(lambda x: x.head_id == generator.head_id(), 
+                                         self._music_segments.lists.values()))
+            segment_list = random.choice(segments_lists)
+            generator.play_segment_list(
+                segment_list, loop_segments=self._sound_config.music_config.loop_segments)
+
+    def run_speech_mode(self):
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
                 if self._installation_state.all_heads_centered():
@@ -124,6 +143,7 @@ class SoundGenerator:
         elif self._state == _PLAY_MONOLOGUE:
             if self._installation_state.all_heads_centered():
                 self.stop_all_heads()
+                self.play_chime()
                 self._set_state(_START_DIALOGUE)
             else:
                 for generator in self._head_generators:
@@ -135,14 +155,32 @@ class SoundGenerator:
                     else:
                         if generator.is_stopped():
                             self.play_random_monologue(generator)
+    
+    def run_music_mode(self):
+        if self._state == _INITIALIZING:
+            if self._installation_state.last_update():
+                if self._installation_state.all_heads_centered():
+                    self.stop_all_heads()
+                    self._set_state(_PLAY_MUSIC_CENTERED)
+                else:
+                    self.stop_all_heads()
+                    self._set_state(_PLAY_MUSIC_NOT_CENTERED)
+        elif self._state == _PLAY_MUSIC_CENTERED:
+            if self.are_all_heads_stopped():
+                self.play_random_music_list()
+        elif self._state == _PLAY_MUSIC_NOT_CENTERED:
+            if self.are_all_heads_stopped():
+                self.play_random_music_list()
+
+    def loop(self):
+        if self._sound_config.mode == _SOUND_MODE_SPEECH:
+            self.run_speech_mode()
+        elif self._sound_config.mode == _SOUND_MODE_MUSIC:
+            self.run_music_mode()
 
         for generator in self._head_generators:
             generator.loop() 
 
-        if self._installation_state.all_heads_centered() and not self._previous_installation_state.all_heads_centered():
-            self.play_chime()
-
-        self._previous_installation_state = copy.deepcopy(self._installation_state)
         self._event.set()
 
     async def run(self):

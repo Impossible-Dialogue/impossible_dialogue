@@ -27,31 +27,15 @@ logging.basicConfig(
 
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("-c", "--config", type=argparse.FileType('r'), default="../config/head_config.json",
+parser.add_argument("--config", type=argparse.FileType('r'), default="../config/head_config.sampler.json",
                     help="Sound config file")
-parser.add_argument(
-    '-l', '--list-devices', action='store_true',
-    help='show list of audio devices and exit')
 parser.add_argument("--websockets_port", type=int, default=5681, 
                     help="The sound controler WebSockets port.")
 parser.add_argument("--websockets_host", default="0.0.0.0", 
                     help="The sound controler WebSockets host.")
 args, remaining = parser.parse_known_args()
-parser = argparse.ArgumentParser(
-    description=__doc__,
-    formatter_class=argparse.RawDescriptionHelpFormatter,
-    parents=[parser])
-args = parser.parse_args(remaining)
 
 async def main(** kwargs):
-    
-    if args.list_devices:
-        import pyaudio
-        pa = pyaudio.PyAudio()
-        for i in range(pa.get_device_count()):
-            print(pa.get_device_info_by_index(i))
-        return
-
     config = json.load(args.config)
     state = InstallationState(config)
     updater = StateUpdater(state, config)

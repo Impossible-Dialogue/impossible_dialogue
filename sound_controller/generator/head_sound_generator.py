@@ -32,6 +32,15 @@ class HeadSoundGenerator:
         logging.info(f"HeadMixer state transitioning from {self._state} to {state}")
         self._state = state
 
+    def _get_next_index(self, segment_list, current_index):
+        next_segment_index = current_index
+        while True:
+            next_segment_index = next_segment_index + 1
+            if next_segment_index >= self._segment_list.num_segments():
+                return
+            if self._segment_list.segments[next_segment_index].head_id() == self.head_id():
+                return next_segment_index
+
     def to_dict(self):
         data = {}
         data["head_id"] = self.head_id()
@@ -60,19 +69,26 @@ class HeadSoundGenerator:
         if self._effect_source.is_stopped():
             self._effect_source.play(segment.filename())
 
-    def play_segment_list(self, segment_list):    
+    def play_segment_list(self, segment_list, loop_segments=False):    
         self._segment_list = segment_list
-        self.play_segment_from_list(segment_index=0)
+        segment_index = self._get_next_index(segment_list, -1)
+        if segment_index:
+            self.play_segment_from_list(segment_index=segment_index, loop_segment=loop_segments)
+        else:
+            self.stop()
 
-    def play_segment_from_list(self, segment_index):
+    def play_segment_from_list(self, segment_index, loop_segment=False):
         self._current_segment_index = segment_index
-        self._main_source.play(self._segment_list.segments[segment_index].filename())
+        self._main_source.play(
+            self._segment_list.segments[segment_index].filename(), loop=loop_segment)
         self._set_state(_PLAY_SEGMENT_FROM_LIST)
 
     def play_next_segment(self):
-        next_segment_index = (
-            self._current_segment_index + 1) % self._segment_list.num_segments()
-        self.play_segment_from_list(next_segment_index)
+        segment_index = self._get_next_index(self._segment_list, self._current_segment_index)
+        if segment_index:
+            self.play_segment_from_list(segment_index=segment_index)
+        else:
+            self.stop()
 
     def play_random_segment(self):
         self.play_segment_from_list(random.randrange(self._segment_list.num_segments()))
