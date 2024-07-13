@@ -59,7 +59,8 @@ class HeadSoundGenerator:
         return self._state == _STOPPED
 
     def stop(self):
-        self._set_state(_STOPPING)
+        if self._state not in [_STOPPING, _STOPPED]:
+            self._set_state(_STOPPING)
 
     def pause(self, pause_time):
         self._set_state(_PAUSE)
@@ -69,10 +70,12 @@ class HeadSoundGenerator:
         if self._effect_source.is_stopped():
             self._effect_source.play(segment.filename())
 
-    def play_segment_list(self, segment_list, loop_segments=False):    
+    def play_segment_list(self, segment_list, loop_segments=False): 
+        logging.info(
+            f"Playing {segment_list.id} on {self._head_config.id}")
         self._segment_list = segment_list
         segment_index = self._get_next_index(segment_list, -1)
-        if segment_index:
+        if segment_index != None:
             self.play_segment_from_list(segment_index=segment_index, loop_segment=loop_segments)
         else:
             self.stop()

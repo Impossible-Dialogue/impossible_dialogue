@@ -1,5 +1,6 @@
 import hashlib
 import os
+import copy
 
 class OutputConfig:
     def __init__(self, config):
@@ -119,6 +120,7 @@ class SegmentLists:
             if config.get("head_id", "") == "all":
                 # Expand segments lists to all heads
                 for head_config in head_configs.heads.values():
+                    config = copy.deepcopy(config)
                     head_id = head_config.id
                     config["head_id"] = head_id
                     self.lists[id + "_" + head_id]  = SegmentList(config, base_folder)
