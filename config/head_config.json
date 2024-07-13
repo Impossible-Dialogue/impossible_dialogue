@@ -157,7 +157,11 @@
             "multiplex": true,
             "queue_size": 50
         },
-        "mode": "SPEECH"
+        "mode": "SPEECH",
+        "speech_config": {
+            "monologue_volume": 0.2,
+            "dialogue_volume": 1.0
+        }
     },
     "effect_segments": {
         "id": "effects",

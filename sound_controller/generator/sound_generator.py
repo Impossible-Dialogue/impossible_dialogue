@@ -119,6 +119,14 @@ class SoundGenerator:
             generator.play_segment_list(
                 segment_list, loop_segments=self._sound_config.music_config.loop_segments)
 
+    def set_volume_main(self, value):
+        for generator in self._head_generators:
+            generator.set_volume_main(value)
+
+    def set_volume_effect(self, value):
+        for generator in self._head_generators:
+            generator.set_volume_effect(value)
+
     def run_speech_mode(self):
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
@@ -130,6 +138,8 @@ class SoundGenerator:
                     self._set_state(_START_MONOLOGUE)
         elif self._state == _START_DIALOGUE:
             if self.are_all_heads_stopped():
+                self.set_volume_main(
+                    self._sound_config.speech_config.dialogue_volume)
                 self.play_random_dialogue()
                 self._set_state(_PLAY_DIALOGUE)
         elif self._state == _PLAY_DIALOGUE:
@@ -141,6 +151,8 @@ class SoundGenerator:
                     self.play_next_dialogue_segment()
         elif self._state == _START_MONOLOGUE:
             if self.are_all_heads_stopped():
+                self.set_volume_main(
+                    self._sound_config.speech_config.monologue_volume)
                 self.play_random_monologues()
                 self._set_state(_PLAY_MONOLOGUE)
         elif self._state == _PLAY_MONOLOGUE:
@@ -164,16 +176,22 @@ class SoundGenerator:
             if self._installation_state.last_update():
                 if self._installation_state.all_heads_centered():
                     self.stop_all_heads()
+                    self.play_random_music_list()
                     self._set_state(_PLAY_MUSIC_CENTERED)
                 else:
                     self.stop_all_heads()
+                    self.play_random_music_list()
                     self._set_state(_PLAY_MUSIC_NOT_CENTERED)
         elif self._state == _PLAY_MUSIC_CENTERED:
-            if self.are_all_heads_stopped():
-                self.play_random_music_list()
+            if not self._installation_state.all_heads_centered():
+                self.set_volume_main(
+                    self._sound_config.music_config.not_centered_volume)
+                self._set_state(_PLAY_MUSIC_NOT_CENTERED)
         elif self._state == _PLAY_MUSIC_NOT_CENTERED:
-            if self.are_all_heads_stopped():
-                self.play_random_music_list()
+            if self._installation_state.all_heads_centered():
+                self.set_volume_main(
+                    self._sound_config.music_config.centered_volume)
+                self._set_state(_PLAY_MUSIC_CENTERED)
 
     def loop(self):
         if self._sound_config.mode == _SOUND_MODE_SPEECH:

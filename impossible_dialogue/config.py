@@ -11,6 +11,14 @@ class OutputConfig:
 class MusicConfig:
     def __init__(self, config):
         self.loop_segments = config.get("loop_segments", False)
+        self.not_centered_volume = config.get("not_centered_volume", 1.0)
+        self.centered_volume = config.get("centered_volume", 1.0)
+
+
+class SpeechConfig:
+    def __init__(self, config):
+        self.monologue_volume = config.get("monologue_volume", 1.0)
+        self.dialogue_volume = config.get("dialogue_volume", 1.0)
 
 
 class SoundConfig:
@@ -20,6 +28,8 @@ class SoundConfig:
             self.output_config = OutputConfig(config["output"])
         if "music_config" in config:
             self.music_config = MusicConfig(config["music_config"])
+        if "speech_config" in config:
+            self.speech_config = SpeechConfig(config["speech_config"])
 
 class OpcConfig:
     def __init__(self, config):

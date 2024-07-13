@@ -41,6 +41,12 @@ class HeadSoundGenerator:
             if self._segment_list.segments[next_segment_index].head_id() == self.head_id():
                 return next_segment_index
 
+    def set_volume_main(self, value):
+        self._channel_mixer.set_volume1(value)
+    
+    def set_volume_effect(self, value):
+        self._channel_mixer.set_volume2(value)
+
     def to_dict(self):
         data = {}
         data["head_id"] = self.head_id()

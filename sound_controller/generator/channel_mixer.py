@@ -11,6 +11,8 @@ class TwoChannelMixer:
             channels=channels, blocksize=blocksize, dtype=dtype)
         self._stream2 = Stream(
             channels=channels, blocksize=blocksize, dtype=dtype)
+        self._volume1 = 1.0
+        self._volume2 = 1.0
         self._output_stream = output_stream
         self._task = asyncio.create_task(self.run())
 
@@ -20,12 +22,19 @@ class TwoChannelMixer:
     def stream2(self):
         return self._stream2
 
+    def set_volume1(self, value):
+        self._volume1 = value
+
+    def set_volume2(self, value):
+        self._volume2 = value
+
     async def run(self):
         try:
             while True:
                 data1 = await self._stream1.get()
                 data2 = await self._stream2.get()
-                await self._output_stream.put(data1 + data2)
+                await self._output_stream.put(data1 * self._volume1 + 
+                                              data2 * self._volume2)
         except asyncio.CancelledError:
             logging.info('Received a request to cancel')
 

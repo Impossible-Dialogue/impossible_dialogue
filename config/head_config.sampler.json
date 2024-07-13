@@ -159,7 +159,9 @@
         },
         "mode": "MUSIC",
         "music_config": {
-            "loop_segments": true
+            "loop_segments": true,
+            "not_centered_volume": 0.1,
+            "centered_volume": 1.0
         }
     },
     "effect_segments": {
