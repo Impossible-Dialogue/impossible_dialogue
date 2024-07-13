@@ -16,6 +16,7 @@ from patterns.checkers_pattern import CheckersPattern
 from patterns.rainbow_waves_pattern import RainbowWavesPattern
 from patterns.bouncing_blocks_pattern import BouncingBlocksPattern
 from patterns.video_pattern import VideoPattern, Rect
+from patterns.solid_color_pattern import SolidColorPattern
 
 PatternConfig = namedtuple(
     'PatternConfig', ['rotation', 'manual', 'special_effects', 'eyes'])
@@ -49,12 +50,21 @@ DEFAULT_CONFIG = PatternConfig(
     # Manual patterns are not part of the pattern rotation. They will only play when selected 
     # through a controller.
     manual = {
-        #third row
+        # third row
         '0x2': (CrossfadePattern, dict()),
         '1x2': (TheaterChasePattern, dict(speed=1.5, step_size=3)),
         '2x2': (SweepPattern, dict(decay_param=0.5, sweep_speed=0.3)),
         '3x2': (ColorRollPattern, dict()),
         '4x2': (BouncingBlocksPattern, dict()),
+        # fourth row
+        '0x3': (SolidColorPattern, dict(color=np.array([0, 255, 127], dtype=np.uint8))),
+        '1x3': (SolidColorPattern, dict(color=np.array([0, 127, 255], dtype=np.uint8))),
+        '2x3': (SolidColorPattern, dict(color=np.array([0, 127, 127], dtype=np.uint8))),
+        '3x3': (SolidColorPattern, dict(color=np.array([127, 127, 0], dtype=np.uint8))),
+        '4x3': (SolidColorPattern, dict(color=np.array([127, 255, 0], dtype=np.uint8))),
+        '5x3': (SolidColorPattern, dict(color=np.array([127, 0, 127], dtype=np.uint8))),
+        '6x3': (SolidColorPattern, dict(color=np.array([127, 0, 255], dtype=np.uint8))),
+        '7x3': (SolidColorPattern, dict(color=np.array([127, 255, 127], dtype=np.uint8))),
     },
 
     # Effect patterns are overlayed on top of any pattern that is current playing.

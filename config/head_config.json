@@ -12,7 +12,7 @@
             "orientation_topic": "head_1/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "3x2",
+            "led_pattern_id": "0x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-B",
@@ -37,7 +37,7 @@
             "orientation_topic": "head_2/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "1x0",
+            "led_pattern_id": "1x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-I",
@@ -62,7 +62,7 @@
             "orientation_topic": "head_3/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "2x0",
+            "led_pattern_id": "2x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-H",
@@ -87,7 +87,7 @@
             "orientation_topic": "head_4/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "3x0",
+            "led_pattern_id": "3x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-G",
@@ -112,7 +112,7 @@
             "orientation_topic": "head_5/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "4x0",
+            "led_pattern_id": "4x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-D",
@@ -137,7 +137,7 @@
             "orientation_topic": "head_6/orientation",
             "mesh": "../light_controller/mesh/head.obj",
             "led_config": "../config/led_config_impossible_dialogue.json",
-            "led_pattern_id": "5x0",
+            "led_pattern_id": "5x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-C",
