@@ -17,7 +17,7 @@ logging.basicConfig(
 )
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("--config", type=argparse.FileType('r'), default="sound_config.json",
+parser.add_argument("--config", type=argparse.FileType('r'), default="../config/head_config.json",
                     help="Sound config file")
 parser.add_argument("--force_update", action='store_true',
                     help="Forces update of existing speech files.")

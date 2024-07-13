@@ -3,6 +3,7 @@ import json
 import logging
 import copy
 import random
+import time
 
 from generator.head_sound_generator import HeadSoundGenerator
 from generator.output import Output
@@ -40,6 +41,8 @@ class SoundGenerator:
             config["dialogue_segments"], self._head_configs)
         self._music_segments = SegmentLists(
             config["music_segments"], self._head_configs)
+
+        random.seed(time.time())
 
     def _set_state(self, state):
         logging.info(f"State transitioning from {self._state} to {state}")
