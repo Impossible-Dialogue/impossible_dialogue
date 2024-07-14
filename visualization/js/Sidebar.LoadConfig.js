@@ -10,7 +10,7 @@ import { MeshPhongMaterial } from 'three';
 // constants
 const textureWidth = 128;
 const textureHeight = 128;
-const cubeWidth = 0.03;
+const cubeWidth = 0.01;
 
 function SidebarLoadConfig( editor) {
 	const config = editor.config;
