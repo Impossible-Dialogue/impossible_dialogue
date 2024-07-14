@@ -46,7 +46,7 @@ async def main():
     tasks.append(updater.run())
 
     # Start pattern generator
-    pattern_generator = PatternGenerator(state, head_configs, args)
+    pattern_generator = PatternGenerator(state, config, args)
     tasks.append(pattern_generator.run())
     
     # WS servers for the web visualization

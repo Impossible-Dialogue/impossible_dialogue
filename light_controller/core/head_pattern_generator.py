@@ -27,6 +27,9 @@ class HeadPatternGenerator:
     def head_id(self):
         return self._head_config.id
 
+    def set_pattern_id(self, value):
+        self._current_pattern_id = value
+
     async def loop(self, animation_time_delta):
         self._pattern_mix.set_mix(
             base_pattern_ids=[self._current_pattern_id],

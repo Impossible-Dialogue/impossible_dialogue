@@ -1,9 +1,15 @@
 import asyncio
 import copy
 import json
+import logging
 import time
 
 from core.head_pattern_generator import HeadPatternGenerator
+from impossible_dialogue.config import HeadConfigs, LightConfig
+
+_INITIALIZING = "INITIALIZING"
+_CENTERED = "CENTERED"
+_NOT_CENTERED = "NOT_CENTERED"
 
 class PatternGenerator:
 
@@ -12,12 +18,13 @@ class PatternGenerator:
             self.head_id = head_id
             self.led_segments = led_segments
 
-
-    def __init__(self, state, head_configs, args):
+    def __init__(self, state, config, args):
+        self._state = _INITIALIZING
         self._installation_state = state
         self._args = args
         self._results = asyncio.Future()
-        self._head_configs = head_configs
+        self._head_configs = HeadConfigs(config["heads"])
+        self._light_config = LightConfig(config["light_config"])
         self._generation_time_delta = 1.0 / args.animation_rate
         self._cur_generation_time = time.time()
         self._next_generation_time = self._cur_generation_time + self._generation_time_delta
@@ -30,6 +37,10 @@ class PatternGenerator:
             self._head_generators.append(generator)
 
         self._LOG_RATE = 1.0
+
+    def _set_state(self, state):
+        logging.info(f"State transitioning from {self._state} to {state}")
+        self._state = state
 
     async def generate_patterns(self):
         results = {}
@@ -46,6 +57,38 @@ class PatternGenerator:
     def results(self):
         return self._results
 
+    def results(self):
+        return self._results
+
+    def update_state(self):
+        if self._state == _INITIALIZING:
+            if self._installation_state.last_update():
+                if self._installation_state.all_heads_centered():
+                    self._set_state(_CENTERED)
+                else:
+                    self._set_state(_NOT_CENTERED)
+        elif self._state == _CENTERED:
+            if not self._installation_state.all_heads_centered():
+                self._set_state(_NOT_CENTERED)
+                return
+            for generator in self._head_generators:
+                head_id = generator.head_id()
+                pattern_id = self._light_config.all_centered.patterns[head_id].pattern_id
+                generator.set_pattern_id(pattern_id)
+        elif self._state == _NOT_CENTERED:
+            if self._installation_state.all_heads_centered():
+                self._set_state(_CENTERED)
+                return
+            for generator in self._head_generators:
+                head_id = generator.head_id()
+                head_state = self._installation_state.head_state(head_id)
+                if head_state.is_centered():
+                    pattern_id = self._light_config.centered.patterns[head_id].pattern_id
+                else:
+                    pattern_id = self._light_config.not_centered.patterns[head_id].pattern_id
+                generator.set_pattern_id(pattern_id)
+
+
     async def loop(self):
         self._cur_generation_time = self._next_generation_time
         self._next_generation_time = self._cur_generation_time + self._generation_time_delta
@@ -54,6 +97,9 @@ class PatternGenerator:
         if time.time() > self._next_generation_time:
             return
         
+        # Updates the pattern generation state machine and pattern selection
+        self.update_state()
+
         # The main work happens here
         await self.generate_patterns()
 

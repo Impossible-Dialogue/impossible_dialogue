@@ -31,6 +31,28 @@ class SoundConfig:
         if "speech_config" in config:
             self.speech_config = SpeechConfig(config["speech_config"])
 
+
+class PatternConfig:
+    def __init__(self, config):
+        self.head_id = config["head_id"]
+        self.pattern_id = config["pattern_id"]
+
+
+class LightModeConfig:
+    def __init__(self, config):
+        self.patterns = {}
+        for pattern_config in config["patterns"]:
+            head_id = pattern_config["head_id"]
+            self.patterns[head_id] = PatternConfig(pattern_config)
+
+
+class LightConfig:
+    def __init__(self, config):
+        self.not_centered = LightModeConfig(config["not_centered"])
+        self.centered = LightModeConfig(config["centered"])
+        self.all_centered = LightModeConfig(config["all_centered"])
+
+
 class OpcConfig:
     def __init__(self, config):
         self.server_ip = config["server_ip"]
