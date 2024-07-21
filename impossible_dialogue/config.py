@@ -35,7 +35,9 @@ class SoundConfig:
 class PatternConfig:
     def __init__(self, config):
         self.head_id = config["head_id"]
-        self.pattern_id = config["pattern_id"]
+        self.pattern_id = config.get("pattern_id", None)
+        self.effect_pattern_ids = config.get("effect_pattern_ids", None)
+        self.replace_pattern_ids = config.get("replace_pattern_ids", None)
 
 
 class LightModeConfig:

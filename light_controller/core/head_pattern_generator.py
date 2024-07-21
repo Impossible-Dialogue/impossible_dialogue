@@ -29,6 +29,12 @@ class HeadPatternGenerator:
 
     def set_pattern_id(self, value):
         self._current_pattern_id = value
+    
+    def set_replace_pattern_ids(self, value):
+        self._current_replace_pattern_ids = value
+
+    def set_effect_pattern_ids(self, value):
+        self._current_effect_pattern_ids = value
 
     async def loop(self, animation_time_delta):
         self._pattern_mix.set_mix(

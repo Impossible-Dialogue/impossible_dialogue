@@ -60,6 +60,27 @@ class PatternGenerator:
     def results(self):
         return self._results
 
+    def update_head_patterns(self):
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            if self._installation_state.all_heads_centered():
+                light_mode_config = self._light_config.all_centered
+            elif head_state.is_centered():
+                light_mode_config = self._light_config.centered
+            else:
+                light_mode_config = self._light_config.not_centered
+            pattern_config = light_mode_config.patterns[head_id]
+            if pattern_config.pattern_id:
+                generator.set_pattern_id(pattern_config.pattern_id)
+            if pattern_config.effect_pattern_ids:
+                generator.set_effect_pattern_ids(
+                    pattern_config.effect_pattern_ids)
+            if pattern_config.replace_pattern_ids:
+                generator.set_replace_pattern_ids(
+                    pattern_config.replace_pattern_ids)
+
+
     def update_state(self):
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
@@ -71,22 +92,12 @@ class PatternGenerator:
             if not self._installation_state.all_heads_centered():
                 self._set_state(_NOT_CENTERED)
                 return
-            for generator in self._head_generators:
-                head_id = generator.head_id()
-                pattern_id = self._light_config.all_centered.patterns[head_id].pattern_id
-                generator.set_pattern_id(pattern_id)
+            self.update_head_patterns()
         elif self._state == _NOT_CENTERED:
             if self._installation_state.all_heads_centered():
                 self._set_state(_CENTERED)
                 return
-            for generator in self._head_generators:
-                head_id = generator.head_id()
-                head_state = self._installation_state.head_state(head_id)
-                if head_state.is_centered():
-                    pattern_id = self._light_config.centered.patterns[head_id].pattern_id
-                else:
-                    pattern_id = self._light_config.not_centered.patterns[head_id].pattern_id
-                generator.set_pattern_id(pattern_id)
+            self.update_head_patterns()
 
 
     async def loop(self):

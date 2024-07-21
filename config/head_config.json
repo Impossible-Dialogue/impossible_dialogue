@@ -166,22 +166,22 @@
     "light_config": {
         "not_centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x3" },
-                { "head_id": "head_2", "pattern_id": "1x3" },
-                { "head_id": "head_3", "pattern_id": "2x3" },
-                { "head_id": "head_4", "pattern_id": "3x3" },
-                { "head_id": "head_5", "pattern_id": "4x3" },
-                { "head_id": "head_6", "pattern_id": "5x3" }
+                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_2", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_3", "pattern_id": "2x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_4", "pattern_id": "3x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_5", "pattern_id": "4x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_6", "pattern_id": "5x3", "effect_pattern_ids": ["1x7"] }
             ]
         },
         "centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x3" },
-                { "head_id": "head_2", "pattern_id": "1x3" },
-                { "head_id": "head_3", "pattern_id": "2x3" },
-                { "head_id": "head_4", "pattern_id": "3x3" },
-                { "head_id": "head_5", "pattern_id": "4x3" },
-                { "head_id": "head_6", "pattern_id": "5x3" }
+                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["0x7"] },
+                { "head_id": "head_2", "pattern_id": "1x3", "effect_pattern_ids": ["0x7"] },
+                { "head_id": "head_3", "pattern_id": "2x3", "effect_pattern_ids": ["0x7"] },
+                { "head_id": "head_4", "pattern_id": "3x3", "effect_pattern_ids": ["0x7"] },
+                { "head_id": "head_5", "pattern_id": "4x3", "effect_pattern_ids": ["0x7"] },
+                { "head_id": "head_6", "pattern_id": "5x3", "effect_pattern_ids": ["0x7"] }
             ]
         },
         "all_centered": {

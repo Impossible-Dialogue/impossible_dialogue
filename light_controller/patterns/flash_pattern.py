@@ -8,8 +8,11 @@ class FlashPattern(Pattern):
         self.params.color = np.array([255, 255, 255], dtype=np.uint8)
         self.params.background_color = np.array([0, 0, 0], dtype=np.uint8)
         self.params.decay_param = 0.95
+        self.params.reset_time = 5.0
+        self._time_since_reset = 0
 
     def reset(self):
+        self._time_since_reset = 0
         for pattern_segment in self.pattern_segments:
             pattern_segment.reset()
         
@@ -21,6 +24,9 @@ class FlashPattern(Pattern):
             self.pattern_segments.append(pattern_segment)
 
     async def animate(self, delta):
+        self._time_since_reset += delta
+        if self._time_since_reset >= self.params.reset_time:
+            self.reset()
         for pattern_segment in self.pattern_segments:
             await pattern_segment.animate(delta)
 

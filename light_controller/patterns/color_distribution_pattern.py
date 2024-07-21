@@ -14,7 +14,7 @@ class ColorDistributionPattern(Pattern):
     def __init__(self):
         super().__init__()
         self.params.color = np.array([255, 255, 255], dtype=np.uint8)
-        self.params.standard_deviation = 50
+        self.params.standard_deviation = 30
 
     def initialize(self):
         for segment in self.segments:
