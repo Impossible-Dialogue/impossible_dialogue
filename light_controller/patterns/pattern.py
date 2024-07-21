@@ -3,11 +3,13 @@ import sys
 
 
 class Segment:
-    def __init__(self, uid, num_leds, led_positions):
+    def __init__(self, uid, led_positions, color_repeats=None):
         self.uid = uid
-        self.num_leds = num_leds
-        self.colors = np.array([[0, 0, 0] for i in range(num_leds)], dtype=np.ubyte)
+        self.num_leds = len(led_positions)
+        self.colors = np.array([[0, 0, 0]
+                               for i in range(self.num_leds)], dtype=np.ubyte)
         self.led_positions = np.array(led_positions)
+        self.color_repeats = color_repeats
         self.mask = None
 
 class Pattern:
@@ -15,6 +17,7 @@ class Pattern:
         include_segments = []
         exclude_segments = []
         segment_masks = []
+        use_polygon_centers = True
 
     def __init__(self):
         self.segments = []
@@ -25,7 +28,10 @@ class Pattern:
 
     def prepareSegments(self, led_config):
         for s in led_config['led_segments']:
-            segment = Segment(s['uid'], s['num_leds'], s['led_positions'])
+            if self.params.use_polygon_centers:
+                segment = Segment(s['uid'], s['polygon_centers'], color_repeats=s['num_points_in_polygons'])
+            else:
+                segment = Segment(s['uid'], s['led_positions'])
             for mask in self.params.segment_masks:
                 if mask.segment_uid == segment.uid:
                     segment.mask = mask
