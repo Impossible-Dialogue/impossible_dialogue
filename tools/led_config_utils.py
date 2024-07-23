@@ -49,6 +49,10 @@ class Polygon:
             self.vertices.append(segment.start)
         self._compute_center()
 
+    def from_path(self, path):
+        self.vertices = path.vertices
+        self._compute_center()
+
     def __repr__(self):
         return repr(self.vertices)
 
@@ -252,7 +256,7 @@ def distance(point, other_point):
     return np.linalg.norm(point - other_point)
 
 
-def create_paths(path_segments, max_distance=0.01):
+def create_paths(path_segments, max_distance=0.001):
     segments = [Segment(segment_points[0], segment_points[1])
                 for segment_points in path_segments]
 
@@ -394,6 +398,24 @@ def read_line_segments(filename):
             segments.append(segment_points)
 
     return segments
+
+
+def create_polygons(segments, max_distance=0.001):
+    polygons = []
+    paths = create_paths(segments, max_distance)
+
+    for path in paths:
+        if len(path.vertices) < 3:
+            print(f"Polygon does not have enough vertices: {path}")
+            continue
+        if distance(path.vertices[0], path.vertices[-1]) <= max_distance:
+            p = Polygon()
+            p.from_path(path)
+            polygons.append(p)
+        else:
+            print(f"Path does not form a polygon: {path}")
+    
+    return polygons
 
 
 def create_polygons_from_segments(segments):
