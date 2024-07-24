@@ -1,4 +1,5 @@
 from patterns.pattern import Pattern
+from patterns.pattern_config import PATTERNS, pattern_factory
 from aiofile import async_open
 import hashlib
 import json
@@ -60,18 +61,16 @@ class CachedPattern(Pattern):
 
 
 class PatternCache:
-    def __init__(self, pattern_config, led_config, animation_rate):
+    def __init__(self, led_config, animation_rate):
         self.patterns = {}
-        self.pattern_config = pattern_config
         self.led_config = led_config
         self.animation_rate = animation_rate
         self.led_config_hash = hash_led_config(led_config)
         print("LED config hash: " + str(self.led_config_hash))
 
     def patterns_for_caching(self):
-        for d in self.pattern_config:
-            for pattern_id, _ in d.items():
-                yield pattern_id
+        for pattern_id in PATTERNS.keys():
+            yield pattern_id
 
     async def initialize_patterns(self):
         self.patterns = {}

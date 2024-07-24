@@ -23,7 +23,6 @@ class ColorDistributionPattern(Pattern):
                     segment.colors[i][j]  = clamp_color(np.random.normal(
                         loc=self.params.color[j], 
                         scale=self.params.standard_deviation))
-                    print(segment.colors[i][j])
 
     async def animate(self, delta):
         pass

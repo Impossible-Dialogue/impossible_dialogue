@@ -1,11 +1,11 @@
 import numpy as np
 
 from core.pattern_cache import PatternCache
+from patterns.pattern_config import PATTERNS, pattern_factory
     
 
 class PatternManager:
-    def __init__(self, pattern_config, led_config, args):
-        self.pattern_config = pattern_config
+    def __init__(self, led_config, args):
         self.led_config = led_config
         self.args = args
 
@@ -13,7 +13,7 @@ class PatternManager:
         self.enable_cache = args.enable_cache
         self.cached_patterns = []
         if args.enable_cache:
-            self.pattern_cache = PatternCache(pattern_config, led_config, args)
+            self.pattern_cache = PatternCache(led_config, args)
         else:
             self.pattern_cache = None
 
@@ -21,25 +21,13 @@ class PatternManager:
         self.patterns = {}
 
         # List of pattern ids per group
-        self.pattern_rotation = list(pattern_config.rotation.keys())
-        self.pattern_manual = list(pattern_config.manual.keys())
-        self.pattern_effects = list(pattern_config.special_effects.keys())
-        self.pattern_eyes = list(pattern_config.eyes.keys())
-        self.pattern_all = [pattern_id for pattern_id, _ in self.all_patterns_configs()]
         self.pattern_selected = []
    
-    def all_patterns_configs(self):
-        for d in self.pattern_config:
-            for pattern_id, config in d.items():
-                yield pattern_id, config
-
 
     async def initialize_patterns(self):
         # Initialize all patterns
-        for pattern_id, (cls, params) in self.all_patterns_configs():
-            pattern = cls()
-            for key in params:
-                setattr(pattern.params, key, params[key])
+        for pattern_id in PATTERNS.keys():
+            pattern = pattern_factory(pattern_id)
             pattern.prepareSegments(self.led_config)
             pattern.initialize()
             self.patterns[pattern_id] = pattern  

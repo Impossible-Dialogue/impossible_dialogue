@@ -13,7 +13,7 @@ class HeadPatternGenerator:
         self._head_config = head_config
         self._led_config_file = open(head_config.led_config)
         self._led_config = json.load(self._led_config_file)
-        self._pattern_manager = PatternManager(pattern_config.DEFAULT_CONFIG, self._led_config, args)
+        self._pattern_manager = PatternManager(self._led_config, args)
         self._pattern_mix = PatternMix(self._pattern_manager)
         self._current_pattern_id = head_config.led_pattern_id
         self._current_replace_pattern_ids = []
