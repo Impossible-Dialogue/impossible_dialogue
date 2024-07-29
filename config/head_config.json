@@ -1116,7 +1116,7 @@
             },
             "orientation": 0,
             "mesh": "../light_controller/mesh/fire_pit.obj",
-            "led_config": "../config/led_config_fire_pit.json",
+            "led_config": "../config/fire_pit/led_config.json",
             "led_pattern_id": "0x0"
         },
         {
