@@ -58,7 +58,8 @@ PATTERNS = {
     '0x7': PatternConfig("FlashPattern", dict()),
     '1x7': PatternConfig("SparklePattern", dict(sparkle_probability=0.001, decay_param=0.95)),
     '2x7': PatternConfig("CheckersPattern", dict(decay_param=0.95)),
-    '3x7': PatternConfig("StarburstPattern", dict(decay_param=0.95))
+    '3x7': PatternConfig("StarburstPattern", dict(decay_param=0.95)),
+    '4x7': PatternConfig("VideoPattern", dict(file='media/hearts.mp4', fps=5, crop=Rect(0, 0, 1, 1)))
 }
 
 def pattern_factory(pattern_id):

@@ -93,6 +93,39 @@ class PatternUV(Pattern):
                 np.copyto(color, grid.coordinates[uv[1]][uv[0]])
 
     def generateUVCoordinates(self, width, height, offset_u=0, offset_v=0):
+        return self.generateUVCoordinatesXY(width, height, offset_u, offset_v)
+
+    def generateUVCoordinatesXY(self, width, height, offset_u=0, offset_v=0):
+        max_x = max_y = max_z = -sys.float_info.max
+        min_x = min_y = min_z = sys.float_info.max
+        for segment in self.getSegments():
+            for p in segment.led_positions:
+                max_x = max(max_x, p[0])
+                min_x = min(min_x, p[0])
+                max_y = max(max_y, p[1])
+                min_y = min(min_y, p[1])
+                max_z = max(max_z, p[2])
+                min_z = min(min_z, p[2])
+
+        # Shift 3D points so that min(x) and min(y) are at the origin
+        offset = np.array([-min_x, -min_y])
+        # Scale y and z axis to [0, 1].
+        # Note: the axis are scaled independently which could lead to distortions
+        if max_x - min_x == 0 or max_y - min_y == 0:
+            scale = 1
+        else:
+            scale = np.array([(width - 1) / (max_x - min_x), 
+                              (height - 1) / (max_y - min_y)])
+        for segment in self.getSegments():
+            uv = []
+            for p in segment.led_positions:
+                pm = np.multiply(p[:2] + offset, scale).astype(int)
+                u = int(height) - 1 - pm[1] + offset_u
+                v = pm[0] + offset_v
+                uv.append(np.array([u, v]))
+            segment.uv = np.array(uv)
+
+    def generateUVCoordinatesYZ(self, width, height, offset_u=0, offset_v=0):
         max_x = max_y = max_z = -sys.float_info.max
         min_x = min_y = min_z = sys.float_info.max
         for segment in self.getSegments():
