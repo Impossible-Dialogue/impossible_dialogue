@@ -23,36 +23,38 @@ function SidebarLoadConfig( editor) {
     const ledObjectMaterials = new Map();
     const solidObjectMaterials = new Map();
 
-    const loader = new THREE.FileLoader();
+    signals.loadConfigFile.add(function (path) {
+        const loader = new THREE.FileLoader();
 
-    // Load object config
-    loader.load(
-        '../../config/head_config.json',
+        // Load object config
+        loader.load(path,
+            function (data) {
+                let json = JSON.parse(data);
+                for (var obj of json.heads) {
+                    // Create threejs objects
+                    createObject(obj);
+                    // Create a head object.
+                    signals.addHead.dispatch(obj);
+                }
+                for (var obj of json.visualization_objects) {
+                    // Create threejs objects
+                    createObject(obj);
+                }
+            },
 
-        function (data) {
-            let json = JSON.parse(data);
-            for (var obj of json.heads) {
-                // Create threejs objects
-                createObject(obj);
-                // Create a head object.
-                signals.addHead.dispatch(obj);
+            // onProgress callback
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+
+            // onError callback
+            function (err) {
+                console.error(err);
             }
-            for (var obj of json.visualization_objects) {
-                // Create threejs objects
-                createObject(obj);
-            }
-        },
+        );
+    });
 
-        // onProgress callback
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-
-        // onError callback
-        function (err) {
-            console.error(err);
-        }
-    );
+    
 
     // Create a 3D object based on the config.
     function createObject(object_config) {

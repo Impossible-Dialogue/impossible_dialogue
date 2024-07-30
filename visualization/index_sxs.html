@@ -78,11 +78,18 @@
 
         };
 
-        //
 
         const editor = new Editor();
         const signals = editor.signals;
         const head_manager = new HeadManager(editor);
+
+        var _DEFAULT_CAMERA = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
+        _DEFAULT_CAMERA.name = 'Camera';
+        _DEFAULT_CAMERA.position.set(0.0, 1, 5);
+        _DEFAULT_CAMERA.lookAt(new THREE.Vector3(0.0, 1, 0));
+        editor.camera.copy(_DEFAULT_CAMERA);
+        
+
 
         window.editor = editor; // Expose editor to Console
         window.head_manager = head_manager;
@@ -158,9 +165,10 @@
 
         onWindowResize();
 
+        editor.signals.loadConfigFile.dispatch('../../config/head_config_sxs.json');
+
         //
 
-        editor.signals.loadConfigFile.dispatch('../../config/head_config.json');
 
 
     </script>

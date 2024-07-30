@@ -17,6 +17,9 @@ function Editor() {
 	this.signals = {
 
 
+        // Load config file
+        loadConfigFile: new Signal(),
+
         // SoundController
 
         soundControllerUpdate: new Signal(),

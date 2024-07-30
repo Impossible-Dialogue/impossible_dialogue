@@ -1,0 +1,115 @@
+{
+    "heads": [
+        {
+            "id": "head_1",
+            "position": {
+                "x": -2.5,
+                "y": 0,
+                "z": 0
+            },
+            "orientation": 30,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_1/orientation",
+            "mesh": "../light_controller/mesh/head_design1.obj",
+            "led_config": "../config/design1/led_config.json",
+            "led_pattern_id": "0x3",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-B",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.10",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_2",
+            "position": {
+                "x": 0.0,
+                "y": 0,
+                "z": 0
+            },
+            "orientation": 0,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_2/orientation",
+            "mesh": "../light_controller/mesh/head_design2.obj",
+            "led_config": "../config/design2/led_config.json",
+            "led_pattern_id": "1x3",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-I",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.11",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_3",
+            "position": {
+                "x": 2.5,
+                "y": 0,
+                "z": 0
+            },
+            "orientation": -30,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_3/orientation",
+            "mesh": "../light_controller/mesh/head_design3.obj",
+            "led_config": "../config/design3/led_config.json",
+            "led_pattern_id": "2x3",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-H",
+                "speaking_rate": 0.7,
+                "pitch": -5.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.12",
+                "server_port": 7890
+            }
+        }
+    ],
+    "sound_config": {
+        "output": {
+            "multiplex": true,
+            "queue_size": 50
+        },
+        "mode": "SPEECH",
+        "speech_config": {
+            "monologue_volume": 0.2,
+            "dialogue_volume": 1.0
+        }
+    },
+    "light_config": {
+        "not_centered": {
+            "patterns": [
+                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_2", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"] },
+                { "head_id": "head_3", "pattern_id": "2x3", "effect_pattern_ids": ["1x7"] }
+            ]
+        },
+        "centered": {
+            "patterns": [
+                { "head_id": "head_1", "pattern_id": "4x7" },
+                { "head_id": "head_2", "pattern_id": "4x7" },
+                { "head_id": "head_3", "pattern_id": "4x7" }
+            ]
+        },
+        "all_centered": {
+            "patterns": [
+                { "head_id": "head_1", "pattern_id": "0x0" },
+                { "head_id": "head_2", "pattern_id": "1x0" },
+                { "head_id": "head_3", "pattern_id": "2x0" }
+            ]
+        }
+    },
+    "visualization_objects": [
+    ]
+}
