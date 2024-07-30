@@ -2,7 +2,7 @@ import argparse
 import json
 import asyncio
 
-from core.pattern_cache import PatternCache
+from core.pattern_cache import build_cache
 from patterns import pattern_config
 from impossible_dialogue.config import HeadConfigs
 
@@ -27,8 +27,7 @@ async def main():
             continue
         led_config_file = open(head_config.led_config)
         led_config = json.load(led_config_file)
-        cache = PatternCache(led_config, args.animation_rate)
-
+        
         # Initialize all patterns
         patterns = {}
         for pattern_id in pattern_config.PATTERNS.keys():
@@ -37,6 +36,6 @@ async def main():
             pattern.initialize()
             patterns[pattern_id] = pattern
         print(head_id)
-        await cache.build_cache(patterns, args.max_cached_pattern_duration, args.force_update)
+        await build_cache(led_config, args.animation_rate, patterns, args.max_cached_pattern_duration, args.force_update)
 
 asyncio.run(main())

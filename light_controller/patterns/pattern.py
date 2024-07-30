@@ -17,7 +17,7 @@ class Pattern:
         include_segments = []
         exclude_segments = []
         segment_masks = []
-        use_polygon_centers = True
+        use_polygon_centers = False
 
     def __init__(self):
         self.segments = []
