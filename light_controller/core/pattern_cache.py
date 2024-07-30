@@ -112,10 +112,6 @@ class PatternCache:
         self.led_config = led_config
         self.animation_rate = animation_rate
 
-    def patterns_for_caching(self):
-        for pattern_id in PATTERNS.keys():
-            yield pattern_id
-
     async def initialize_patterns(self):
         self.patterns = {}
         for pattern_id in PATTERNS.keys():
