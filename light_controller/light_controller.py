@@ -32,6 +32,8 @@ async def main():
                         help="The light controler WebSockets port.")
     parser.add_argument("--websockets_host", default="0.0.0.0", 
                         help="The light controler WebSockets host.")
+    parser.add_argument("--pattern_demo_mode", action='store_true', default=True,
+                        help="Rotates through a list of patterns.")
 
     args = parser.parse_args()
 

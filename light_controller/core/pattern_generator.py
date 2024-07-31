@@ -6,6 +6,7 @@ import time
 
 from core.head_pattern_generator import HeadPatternGenerator
 from impossible_dialogue.config import HeadConfigs, LightConfig
+from patterns.pattern_config import PATTERNS
 
 _INITIALIZING = "INITIALIZING"
 _CENTERED = "CENTERED"
@@ -29,6 +30,8 @@ class PatternGenerator:
         self._cur_generation_time = time.time()
         self._next_generation_time = self._cur_generation_time + self._generation_time_delta
         self._prev_log_time = self._cur_generation_time
+        self._prev_rotation_time = time.time()
+        self._rotation_index = 0
         self._log_counter = 0
 
         self._head_generators = []
@@ -78,6 +81,9 @@ class PatternGenerator:
 
 
     def update_state(self):
+        if self._args.pattern_demo_mode:
+            return
+
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
                 if self._installation_state.all_heads_centered():
@@ -118,6 +124,21 @@ class PatternGenerator:
             print("Animation FPS: %.1f" % (self._log_counter / log_time_delta))
             self._log_counter = 0
             self._prev_log_time = cur_log_time
+
+        if self._args.pattern_demo_mode:
+            cur_rotation_time = time.time()
+            time_delta = cur_rotation_time - self._prev_rotation_time
+            if time_delta > 10.0:
+                patterns_ids = list(PATTERNS.keys())
+                self._rotation_index = (self._rotation_index + 1) % len(patterns_ids)
+                next_pattern_id = patterns_ids[self._rotation_index]
+                for generator in self._head_generators:
+                    generator.set_pattern_id(next_pattern_id)
+                    generator.set_effect_pattern_ids([])
+                    generator.set_replace_pattern_ids([])
+                    generator.set_brightness_pattern_ids([])
+                        
+                self._prev_rotation_time = cur_rotation_time
 
         # Sleep for the remaining time
         await asyncio.sleep(max(0, self._next_generation_time - time.time()))
