@@ -176,7 +176,6 @@ class SoundGenerator:
         elif self._state == _PLAY_MONOLOGUE:
             if self._installation_state.all_heads_centered():
                 self.stop_all_heads()
-                self.play_chime()
                 self._set_state(_START_DIALOGUE)
             else:
                 for generator in self._head_generators:
@@ -210,13 +209,6 @@ class SoundGenerator:
                 self._set_state(_PLAY_MUSIC_CENTERED)
             self.set_volume_main(
                 self._sound_config.music_config.centered_volume)
-        
-        for generator in self._head_generators:
-            head_id = generator.head_id()
-            head_state = self._installation_state.head_state(head_id)
-            if head_state.is_centered() and not self._heads_centered[head_id]:
-                generator.play_effect(self._effects.find_segment("chime"))
-        self.update_heads_centered()
 
 
     def loop(self):
@@ -224,6 +216,13 @@ class SoundGenerator:
             self.run_speech_mode()
         elif self._sound_config.mode == _SOUND_MODE_MUSIC:
             self.run_music_mode()
+
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            if head_state.is_centered() and not self._heads_centered[head_id]:
+                generator.play_effect(self._effects.find_segment("chime"))
+        self.update_heads_centered()
 
         for generator in self._head_generators:
             generator.loop() 
