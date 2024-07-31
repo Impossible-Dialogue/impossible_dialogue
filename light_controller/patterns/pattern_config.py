@@ -18,6 +18,8 @@ from patterns.bouncing_blocks_pattern import BouncingBlocksPattern
 from patterns.video_pattern import VideoPattern, Rect
 from patterns.solid_color_pattern import SolidColorPattern
 from patterns.color_distribution_pattern import ColorDistributionPattern
+from patterns.pulse_pattern import PulsePattern
+
 
 PatternConfig = namedtuple(
     'PatternConfig', ['pattern_class', 'params'])
@@ -27,8 +29,8 @@ SegmentMask = namedtuple(
 
 PATTERNS = {
     '0x0': PatternConfig("FirePatternUV", dict(palette=palettes.FIRE, width=2, height=100)),
-    '1x0': PatternConfig("VideoPattern", dict(file='media/shifter_escape.mp4')),
-    '2x0': PatternConfig("VideoPattern", dict(file='media/radial_beams.mp4', crop=Rect(0, 0, 850, 720))),
+    '1x0': PatternConfig("VideoPattern", dict(file='media/neon_tunnel.mp4', crop=Rect(169, 397, 200, 200))),
+    '2x0': PatternConfig("VideoPattern", dict(file='media/radial_beams.mp4')),
     '3x0': PatternConfig("VideoPattern", dict(file='media/butter_churn.mp4', crop=Rect(60, 60, 60, 60))),
     '4x0': PatternConfig("VideoPattern", dict(file='media/psychill1.mp4', fps=10)),
     '5x0': PatternConfig("VideoPattern", dict(file='media/psychill1.mp4', crop=Rect(60, 130, 60, 60))),
@@ -59,7 +61,9 @@ PATTERNS = {
     '1x7': PatternConfig("SparklePattern", dict(sparkle_probability=0.001, decay_param=0.95)),
     '2x7': PatternConfig("CheckersPattern", dict(decay_param=0.95)),
     '3x7': PatternConfig("StarburstPattern", dict(decay_param=0.95)),
-    '4x7': PatternConfig("VideoPattern", dict(file='media/hearts.mp4', fps=5, crop=Rect(0, 0, 1, 1)))
+    '4x7': PatternConfig("VideoPattern", dict(file='media/hearts.mp4', fps=10, crop=Rect(0, 0, 1, 1))),
+    '5x7': PatternConfig("PulsePattern", dict()),
+    '6x7': PatternConfig("SolidColorPattern", dict(color=np.array([60, 60, 60], dtype=np.uint8))),
 }
 
 def pattern_factory(pattern_id):

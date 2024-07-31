@@ -71,14 +71,10 @@ class PatternGenerator:
             else:
                 light_mode_config = self._light_config.not_centered
             pattern_config = light_mode_config.patterns[head_id]
-            if pattern_config.pattern_id:
-                generator.set_pattern_id(pattern_config.pattern_id)
-            if pattern_config.effect_pattern_ids:
-                generator.set_effect_pattern_ids(
-                    pattern_config.effect_pattern_ids)
-            if pattern_config.replace_pattern_ids:
-                generator.set_replace_pattern_ids(
-                    pattern_config.replace_pattern_ids)
+            generator.set_pattern_id(pattern_config.pattern_id)
+            generator.set_effect_pattern_ids(pattern_config.effect_pattern_ids)
+            generator.set_replace_pattern_ids(pattern_config.replace_pattern_ids)
+            generator.set_brightness_pattern_ids(pattern_config.brightness_pattern_ids)
 
 
     def update_state(self):

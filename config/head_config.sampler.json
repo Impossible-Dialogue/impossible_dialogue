@@ -160,14 +160,15 @@
         "mode": "MUSIC",
         "music_config": {
             "loop_segments": true,
-            "not_centered_volume": 0.1,
+            "center_fading": true,
+            "not_centered_volume": 1.0,
             "centered_volume": 1.0
         }
     },
     "effect_segments": {
         "id": "effects",
         "segments": [
-            { "id": "chime", "filename": "chimes.wav"}
+            { "id": "chime", "filename": "click1.wav"}
         ]
     },
     "monologue_segments": [

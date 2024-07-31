@@ -166,39 +166,39 @@
     "light_config": {
         "not_centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["1x7"] },
-                { "head_id": "head_2", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"] },
-                { "head_id": "head_3", "pattern_id": "2x3", "effect_pattern_ids": ["1x7"] },
-                { "head_id": "head_4", "pattern_id": "3x3", "effect_pattern_ids": ["1x7"] },
-                { "head_id": "head_5", "pattern_id": "4x3", "effect_pattern_ids": ["1x7"] },
-                { "head_id": "head_6", "pattern_id": "5x3", "effect_pattern_ids": ["1x7"] }
+                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_2", "pattern_id": "4x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_3", "pattern_id": "5x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_4", "pattern_id": "3x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_5", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_6", "pattern_id": "6x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] }
             ]
         },
         "centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "4x7" },
-                { "head_id": "head_2", "pattern_id": "4x7" },
-                { "head_id": "head_3", "pattern_id": "4x7" },
-                { "head_id": "head_4", "pattern_id": "4x7" },
-                { "head_id": "head_5", "pattern_id": "4x7" },
-                { "head_id": "head_6", "pattern_id": "4x7" }
+                { "head_id": "head_1", "pattern_id": "0x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_2", "pattern_id": "4x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_3", "pattern_id": "5x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_4", "pattern_id": "3x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_5", "pattern_id": "1x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_6", "pattern_id": "6x3", "brightness_pattern_ids": ["5x7"] }
             ]
         },
         "all_centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x0" },
-                { "head_id": "head_2", "pattern_id": "1x0" },
-                { "head_id": "head_3", "pattern_id": "2x0" },
-                { "head_id": "head_4", "pattern_id": "3x0" },
-                { "head_id": "head_5", "pattern_id": "4x0" },
-                { "head_id": "head_6", "pattern_id": "5x0" }
+                { "head_id": "head_1", "pattern_id": "1x1" },
+                { "head_id": "head_2", "pattern_id": "1x1" },
+                { "head_id": "head_3", "pattern_id": "1x1" },
+                { "head_id": "head_4", "pattern_id": "1x1" },
+                { "head_id": "head_5", "pattern_id": "1x1" },
+                { "head_id": "head_6", "pattern_id": "1x1" }
             ]
         }
     },
     "effect_segments": {
         "id": "effects",
         "segments": [
-            { "id": "chime", "filename": "chimes.wav"}
+            { "id": "chime", "filename": "click1.wav"}
         ]
     },
     "monologue_segments": [

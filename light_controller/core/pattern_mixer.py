@@ -9,6 +9,7 @@ class PatternMix(Pattern):
         self.base_patterns = []
         self.mix_patterns = []
         self.replace_patterns = []
+        self.brighness_patterns = []
         self.intensity = 1.0
 
     def get_patterns_from_id(self, pattern_ids):
@@ -18,10 +19,11 @@ class PatternMix(Pattern):
             selected_patterns.append(pattern)
         return selected_patterns
 
-    def set_mix(self, base_pattern_ids, replace_pattern_ids, mix_pattern_ids):
+    def set_mix(self, base_pattern_ids, replace_pattern_ids, mix_pattern_ids, brighness_pattern_ids):
         self.base_patterns = self.get_patterns_from_id(base_pattern_ids)
         self.replace_patterns = self.get_patterns_from_id(replace_pattern_ids)
         self.mix_patterns = self.get_patterns_from_id(mix_pattern_ids)
+        self.brighness_patterns = self.get_patterns_from_id(brighness_pattern_ids)
 
     def _maybe_repeat_colors(self, segment, pattern):
         if pattern.params.use_polygon_centers:
@@ -74,8 +76,17 @@ class PatternMix(Pattern):
                     # No mask, copy everything
                     segment.colors += colors
 
-        # Apply intensity
-        for segment in self.segments:
-            segment.colors = segment.colors * self.intensity
+        # Brightness
+        for pattern in self.brighness_patterns:
+            for segment, mix_segment in zip(self.segments, pattern.segments):
+                colors = self._maybe_repeat_colors(mix_segment, pattern)
+                if mix_segment.mask:
+                    # Mask available, multiply masked LEDs only
+                    m = mix_segment.mask
+                    segment.colors[m.start:m.end] = np.multiply(segment.colors[m.start:m.end], colors[m.start:m.end] / 255.0)
+                else:
+                    # No mask, multiply everything
+                    segment.colors = np.multiply(segment.colors, colors / 255.0)
+                        
 
         return self.segments
