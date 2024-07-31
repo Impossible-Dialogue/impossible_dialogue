@@ -11,7 +11,6 @@ class OutputConfig:
 class MusicConfig:
     def __init__(self, config):
         self.loop_segments = config.get("loop_segments", False)
-        self.center_fading = config.get("center_fading", False)
         self.not_centered_volume = config.get("not_centered_volume", 1.0)
         self.centered_volume = config.get("centered_volume", 1.0)
 
@@ -25,6 +24,7 @@ class SpeechConfig:
 class SoundConfig:
     def __init__(self, config):
         self.mode = config["mode"]
+        self.center_fading = config.get("center_fading", False)
         if "output" in config:
             self.output_config = OutputConfig(config["output"])
         if "music_config" in config:

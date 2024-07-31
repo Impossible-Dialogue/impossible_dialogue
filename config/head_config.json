@@ -158,6 +158,7 @@
             "queue_size": 50
         },
         "mode": "SPEECH",
+        "center_fading": true,
         "speech_config": {
             "monologue_volume": 0.2,
             "dialogue_volume": 1.0

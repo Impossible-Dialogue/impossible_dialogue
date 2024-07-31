@@ -122,7 +122,7 @@ class SoundGenerator:
 
     def set_volume_main(self, value):
         for generator in self._head_generators:
-            if self._sound_config.music_config.center_fading:
+            if self._sound_config.center_fading:
                 head_id = generator.head_id()
                 head_state = self._installation_state.head_state(head_id)
                 volume = value * (180.0 - abs(head_state.orientation())) / 180.0

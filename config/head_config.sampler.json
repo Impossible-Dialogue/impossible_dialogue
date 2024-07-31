@@ -158,9 +158,9 @@
             "queue_size": 50
         },
         "mode": "MUSIC",
+        "center_fading": true,
         "music_config": {
             "loop_segments": true,
-            "center_fading": true,
             "not_centered_volume": 1.0,
             "centered_volume": 1.0
         }
