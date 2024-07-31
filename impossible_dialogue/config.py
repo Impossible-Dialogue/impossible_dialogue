@@ -74,13 +74,15 @@ class AudioConfigConfig:
 class HeadConfig:
     def __init__(self, config):
         self.id = config["id"]
-        self.orientation = config["orientation"]
-        self.orientation_ws_url = config["orientation_ws_url"]
-        self.orientation_topic = config["orientation_topic"]
-        self.audio_config = AudioConfigConfig(config["audio_config"])
-        self.led_config = config["led_config"]
-        self.led_pattern_id = config["led_pattern_id"]
-        self.opc = OpcConfig(config["opc"])
+        self.orientation = config.get("orientation", 0.0)
+        self.orientation_ws_url = config.get("orientation_ws_url", "")
+        self.orientation_topic = config.get("orientation_topic", "")
+        if "audio_config" in config:
+            self.audio_config = AudioConfigConfig(config["audio_config"])
+        self.led_config = config.get("led_config", "")
+        self.led_pattern_id = config.get("led_pattern_id", "")
+        if "opc" in config:
+            self.opc = OpcConfig(config["opc"])
 
 
 class HeadConfigs:

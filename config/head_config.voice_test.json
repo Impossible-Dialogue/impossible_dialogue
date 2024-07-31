@@ -1,0 +1,23 @@
+{
+    "heads": [
+        {
+            "id": "head_1",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-B",
+                "speaking_rate": 0.7,
+                "pitch": 0.0,
+                "volume_gain_db": 0.0
+            }
+        }
+    ],
+    "monologue_segments": [
+        { 
+            "id": "test",
+            "head_id": "all",
+            "segments": [
+                { "text" : "A subject that lies at the heart of our journey, our pilgrimage into the unknown - the self" }
+            ]
+        }
+    ]
+}
