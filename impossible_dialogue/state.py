@@ -11,7 +11,7 @@ class HeadState:
         self._last_udpate = None
 
     def is_centered(self):
-        return self._orientation <= 10 and self._orientation > -10
+        return self._orientation <= 20 and self._orientation > -20
 
     def orientation(self):
         return self._orientation
