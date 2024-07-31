@@ -11,6 +11,7 @@ class OutputConfig:
 class MusicConfig:
     def __init__(self, config):
         self.loop_segments = config.get("loop_segments", False)
+        self.center_fading = config.get("center_fading", False)
         self.not_centered_volume = config.get("not_centered_volume", 1.0)
         self.centered_volume = config.get("centered_volume", 1.0)
 
@@ -36,9 +37,9 @@ class PatternConfig:
     def __init__(self, config):
         self.head_id = config["head_id"]
         self.pattern_id = config.get("pattern_id", None)
-        self.effect_pattern_ids = config.get("effect_pattern_ids", None)
-        self.replace_pattern_ids = config.get("replace_pattern_ids", None)
-
+        self.effect_pattern_ids = config.get("effect_pattern_ids", [])
+        self.replace_pattern_ids = config.get("replace_pattern_ids", [])
+        self.brightness_pattern_ids = config.get("brightness_pattern_ids", [])
 
 class LightModeConfig:
     def __init__(self, config):

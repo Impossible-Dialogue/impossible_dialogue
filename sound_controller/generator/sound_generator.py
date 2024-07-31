@@ -41,6 +41,7 @@ class SoundGenerator:
             config["dialogue_segments"], self._head_configs)
         self._music_segments = SegmentLists(
             config["music_segments"], self._head_configs)
+        self._heads_centered = {}
 
         random.seed(time.time())
 
@@ -121,15 +122,32 @@ class SoundGenerator:
 
     def set_volume_main(self, value):
         for generator in self._head_generators:
-            generator.set_volume_main(value)
+            if self._sound_config.music_config.center_fading:
+                head_id = generator.head_id()
+                head_state = self._installation_state.head_state(head_id)
+                volume = value * (180.0 - abs(head_state.orientation())) / 180.0
+            else:
+                volume = value
+            print
+            generator.set_volume_main(volume)
 
     def set_volume_effect(self, value):
         for generator in self._head_generators:
             generator.set_volume_effect(value)
 
+    def update_heads_centered(self):
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            if head_state.is_centered():
+                self._heads_centered[head_id] = True
+            else:
+                self._heads_centered[head_id] = False
+
     def run_speech_mode(self):
         if self._state == _INITIALIZING:
             if self._installation_state.last_update():
+                self.update_heads_centered()
                 if self._installation_state.all_heads_centered():
                     self.stop_all_heads()
                     self._set_state(_START_DIALOGUE)
@@ -184,14 +202,22 @@ class SoundGenerator:
                     self._set_state(_PLAY_MUSIC_NOT_CENTERED)
         elif self._state == _PLAY_MUSIC_CENTERED:
             if not self._installation_state.all_heads_centered():
-                self.set_volume_main(
-                    self._sound_config.music_config.not_centered_volume)
                 self._set_state(_PLAY_MUSIC_NOT_CENTERED)
+            self.set_volume_main(
+                self._sound_config.music_config.not_centered_volume)
         elif self._state == _PLAY_MUSIC_NOT_CENTERED:
             if self._installation_state.all_heads_centered():
-                self.set_volume_main(
-                    self._sound_config.music_config.centered_volume)
                 self._set_state(_PLAY_MUSIC_CENTERED)
+            self.set_volume_main(
+                self._sound_config.music_config.centered_volume)
+        
+        for generator in self._head_generators:
+            head_id = generator.head_id()
+            head_state = self._installation_state.head_state(head_id)
+            if head_state.is_centered() and not self._heads_centered[head_id]:
+                generator.play_effect(self._effects.find_segment("chime"))
+        self.update_heads_centered()
+
 
     def loop(self):
         if self._sound_config.mode == _SOUND_MODE_SPEECH:
