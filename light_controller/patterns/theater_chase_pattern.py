@@ -19,7 +19,7 @@ class TheaterChasePattern(Pattern):
 
     async def animate(self, iteration, delta):
         for pattern_segment in self.pattern_segments:
-            await pattern_segment.animate(delta)
+            await pattern_segment.animate(iteration, delta)
 
 
 class TheaterChasePatternSegment(Pattern):

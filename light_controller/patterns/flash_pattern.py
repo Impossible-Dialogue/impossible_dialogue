@@ -28,7 +28,7 @@ class FlashPattern(Pattern):
         if self._time_since_reset >= self.params.reset_time:
             self.reset()
         for pattern_segment in self.pattern_segments:
-            await pattern_segment.animate(delta)
+            await pattern_segment.animate(iteration, delta)
 
 
 class FlashPatternSegment(Pattern):
