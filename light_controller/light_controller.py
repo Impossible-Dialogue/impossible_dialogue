@@ -5,6 +5,7 @@ import asyncio
 
 import websockets
 import traceback
+import uvloop
 
 from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
@@ -69,5 +70,4 @@ async def main():
         print('An exception has occured.')
         print(traceback.format_exc())
 
-
-asyncio.run(main())
+uvloop.run(main())
