@@ -40,7 +40,7 @@ class HeadPatternGenerator:
     def set_brightness_pattern_ids(self, value):
         self._current_brightness_pattern_ids = value
 
-    async def loop(self, animation_time_delta):
+    async def loop(self, iteration, animation_time_delta):
         self._pattern_mix.set_mix(
             base_pattern_ids=[self._current_pattern_id],
             replace_pattern_ids=self._current_replace_pattern_ids,
@@ -48,7 +48,7 @@ class HeadPatternGenerator:
             brighness_pattern_ids=self._current_brightness_pattern_ids)
         active_patterns = [self._current_pattern_id] + self._current_replace_pattern_ids +  self._current_effect_pattern_ids + self._current_brightness_pattern_ids
         self._pattern_manager.update_pattern_selection(active_patterns)
-        await self._pattern_manager.animate(animation_time_delta)
+        await self._pattern_manager.animate(iteration, animation_time_delta)
         segments = await self._pattern_mix.update()
         return segments
         

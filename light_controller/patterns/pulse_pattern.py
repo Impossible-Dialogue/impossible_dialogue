@@ -17,7 +17,7 @@ class PulsePattern(Pattern):
             np.copyto(segment.colors, np.array(
                 [self.params.color for i in range(segment.num_leds)]))
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         d = (self.params.pulse_max_value -
              self.params.pulse_min_value) / 2.35040238
         self.time += delta

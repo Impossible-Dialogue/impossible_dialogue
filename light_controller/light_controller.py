@@ -24,7 +24,7 @@ async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--config", type=argparse.FileType('r'), default="../config/head_config.json", 
                         help="LED config file")
-    parser.add_argument("-c", "--enable_cache", action='store_true', default=True,
+    parser.add_argument("-c", "--enable_cache", action='store_true', default=False,
                         help="Enable pattern caching")
     parser.add_argument("-a", "--animation_rate", type=int, default=20, 
                         help="The target animation rate in Hz")

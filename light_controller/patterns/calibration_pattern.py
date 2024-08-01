@@ -5,7 +5,7 @@ class CalibrationPattern(Pattern):
     def __init__(self):
         super().__init__()
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         WHITE = np.array([255, 255, 255], dtype=np.uint8)
         BLACK = np.array([0, 0, 0], dtype=np.uint8)
         for segment in self.segments:

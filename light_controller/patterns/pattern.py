@@ -49,7 +49,7 @@ class Pattern:
     def initialize(self):
         pass
         
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         pass
 
 class UVGrid():
@@ -161,5 +161,5 @@ class PatternUV(Pattern):
     def reset(self):
         pass
 
-    def animate(self, delta):
+    def animate(self, iteration, delta):
         pass

@@ -18,9 +18,9 @@ class SparklePattern(Pattern):
             pattern_segment.initialize()
             self.pattern_segments.append(pattern_segment)
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         for pattern_segment in self.pattern_segments:
-            await pattern_segment.animate(delta)
+            await pattern_segment.animate(iteration, delta)
 
 
 class SparklePatternSegment(Pattern):
@@ -32,7 +32,7 @@ class SparklePatternSegment(Pattern):
         np.copyto(self.segment.colors, np.array(
             [self.params.background_color for i in range(self.segment.num_leds)]))
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         for i in range(self.segment.num_leds):
              # Decay all LEDs
             self.segment.colors[i] = self.params.decay_param * self.segment.colors[i] + \

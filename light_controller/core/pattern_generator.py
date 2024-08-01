@@ -33,6 +33,7 @@ class PatternGenerator:
         self._prev_rotation_time = time.time()
         self._rotation_index = 0
         self._log_counter = 0
+        self._iteration = 0
 
         self._head_generators = []
         for i, head_config in enumerate(self._head_configs.heads.values()):
@@ -49,7 +50,7 @@ class PatternGenerator:
         results = {}
         for generator in self._head_generators:
             head_id = generator.head_id()
-            segments = await generator.loop(self._generation_time_delta) 
+            segments = await generator.loop(self._iteration, self._generation_time_delta) 
             results[head_id] = self.Results(head_id, segments)
 
         # Update results future for processing by IO
@@ -149,3 +150,4 @@ class PatternGenerator:
 
         while (True):
             await self.loop()
+            self._iteration += 1

@@ -12,5 +12,5 @@ class SolidColorPattern(Pattern):
             for i in range(segment.num_leds):
                 segment.colors[i] = self.params.color
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         pass

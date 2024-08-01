@@ -45,7 +45,7 @@ async def build_cache_for_pattern(led_config, animation_rate, pattern, pattern_i
         print("   Caching pattern %s of type %s" %
               (pattern_id, type(pattern).__name__))
         for animation_index in range(num_animation_steps):
-            await pattern.animate(delta)
+            await pattern.animate(animation_index, delta)
             segment_colors = []
             for segment in pattern.segments:
                 if pattern.params.use_polygon_centers:
@@ -93,7 +93,7 @@ class CachedPattern(Pattern):
             cache_index = json.load(f)
             self.num_animation_steps = cache_index["animation_steps"]
         
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         cache_file = cache_file_path(
             self.pattern_hash, self.pattern_id, self.current_animation_index)
         

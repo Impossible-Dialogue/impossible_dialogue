@@ -24,5 +24,5 @@ class ColorDistributionPattern(Pattern):
                         loc=self.params.color[j], 
                         scale=self.params.standard_deviation))
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         pass

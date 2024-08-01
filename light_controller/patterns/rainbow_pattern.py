@@ -20,7 +20,7 @@ class RainbowPattern(PatternUV):
         self.spectrum = np.arange(0, 1, 1/self.width)        
         self.applyGrid(self.grid)  
     
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         self.cumulative_delta += delta
         if self.cumulative_delta < 1 / self.fps:
             return

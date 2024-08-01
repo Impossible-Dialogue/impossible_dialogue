@@ -23,7 +23,7 @@ class FlashPattern(Pattern):
             pattern_segment.initialize()
             self.pattern_segments.append(pattern_segment)
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         self._time_since_reset += delta
         if self._time_since_reset >= self.params.reset_time:
             self.reset()
@@ -42,7 +42,7 @@ class FlashPatternSegment(Pattern):
         super().reset()
         self.start_flash = True
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         if self.start_flash:
             self.segment.colors[:] = self.params.color
             self.start_flash = False
