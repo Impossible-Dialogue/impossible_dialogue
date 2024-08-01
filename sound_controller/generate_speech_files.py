@@ -9,6 +9,7 @@ import librosa
 
 from impossible_dialogue.config import HeadConfigs, SegmentLists
 from google.cloud import texttospeech
+from audiolib.audio_effect import AudioEffect
 
 logging.basicConfig(
     level=logging.INFO,
@@ -88,14 +89,23 @@ def process_segment_list(head_configs, segment_lists):
             synthesize_text(text, filename, audio_config)
             maybe_resample_audio(filename)
 
+            # AudioEffect.ghost(filename, filename + ".ghost.wav")
+            # AudioEffect.robotic(filename, filename + ".robotic.wav")
+            # AudioEffect.echo(filename, filename + ".echo.wav")
+            # AudioEffect.radio(filename, filename + ".radio.wav")
+            # AudioEffect.darth_vader(filename, filename + ".darth_vader.wav")
+
+
 
 async def main(** kwargs):
     config = json.load(args.config)
     head_configs = HeadConfigs(config["heads"])
-    process_segment_list(head_configs,
-                         SegmentLists(config["monologue_segments"], head_configs))
-    process_segment_list(head_configs,
-                         SegmentLists(config["dialogue_segments"], head_configs))
+    if "monologue_segments" in config:
+        process_segment_list(head_configs,
+                            SegmentLists(config["monologue_segments"], head_configs))
+    if "dialogue_segments" in config:
+        process_segment_list(head_configs,
+                            SegmentLists(config["dialogue_segments"], head_configs))
 
 if __name__ == "__main__":
     try:
