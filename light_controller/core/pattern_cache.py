@@ -94,6 +94,7 @@ class CachedPattern(Pattern):
             self.num_animation_steps = cache_index["animation_steps"]
         
     async def animate(self, iteration, delta):
+        self.current_animation_index = iteration % self.num_animation_steps
         cache_file = cache_file_path(
             self.pattern_hash, self.pattern_id, self.current_animation_index)
         
@@ -102,8 +103,6 @@ class CachedPattern(Pattern):
             segment_colors = pickle.loads(bytes)
             for i, segment in enumerate(self.segments):
                 segment.colors = segment_colors[i]
-
-        self.current_animation_index = (self.current_animation_index + 1) % self.num_animation_steps
 
 
 class PatternCache:
