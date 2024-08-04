@@ -85,8 +85,8 @@
             "orientation": 330,
             "orientation_ws_url": "ws://localhost:7891",
             "orientation_topic": "head_4/orientation",
-            "mesh": "../light_controller/mesh/head_design2.obj",
-            "led_config": "../config/design2/led_config.json",
+            "mesh": "../light_controller/mesh/head_design4.obj",
+            "led_config": "../config/design4/led_config.json",
             "led_pattern_id": "3x3",
             "audio_config": {
                 "language_code": "en-US",

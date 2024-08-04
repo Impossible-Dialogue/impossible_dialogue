@@ -403,6 +403,11 @@ def read_line_segments(filename):
 def create_polygons(segments, max_distance=0.001):
     polygons = []
     paths = create_paths(segments, max_distance)
+    # print(f"Number of paths: {len(paths)}")
+    # U, mu = create_2d_projection_from_segments(segments)
+    # for path in paths:
+    #     path_2d = project_path_2d(path, U, mu)
+    #     plot_path_2d(path_2d)
 
     for path in paths:
         if len(path.vertices) < 3:
@@ -488,6 +493,19 @@ def polygon_index(point_2d, polygons_2d):
     # plt.scatter([point_2d[0]], point_2d[1])
 
 
+def create_2d_projection_from_segments(segments):
+    x = np.array([p[0][0] for p in segments])
+    y = np.array([p[0][1] for p in segments])
+    z = np.array([p[0][2] for p in segments])
+
+    data = np.concatenate((x[:, np.newaxis],
+                            y[:, np.newaxis],
+                            z[:, np.newaxis]),
+                            axis=1)
+    Z, U, mu = pca(data)
+    return U, mu
+
+
 def project_path_2d(path, U=None, mu=None):
     # if not isinstance(U, np.ndarray) or not isinstance(mu, np.ndarray):
     #     x = np.array([v[0] for v in path.vertices])
@@ -544,4 +562,4 @@ def create_polygon_path(polygon_indices, polygons):
 
 def plot_path_2d(path_2d):
     plt.plot([v[0] for v in path_2d.vertices], 
-             [v[1] for v in path_2d.vertices], linewidth=7.0)
+             [v[1] for v in path_2d.vertices], linewidth=3.0)
