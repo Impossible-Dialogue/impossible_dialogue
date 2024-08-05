@@ -27,7 +27,7 @@ logging.basicConfig(
 
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("--config", type=argparse.FileType('r'), default="../config/head_config.sampler.json",
+parser.add_argument("--config", type=argparse.FileType('r'), default="../config/head_config.json",
                     help="Sound config file")
 parser.add_argument("--websockets_port", type=int, default=5681, 
                     help="The sound controler WebSockets port.")
