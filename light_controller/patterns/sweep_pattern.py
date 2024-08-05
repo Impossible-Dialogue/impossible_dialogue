@@ -20,9 +20,9 @@ class SweepPattern(Pattern):
             pattern_segment.initialize()
             self.pattern_segments.append(pattern_segment)
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         for pattern_segment in self.pattern_segments:
-            await pattern_segment.animate(delta)
+            await pattern_segment.animate(iteration, delta)
 
 
 class SweepPatternSegment(Pattern):
@@ -35,7 +35,7 @@ class SweepPatternSegment(Pattern):
         np.copyto(self.segment.colors, np.array(
             [self.params.background_color for i in range(self.segment.num_leds)]))    
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         current_index = int(self.current_sweep_fraction *
                             self.segment.num_leds)
         if current_index == self.segment.num_leds:

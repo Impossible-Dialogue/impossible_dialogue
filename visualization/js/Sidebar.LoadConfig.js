@@ -10,7 +10,7 @@ import { MeshPhongMaterial } from 'three';
 // constants
 const textureWidth = 128;
 const textureHeight = 128;
-const cubeWidth = 0.03;
+const cubeWidth = 0.02;
 
 function SidebarLoadConfig( editor) {
 	const config = editor.config;
@@ -23,35 +23,38 @@ function SidebarLoadConfig( editor) {
     const ledObjectMaterials = new Map();
     const solidObjectMaterials = new Map();
 
-    const loader = new THREE.FileLoader();
+    signals.loadConfigFile.add(function (path) {
+        const loader = new THREE.FileLoader();
 
-    // Load object config
-    loader.load(
-        '../../config/head_config.json',
-
-        function (data) {
-            let json = JSON.parse(data);
-            for (var obj of json.objects) {
-                // Create threejs objects
-                createObject(obj);
-
-                // Create a head object.
-                if (obj.type == "head") {
+        // Load object config
+        loader.load(path,
+            function (data) {
+                let json = JSON.parse(data);
+                for (var obj of json.heads) {
+                    // Create threejs objects
+                    createObject(obj);
+                    // Create a head object.
                     signals.addHead.dispatch(obj);
                 }
+                for (var obj of json.visualization_objects) {
+                    // Create threejs objects
+                    createObject(obj);
+                }
+            },
+
+            // onProgress callback
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+
+            // onError callback
+            function (err) {
+                console.error(err);
             }
-        },
+        );
+    });
 
-        // onProgress callback
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-
-        // onError callback
-        function (err) {
-            console.error(err);
-        }
-    );
+    
 
     // Create a 3D object based on the config.
     function createObject(object_config) {
@@ -198,12 +201,12 @@ function SidebarLoadConfig( editor) {
                 }
 
                 // Update object orientation
-                const orientation = object_data.orientation;
-                console.log(object_id, orientation);
-                const newRotation = new THREE.Euler(
-                    0, orientation * THREE.MathUtils.DEG2RAD, 0);
-                object.rotation.copy(newRotation);
-                object.updateMatrixWorld(true);
+                // const orientation = object_data.orientation;
+                // console.log(object_id, orientation);
+                // const newRotation = new THREE.Euler(
+                //     0, orientation * THREE.MathUtils.DEG2RAD, 0);
+                // object.rotation.copy(newRotation);
+                // object.updateMatrixWorld(true);
                 
                 // Update mesh color
                 // let center = centerOrientations.get(object_id);

@@ -1,36 +1,58 @@
 import asyncio
 import functools
+import logging
 import struct
 import sys
 
 
-async def connect_to_opc(loop, object_id, pattern_generator, server_ip, server_port):
-    reconnect_interval = 5.0  # In seconds
-    while True:
-        on_con_lost = loop.create_future()
+class OpenPixelControlConnection:
+    def __init__(self, pattern_generator, head_configs):
+        self._generator = pattern_generator
+        self._head_configs = head_configs
+        self._opc_tasks = []
 
-        print(f'Connecting to OPC server at {server_ip}:{server_port}')
-        opc_factory = functools.partial(
-            OpenPixelControlProtocol,
-            generator=pattern_generator,
-            object_id=object_id,
-            on_con_lost=on_con_lost)
-        try:
-            transport, protocol = await loop.create_connection(opc_factory, server_ip, server_port)
-        except Exception as exc:
-            print(f'Could not connect to OPC server: {exc}. Retrying in {reconnect_interval} seconds.')
+    async def _connect_to_opc(self, object_id, pattern_generator, server_ip, server_port):
+        reconnect_interval = 5.0  # In seconds
+        loop = asyncio.get_event_loop()
+        while True:
+            on_con_lost = loop.create_future()
+
+            logging.info(f'Connecting to OPC server at {server_ip}:{server_port}')
+            opc_factory = functools.partial(
+                OpenPixelControlProtocol,
+                generator=pattern_generator,
+                object_id=object_id,
+                on_con_lost=on_con_lost)
+            try:
+                transport, protocol = await loop.create_connection(opc_factory, server_ip, server_port)
+            except Exception as exc:
+                logging.warn(f'Could not connect to OPC server: {exc}. Retrying in {reconnect_interval} seconds.')
+                await asyncio.sleep(reconnect_interval)
+                continue
+
+            # Wait until the protocol signals that the connection
+            # is lost and close the transport.
+            try:
+                await on_con_lost
+            finally:
+                transport.close()
+            logging.info(
+                f'OPC connection to {server_ip}:{server_port} closed. Retrying in {reconnect_interval} seconds.')
             await asyncio.sleep(reconnect_interval)
-            continue
 
-        # Wait until the protocol signals that the connection
-        # is lost and close the transport.
+    async def run(self):
+        for head_id, head in self._head_configs.heads.items():
+            opc = head.opc
+            self._opc_tasks.append(self._connect_to_opc(head_id, self._generator, opc.server_ip, opc.server_port))
+
         try:
-            await on_con_lost
-        finally:
-            transport.close()
-        print(
-            f'OPC connection to {server_ip}:{server_port} closed. Retrying in {reconnect_interval} seconds.')
-        await asyncio.sleep(reconnect_interval)
+            results = await asyncio.gather(
+                *self._opc_tasks,
+                return_exceptions=False
+            )
+        except Exception as e:
+            logging.error('An exception has occured.')
+            logging.error(traceback.format_exc())
 
 
 class OpenPixelControlProtocol(asyncio.Protocol):
@@ -45,7 +67,7 @@ class OpenPixelControlProtocol(asyncio.Protocol):
 
     def _debug(self, m):
         if self.verbose:
-            print('    %s' % str(m))
+            logging.debug('    %s' % str(m))
 
     def connection_made(self, transport):
         """Store the OpenPixelControl transport and schedule the task to send data.

@@ -1,14 +1,24 @@
 import argparse
 import json
+import logging
 import asyncio
 
 import websockets
 import traceback
+import uvloop
 
-from core.opc import connect_to_opc
+from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
-from core.websockets import TextureWebSocketsServer
+from core.websockets import LightControllerWebSocketsServer
+from impossible_dialogue.config import HeadConfigs
+from impossible_dialogue.state import InstallationState
+from impossible_dialogue.state_updater import StateUpdater
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s %(asctime)s,%(msecs)d %(filename)s(%(lineno)d) %(funcName)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 async def main():
     # Parse command line arguments
@@ -19,58 +29,40 @@ async def main():
                         help="Enable pattern caching")
     parser.add_argument("-a", "--animation_rate", type=int, default=20, 
                         help="The target animation rate in Hz")
-    parser.add_argument("--ws_port_texture", type=int, default=5678, 
-                        help="The WebSockets port for the texture server")
-    parser.add_argument("--enable_launchpad", action='store_true', 
-                        help="Enables support for a USB launchpad device")
-    parser.add_argument("--ws_port_launchpad", type=int, default=5679, 
-                        help="The WebSockets port for the launchpad server")
-    parser.add_argument("--pattern_rotation_time", type=int, default=600, 
-                        help="The maximum duration a pattern is displayed before rotating to the next.")
-    parser.add_argument("--enable_pattern_mix_publisher", action='store_true', 
-                        help="Enables a WebSockets server to publish the pattern mix")
-    parser.add_argument("--pattern_mix_publish_port", type=int, default=5680, 
-                        help="The WebSockets port for the pattern mix publisher")
-    parser.add_argument("--enable_pattern_mix_subscriber", action='store_true', 
-                        help="Enables a WebSockets client to subscribe to a pattern mix")
-    parser.add_argument("--pattern_mix_subscribe_uri", default='ws://funkypi.wlan:5680', 
-                        help="The WebSockets URI for the pattern mix subscriber")
+    parser.add_argument("--websockets_port", type=int, default=5678, 
+                        help="The light controler WebSockets port.")
+    parser.add_argument("--websockets_host", default="0.0.0.0", 
+                        help="The light controler WebSockets host.")
+    parser.add_argument("--pattern_demo_mode", action='store_true', default=False,
+                        help="Rotates through a list of patterns.")
 
     args = parser.parse_args()
 
     config = json.load(args.config)
-    
-    futures = []
+    head_configs = HeadConfigs(config["heads"])
+    state = InstallationState(config)
+
+    tasks = []
+
+    # State updater
+    updater = StateUpdater(state, config)
+    tasks.append(updater.run())
 
     # Start pattern generator
-    pattern_generator = PatternGenerator(args, config)
-    futures.append(pattern_generator.run())
+    pattern_generator = PatternGenerator(state, config, args)
+    tasks.append(pattern_generator.run())
     
     # WS servers for the web visualization
-    ws_texture = TextureWebSocketsServer(pattern_generator)
-    futures.append(websockets.serve(ws_texture.serve,
-                   '0.0.0.0', args.ws_port_texture))
+    ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
+    tasks.append(ws.run())
   
-    loop = asyncio.get_event_loop()
-    for o in config['objects']:
-        object_id = o['id']
-        if 'opc' in o.keys():
-            opc = o['opc']
-            # Start OPC client
-            futures.append(connect_to_opc(loop, object_id, pattern_generator, opc['server_ip'], opc['server_port']))
-        if 'imu' in o.keys():
-            imu = o['imu']
-            url = "ws://" + imu['server_ip'] + ":" + str(imu['server_port'])
-            channel = imu['channel'] 
-            pattern_selector = pattern_generator.pattern_selectors[object_id]
-            pattern_selector.imu_orientation_channel = channel
-            # Start IMU websocket client
-            futures.append(pattern_selector.orientationWSListener(url))
+    opc = OpenPixelControlConnection(pattern_generator, head_configs)
+    tasks.append(opc.run())
 
     # Wait forever
     try:
         results = await asyncio.gather(
-            *futures,
+            *tasks,
             return_exceptions=False
         )
         print(results)
@@ -78,5 +70,4 @@ async def main():
         print('An exception has occured.')
         print(traceback.format_exc())
 
-
-asyncio.run(main())
+uvloop.run(main())

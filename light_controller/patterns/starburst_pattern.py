@@ -63,7 +63,7 @@ class StarburstPattern(PatternUV):
         super().reset()
         self.initialize()
 
-    async def animate(self, delta):
+    async def animate(self, iteration, delta):
         for u in range(self.width):
             for v in range(self.height):
                 self.grid.coordinates[u][v] = self.params.background_color

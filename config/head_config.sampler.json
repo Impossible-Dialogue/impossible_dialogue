@@ -1,0 +1,251 @@
+{
+    "heads": [
+        {
+            "id": "head_1",
+            "position": {
+                "x": -2.5,
+                "y": 0,
+                "z": 4.33
+            },
+            "orientation": 150,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_1/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "3x2",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-B",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.10",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_2",
+            "position": {
+                "x": 2.5,
+                "y": 0,
+                "z": 4.33
+            },
+            "orientation": 210,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_2/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "1x0",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-I",
+                "speaking_rate": 0.7,
+                "pitch": -10.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.11",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_3",
+            "position": {
+                "x": 5.0,
+                "y": 0,
+                "z": 0
+            },
+            "orientation": 270,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_3/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "2x0",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-H",
+                "speaking_rate": 0.7,
+                "pitch": -5.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.12",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_4",
+            "position": {
+                "x": 2.5,
+                "y": 0,
+                "z": -4.33
+            },
+            "orientation": 330,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_4/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "3x0",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-G",
+                "speaking_rate": 0.7,
+                "pitch": 0.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.13",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_5",
+            "position": {
+                "x": -2.5,
+                "y": 0,
+                "z": -4.33
+            },
+            "orientation": 30,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_5/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "4x0",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-D",
+                "speaking_rate": 0.7,
+                "pitch": -20.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.14",
+                "server_port": 7890
+            }
+        },
+        {
+            "id": "head_6",
+            "position": {
+                "x": -5.0,
+                "y": 0,
+                "z": 0
+            },
+            "orientation": 90,
+            "orientation_ws_url": "ws://localhost:7891",
+            "orientation_topic": "head_6/orientation",
+            "mesh": "../light_controller/mesh/head.obj",
+            "led_config": "../config/led_config_impossible_dialogue.json",
+            "led_pattern_id": "5x0",
+            "audio_config": {
+                "language_code": "en-US",
+                "voice_name": "en-US-Standard-C",
+                "speaking_rate": 0.7,
+                "pitch": 10.0,
+                "volume_gain_db": 0.0
+            },
+            "opc": {
+                "server_ip": "10.10.3.15",
+                "server_port": 7890
+            }
+        }
+        
+    ],
+    "sound_config": {
+        "output": {
+            "multiplex": true,
+            "queue_size": 50
+        },
+        "mode": "MUSIC",
+        "center_fading": true,
+        "music_config": {
+            "loop_segments": true,
+            "not_centered_volume": 1.0,
+            "centered_volume": 1.0
+        }
+    },
+    "effect_segments": {
+        "id": "effects",
+        "segments": [
+            { "id": "chime", "filename": "click1.wav"}
+        ]
+    },
+    "monologue_segments": [
+    ],
+    "dialogue_segments": [
+    ],
+    "music_segments": [
+        {
+            "id": "sampler",
+            "head_id": "all",
+            "segments": [
+                { "head_id": "head_1", "filename": "head_1.wav" },
+                { "head_id": "head_2", "filename": "head_2.wav" },
+                { "head_id": "head_3", "filename": "head_3.wav" },
+                { "head_id": "head_4", "filename": "head_4.wav" },
+                { "head_id": "head_5", "filename": "head_5.wav" },
+                { "head_id": "head_6", "filename": "head_6.wav" }
+            ]
+        }
+    ],
+    "visualization_objects": [
+        {
+            "id": "fire_pit",
+            "type": "fire_pit",
+            "position": {
+                "x": 0,
+                "y": 0.55,
+                "z": 0
+            },
+            "orientation": 0,
+            "mesh": "../light_controller/mesh/fire_pit.obj",
+            "led_config": "../config/led_config_fire_pit.json",
+            "led_pattern_id": "0x0"
+        },
+        {
+            "id": "person_1",
+            "type": "person",
+            "position": {
+                "x": -2.5,
+                "y": 0.55,
+                "z": 4.33
+            },
+            "orientation": -50,
+            "mesh": "../light_controller/mesh/person.obj"
+        },
+        {
+            "id": "person_2",
+            "type": "person",
+            "position": {
+                "x": 2.5,
+                "y": 0.55,
+                "z": -4.33
+            },
+            "orientation": 330,
+            "mesh": "../light_controller/mesh/person.obj"
+        },
+        {
+            "id": "person_3",
+            "type": "person",
+            "position": {
+                "x": -5.0,
+                "y": 0.55,
+                "z": 0
+            },
+            "orientation": 90,
+            "mesh": "../light_controller/mesh/person.obj"
+        },
+        {
+            "id": "person_4",
+            "type": "person",
+            "position": {
+                "x": 0,
+                "y": 0.55,
+                "z": 0
+            },
+            "orientation": 15,
+            "mesh": "../light_controller/mesh/person.obj"
+        }
+    ]
+}
