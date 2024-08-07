@@ -3,6 +3,7 @@ import functools
 import logging
 import struct
 import sys
+import traceback
 
 
 class OpenPixelControlConnection:
@@ -135,7 +136,7 @@ class OpenPixelControlProtocol(asyncio.Protocol):
 
     async def serve(self):
         while True:
-            results = await asyncio.shield(self.generator.result)
+            results = await asyncio.shield(self.generator.results())
             for object_id, result in results.items():
                 # Only push pixels for this objects
                 if object_id != self.object_id:

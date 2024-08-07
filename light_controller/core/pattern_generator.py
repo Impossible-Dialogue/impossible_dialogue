@@ -61,9 +61,6 @@ class PatternGenerator:
     def results(self):
         return self._results
 
-    def results(self):
-        return self._results
-
     def update_head_patterns(self):
         for generator in self._head_generators:
             head_id = generator.head_id()
