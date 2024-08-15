@@ -110,8 +110,8 @@
             "orientation": 30,
             "orientation_ws_url": "ws://10.10.3.15:7891",
             "orientation_topic": "imu/head_orientation",
-            "mesh": "../light_controller/mesh/head_design1.obj",
-            "led_config": "../config/design1/led_config.json",
+            "mesh": "../light_controller/mesh/head_design5.obj",
+            "led_config": "../config/design5/led_config.json",
             "led_pattern_id": "4x3",
             "audio_config": {
                 "language_code": "en-US",
