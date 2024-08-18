@@ -154,7 +154,7 @@
     ],
     "sound_config": {
         "output": {
-            "multiplex": true,
+            "multiplex": false,
             "queue_size": 50
         },
         "mode": "SPEECH",
