@@ -18,6 +18,8 @@ _max_pause_length = 5
 
 class HeadSoundGenerator:
     def __init__(self, head_config, output_stream):
+        if not output_stream: 
+            logging.error("output_stream invalid")
         self._head_config = head_config
         self._output_stream = output_stream
         self._channel_mixer = TwoChannelMixer(output_stream)
