@@ -51,9 +51,7 @@ function HeadManager(editor) {
     }
 
     signals.refreshSidebarObject3D.add(function (object) {
-
-        if (object !== editor.selected) return;
-
+        // if (object !== editor.selected) return;
         var head = heads.get(object.name);
         if (head !== undefined) {
             const quaternion = new THREE.Quaternion();
@@ -75,7 +73,7 @@ function HeadManager(editor) {
     });
 
     // Start offering head state messages
-    function startWebSocketForHeadStateMessages() {
+    function startWebSocketForSettingHeadState() {
         var ws = new WebSocket("ws://" + window.location.hostname + ":7892/");
         function onHeadChanged(head) {
             const event = {
@@ -100,15 +98,46 @@ function HeadManager(editor) {
             console.log('Head state WebSocket is closed. Reconnect will be attempted in 1 second.', event.reason);
             signals.headChanged.remove(onHeadChanged);
             setTimeout(function () {
-                startWebSocketForHeadStateMessages();
+                startWebSocketForSettingHeadState();
             }, 1000);
         };
         ws.onerror = function (err) {
             ws.close();
         };
     }
-    startWebSocketForHeadStateMessages();
+    // startWebSocketForSettingHeadState();
 
+
+    // Start receiving head state messages
+    function startWebSocketForReceivingHeadState() {
+        var ws = new WebSocket("ws://" + window.location.hostname + ":7891/");
+        const intervalid = setInterval(function () {
+            ws.send("installation_state");
+        }, 100);
+
+        ws.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+            for (const head_state of data.head_states) {
+                signals.updateHeadState.dispatch(head_state);
+            }
+        };
+        ws.onopen = function (event) {
+            console.log('Heads state WebSocket opened.', event.reason);
+        };
+        ws.onclose = function (event) {
+            console.log('Head state WebSocket is closed. Reconnect will be attempted in 1 second.', event.reason);
+            clearInterval(intervalid);
+            setTimeout(function () {
+                startWebSocketForReceivingHeadState();
+            }, 1000);
+        };
+        ws.onerror = function (err) {
+            console.log('Head state WebSocket error:', err);
+            ws.close();
+        };
+
+    }
+    startWebSocketForReceivingHeadState();
 
     function toJSON() {
         const output = {};

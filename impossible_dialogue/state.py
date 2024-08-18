@@ -1,3 +1,4 @@
+import json
 import time
 
 class HeadState:
@@ -10,6 +11,13 @@ class HeadState:
         self._orientation = config["orientation"]
         self._last_udpate = None
 
+    def to_dict(self):
+        data = {}
+        data["id"] = self._id
+        data["orientation"] = self._orientation
+        data["last_udpate"] = self._last_udpate
+        return data
+    
     def is_centered(self):
         return self._orientation <= 20 and self._orientation > -20
 
@@ -33,6 +41,14 @@ class InstallationState:
             id = head_config["id"]
             head_states[id] = HeadState(head_config)
         return head_states
+
+    def to_dict(self):
+        data = {}
+        data["head_states"] = [state.to_dict() for state in self._head_states.values()]
+        return data
+    
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
     def last_update(self):
         return self._last_udpate

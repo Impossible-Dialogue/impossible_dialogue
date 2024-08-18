@@ -54,7 +54,16 @@ function SidebarLoadConfig( editor) {
         );
     });
 
-    
+    signals.updateHeadState.add(function (head_state) {
+        const object_id = head_state.id;
+        const orientation = head_state.orientation;
+        const newRotation = new THREE.Euler(
+            0, orientation * THREE.MathUtils.DEG2RAD, 0);
+        let object = sceneObjects.get(object_id);
+        object.rotation.copy(newRotation);
+        object.updateMatrixWorld(true);
+        signals.refreshSidebarObject3D.dispatch(object);
+    });
 
     // Create a 3D object based on the config.
     function createObject(object_config) {

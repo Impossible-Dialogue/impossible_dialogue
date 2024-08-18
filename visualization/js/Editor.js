@@ -29,6 +29,7 @@ function Editor() {
 
         addHead: new Signal(),
         headChanged: new Signal(),
+		updateHeadState: new Signal(),
 
         // launchpad
 

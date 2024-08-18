@@ -66,6 +66,7 @@ async def poll_orientation(url, topic, state, head_id, poll_interval=0.1, reconn
                 else:
                     set_value(f"{head_id}/orientation", 0)
                     state.set_head_orientation(head_id, 0)
+                set_value("installation_state", state.to_json())
             except Exception as exc:
                 logging.error(f'Websocket Error: {exc}')
             await asyncio.sleep(poll_interval)
