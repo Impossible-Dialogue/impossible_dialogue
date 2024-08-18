@@ -46,8 +46,8 @@ class StateUpdater:
         for head_config in self._config["heads"]:
             id = head_config["id"]
             tasks.append(asyncio.create_task(self._poll_orientation(
-                url=head_config["orientation_ws_url"], 
-                topic=head_config["orientation_topic"],
+                url="ws://localhost:7891",
+                topic=f"{id}/orientation",
                 state=self._state,
                 head_id=id)))
         await asyncio.gather(
