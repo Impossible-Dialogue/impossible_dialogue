@@ -1,10 +1,16 @@
 from opclib import opc
 import time
 
-ADDRESS = '10.10.3.15:7890'
+HEAD_1_ADDRESS = '10.10.3.15:7890'
+HEAD_2_ADDRESS = '10.10.3.12:7890'
+HEAD_3_ADDRESS = '10.10.3.13:7890'
+HEAD_4_ADDRESS = '10.10.3.14:7890'
+HEAD_5_ADDRESS = '10.10.3.16:7890'
+HEAD_6_ADDRESS = '10.10.3.10:7890'
+FIRE_PIT_ADDRESS = '10.10.3.11:7890'
 
 # Create a client object
-client = opc.Client(ADDRESS)
+client = opc.Client(FIRE_PIT_ADDRESS)
 
 # Test if it can connect (optional)
 if client.can_connect():
