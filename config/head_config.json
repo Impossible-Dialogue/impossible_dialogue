@@ -33,7 +33,7 @@
                 "z": 4.33
             },
             "orientation": 210,
-            "orientation_ws_url": "ws://10.10.3.11:7891",
+            "orientation_ws_url": "ws://10.10.3.12:7891",
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design2.obj",
             "led_config": "../config/design2/led_config.json",
@@ -46,7 +46,7 @@
                 "volume_gain_db": 0.0
             },
             "opc": {
-                "server_ip": "10.10.3.11",
+                "server_ip": "10.10.3.12",
                 "server_port": 7890
             }
         },
@@ -108,7 +108,7 @@
                 "z": -4.33
             },
             "orientation": 30,
-            "orientation_ws_url": "ws://10.10.3.12:7891",
+            "orientation_ws_url": "ws://10.10.3.16:7891",
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design5.obj",
             "led_config": "../config/design5/led_config.json",
@@ -121,7 +121,7 @@
                 "volume_gain_db": 0.0
             },
             "opc": {
-                "server_ip": "10.10.3.12",
+                "server_ip": "10.10.3.16",
                 "server_port": 7890
             }
         },
@@ -133,7 +133,7 @@
                 "z": 0
             },
             "orientation": 90,
-            "orientation_ws_url": "ws://10.10.3.16:7891",
+            "orientation_ws_url": "ws://10.10.3.10:7891",
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design6.obj",
             "led_config": "../config/design6/led_config.json",
@@ -158,10 +158,10 @@
             "queue_size": 50
         },
         "mode": "SPEECH",
-        "center_fading": true,
+        "center_fading": false,
         "speech_config": {
-            "monologue_volume": 0.2,
-            "dialogue_volume": 1.0
+            "monologue_volume": 0.1,
+            "dialogue_volume": 0.2
         }
     },
     "light_config": {
@@ -199,7 +199,7 @@
     "effect_segments": {
         "id": "effects",
         "segments": [
-            { "id": "chime", "filename": "click1.wav"}
+            { "id": "chime", "filename": "chimes.wav"}
         ]
     },
     "monologue_segments": [
