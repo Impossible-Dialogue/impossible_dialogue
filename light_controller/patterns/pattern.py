@@ -28,7 +28,7 @@ class Pattern:
 
     def prepareSegments(self, led_config):
         for s in led_config['led_segments']:
-            if self.params.use_polygon_centers:
+            if self.params.use_polygon_centers and 'polygon_centers' in s:
                 segment = Segment(s['uid'], s['polygon_centers'], color_repeats=s['num_points_in_polygons'])
             else:
                 segment = Segment(s['uid'], s['led_positions'])

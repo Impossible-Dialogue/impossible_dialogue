@@ -10,7 +10,7 @@ import uvloop
 from core.opc import OpenPixelControlConnection
 from core.pattern_generator import PatternGenerator
 from core.websockets import LightControllerWebSocketsServer
-from impossible_dialogue.config import HeadConfigs
+from impossible_dialogue.config import HeadConfigs, FirePitConfig
 from impossible_dialogue.state import InstallationState
 from impossible_dialogue.state_updater import StateUpdater
 
@@ -40,6 +40,7 @@ async def main():
 
     config = json.load(args.config)
     head_configs = HeadConfigs(config["heads"])
+    fire_pit_config = FirePitConfig(config["fire_pit"])
     state = InstallationState(config)
 
     tasks = []
@@ -56,7 +57,8 @@ async def main():
     ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
     tasks.append(ws.run())
   
-    opc = OpenPixelControlConnection(pattern_generator, head_configs)
+    opc = OpenPixelControlConnection(
+        pattern_generator, head_configs, fire_pit_config)
     tasks.append(opc.run())
 
     # Wait forever

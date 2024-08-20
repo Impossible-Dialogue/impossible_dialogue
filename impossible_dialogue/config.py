@@ -70,6 +70,13 @@ class AudioConfigConfig:
         self.pitch = config["pitch"]
         self.volume_gain_db = config["volume_gain_db"]
 
+class FirePitConfig:
+    def __init__(self, config):
+        self.id = config["id"]
+        self.led_config = config.get("led_config", "")
+        self.led_pattern_id = config.get("led_pattern_id", "")
+        if "opc" in config:
+            self.opc = OpcConfig(config["opc"])
 
 class HeadConfig:
     def __init__(self, config):

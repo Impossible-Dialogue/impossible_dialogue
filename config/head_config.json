@@ -152,6 +152,21 @@
         }
         
     ],
+    "fire_pit": {
+        "id": "fire_pit",
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "mesh": "../light_controller/mesh/head_design1.obj",
+        "led_config": "../config/fire_pit/led_config.json",
+        "led_pattern_id": "0x0",
+        "opc": {
+            "server_ip": "10.10.3.11",
+            "server_port": 7890
+        }
+    },
     "sound_config": {
         "output": {
             "multiplex": false,

@@ -5,7 +5,7 @@ import logging
 import time
 
 from core.head_pattern_generator import HeadPatternGenerator
-from impossible_dialogue.config import HeadConfigs, LightConfig
+from impossible_dialogue.config import HeadConfigs, LightConfig, FirePitConfig
 from patterns.pattern_config import PATTERNS
 
 _INITIALIZING = "INITIALIZING"
@@ -25,6 +25,7 @@ class PatternGenerator:
         self._args = args
         self._results = asyncio.Future()
         self._head_configs = HeadConfigs(config["heads"])
+        self._fire_pit_config = FirePitConfig(config["fire_pit"])
         self._light_config = LightConfig(config["light_config"])
         self._generation_time_delta = 1.0 / args.animation_rate
         self._cur_generation_time = time.time()
@@ -39,6 +40,7 @@ class PatternGenerator:
         for i, head_config in enumerate(self._head_configs.heads.values()):
             generator = HeadPatternGenerator(head_config, args)
             self._head_generators.append(generator)
+        self._fire_pit_generator = HeadPatternGenerator(self._fire_pit_config, args)
 
         self._LOG_RATE = 1.0
 
@@ -52,6 +54,10 @@ class PatternGenerator:
             head_id = generator.head_id()
             segments = await generator.loop(self._iteration, self._generation_time_delta) 
             results[head_id] = self.Results(head_id, segments)
+        
+        fire_pit_id = self._fire_pit_config.id
+        segments = await self._fire_pit_generator.loop(self._iteration, self._generation_time_delta)
+        results[fire_pit_id] = self.Results(fire_pit_id, segments)
 
         # Update results future for processing by IO
         self._results.set_result(results)
@@ -144,6 +150,7 @@ class PatternGenerator:
     async def run(self):
         for generator in self._head_generators:
             await generator.initialize()
+        await self._fire_pit_generator.initialize()
 
         while (True):
             await self.loop()
