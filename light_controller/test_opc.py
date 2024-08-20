@@ -1,7 +1,7 @@
 from opclib import opc
 import time
 
-ADDRESS = '192.168.86.50:7890'
+ADDRESS = '10.10.3.15:7890'
 
 # Create a client object
 client = opc.Client(ADDRESS)

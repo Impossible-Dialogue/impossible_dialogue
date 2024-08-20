@@ -129,7 +129,7 @@ async def main(** kwargs):
         asyncio.create_task(inputstream_generator(q_in4, 'media/sampler/head_4.wav')),
         asyncio.create_task(streammixer_generator(q_mix1, [q_in1, q_in2])),
         asyncio.create_task(streammixer_generator(q_mix2, [q_in3, q_in4])),
-        asyncio.create_task(outputstream_generator(q_mix1, None)),
+        asyncio.create_task(outputstream_generator(q_mix1, 0)),
         # asyncio.create_task(outputstream_generator(q_mix2, 1))
     ]
     done, pending = await asyncio.wait(tasks, return_when=asyncio.ALL_COMPLETED)
