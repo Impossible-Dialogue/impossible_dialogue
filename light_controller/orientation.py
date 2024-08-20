@@ -2,16 +2,25 @@
 import asyncio
 from websockets.sync.client import connect
 import time
+import sys
 
-HEAD_1_ADDRESS = '10.10.3.15:7891'
-HEAD_2_ADDRESS = '10.10.3.12:7891'
-HEAD_3_ADDRESS = '10.10.3.13:7891'
-HEAD_4_ADDRESS = '10.10.3.14:7891'
-HEAD_5_ADDRESS = '10.10.3.16:7891'
-HEAD_6_ADDRESS = '10.10.3.10:7891'
+IP_ADDRESSES = {
+    '1': '10.10.3.15:7891',  # HEAD_1
+    '2': '10.10.3.12:7891',  # HEAD_2
+    '3': '10.10.3.13:7891',  # HEAD_3
+    '4': '10.10.3.14:7891',  # HEAD_4
+    '5': '10.10.3.16:7891',  # HEAD_5
+    '6': '10.10.3.10:7891',  # HEAD_6
+}
 
-def hello():
-    with connect("ws://" + HEAD_3_ADDRESS) as websocket:
+
+def main():
+    if len(sys.argv) > 1:
+        head_id = sys.argv[1]
+    else:
+        head_id = 1
+
+    with connect("ws://" + IP_ADDRESSES[head_id]) as websocket:
         while True:
             websocket.send("imu/orientation_x")
             message = websocket.recv()
@@ -49,7 +58,7 @@ def hello():
             message = websocket.recv()
             imu_timestamp = int(message)
 
-            print(f"t: {imu_timestamp}, x: {orientation_x}, y: {orientation_y}, z: {orientation_z}, head: {head_orientation}, sys: {calibration_sys}, mag: {calibration_mag}, gyro: {calibration_gyro}")
+            print(f"t: {imu_timestamp}, x: {orientation_x}, y: {orientation_y}, z: {orientation_z}, head: {head_orientation}, sys: {calibration_sys}, mag: {calibration_mag}, gyro: {calibration_gyro}, accel: {calibration_accel}")
             time.sleep(1/10.0)
 
-hello()
+main()
