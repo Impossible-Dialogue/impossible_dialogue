@@ -128,7 +128,6 @@ class SoundGenerator:
                 volume = value * (180.0 - abs(head_state.orientation())) / 180.0
             else:
                 volume = value
-            print
             generator.set_volume_main(volume)
 
     def set_volume_effect(self, value):

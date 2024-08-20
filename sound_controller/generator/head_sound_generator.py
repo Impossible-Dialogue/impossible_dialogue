@@ -44,9 +44,11 @@ class HeadSoundGenerator:
                 return next_segment_index
 
     def set_volume_main(self, value):
+        logging.debug(f"Setting main volume of {self.head_id()} to {value}")
         self._channel_mixer.set_volume1(value)
     
     def set_volume_effect(self, value):
+        logging.debug(f"Setting effect volume of {self.head_id()} to {value}")
         self._channel_mixer.set_volume2(value)
 
     def to_dict(self):

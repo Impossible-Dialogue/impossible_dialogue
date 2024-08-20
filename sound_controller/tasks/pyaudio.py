@@ -50,13 +50,13 @@ async def pyaudio_output_stereo(input_stream1, input_stream2, device_index=None,
     def callback(in_data, frame_count, time_info, status):
         assert frame_count == blocksize
         try:
-           
             data1 = input_stream1.get_nowait()
             data2 = input_stream2.get_nowait()
-            data1[:,1] = data2[:,0]
-            data = data1
+            data = np.ndarray((blocksize, channels), dtype=dtype)
+            data[:,0] = data1[:,0]
+            data[:,1] = data2[:,0]
         except asyncio.QueueEmpty:
-            # logging.info('Buffer is empty: increase buffersize?')
+            logging.debug('Buffer is empty: increase buffersize?')
             data = np.zeros((blocksize, channels), dtype=dtype)
         except Exception as e:
             print(traceback.format_exc())
