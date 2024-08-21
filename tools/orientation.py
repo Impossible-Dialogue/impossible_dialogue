@@ -18,7 +18,7 @@ def main():
     if len(sys.argv) > 1:
         head_id = sys.argv[1]
     else:
-        head_id = 1
+        head_id = "1"
 
     with connect("ws://" + IP_ADDRESSES[head_id]) as websocket:
         while True:
