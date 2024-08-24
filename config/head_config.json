@@ -15,7 +15,7 @@
             "led_pattern_id": "0x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-B",
+                "voice_name": "en-US-Standard-I",
                 "speaking_rate": 0.7,
                 "pitch": -10.0,
                 "volume_gain_db": 0.0
@@ -40,9 +40,9 @@
             "led_pattern_id": "1x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-I",
+                "voice_name": "en-US-Standard-C",
                 "speaking_rate": 0.7,
-                "pitch": -10.0,
+                "pitch": 10.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -65,9 +65,9 @@
             "led_pattern_id": "2x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-H",
+                "voice_name": "en-US-Standard-D",
                 "speaking_rate": 0.7,
-                "pitch": -5.0,
+                "pitch": -20.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -115,10 +115,11 @@
             "led_pattern_id": "4x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-D",
+                "voice_name": "en-US-Standard-H",
                 "speaking_rate": 0.7,
-                "pitch": -20.0,
-                "volume_gain_db": 0.0
+                "pitch": 0.0,
+                "volume_gain_db": 0.0,
+                "effect": "robotic"
             },
             "opc": {
                 "server_ip": "10.10.3.16",
@@ -140,9 +141,9 @@
             "led_pattern_id": "5x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-C",
+                "voice_name": "en-US-Standard-B",
                 "speaking_rate": 0.7,
-                "pitch": 10.0,
+                "pitch": -10.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -555,7 +556,7 @@
                 { "head_id": "head_5", "text" : "I used to feel that way too" },
                 { "head_id": "head_5", "text" : "But then I started seeing moments of kindness and connection that changed my perspective." },
                 { "head_id": "head_3", "text" : "how do you stay positive amidst all this?" },
-                { "head_id": "head_4", "text" : "It's not about ignoring the bad, but finding strength in the good, George." },
+                { "head_id": "head_4", "text" : "It's not about ignoring the bad, but finding strength in the good." },
                 { "head_id": "head_6", "text" : "But what if there's more bad than good?" },
                 { "head_id": "head_1", "text" : "It can feel overwhelming" },
                 { "head_id": "head_1", "text" : "But even in darkness, there are sparks of light if we look closely." },
@@ -908,7 +909,7 @@
                 { "head_id": "head_5", "text" : "This will be my fifth passage, and each year I am reborn." },																									
                 { "head_id": "head_3", "text" : "I must confess, I harbor reservations" },																									
                 { "head_id": "head_3", "text" : "Is it not simply an extravagant festivity in the desert?" },																									
-                { "head_id": "head_4", "text" : "Ah, but it is so much more, Sam" },																									
+                { "head_id": "head_4", "text" : "Ah, but it is so much more" },																									
                 { "head_id": "head_4", "text" : "It is an alchemical marriage of art and community" },																									
                 { "head_id": "head_4", "text" : "The creations that rise from the playa are manifestations of collective dreams and individual genius." },																									
                 { "head_id": "head_6", "text" : "Practicalities must not be overlooked, my friends" },																									
@@ -918,7 +919,7 @@
                 { "head_id": "head_1", "text" : "In this environment, one finds both solitude and connection, a paradox that is as old as time itself." },																									
                 { "head_id": "head_2", "text" : "The principle of radical self-reliance speaks to my core" },																									
                 { "head_id": "head_2", "text" : "What wisdom can you impart to a novice such as myself?" },																									
-                { "head_id": "head_5", "text" : "Expect the unexpected, Alex" },																									
+                { "head_id": "head_5", "text" : "Expect the unexpected" },																									
                 { "head_id": "head_5", "text" : "Embrace serendipity" },																									
                 { "head_id": "head_5", "text" : "Open yourself to encounters that will expand your consciousness" },																									
                 { "head_id": "head_5", "text" : "The community is a mosaic of humanity, each individual a vibrant tile." },																									
@@ -943,7 +944,7 @@
                 { "head_id": "head_4", "text" : "It is an economy of the heart, where the currency is not measured in material wealth but in the richness of spirit." },																									
                 { "head_id": "head_3", "text" : "I see now the depth of this experience" },																									
                 { "head_id": "head_3", "text" : "It is not a transaction but a transformation." },																									
-                { "head_id": "head_6", "text" : "Indeed, Sam" },																									
+                { "head_id": "head_6", "text" : "Indeed" },																									
                 { "head_id": "head_6", "text" : "Prepare for the unknown with a flexible mind and a resilient spirit" },																									
                 { "head_id": "head_6", "text" : "The desert will test you, but it will also reveal your hidden strengths." },																									
                 { "head_id": "head_1", "text" : "And amidst the trials, there will be moments of sublime beauty" },																									
@@ -958,12 +959,12 @@
                 { "head_id": "head_5", "text" : "Let us create a world anew." },																									
                 { "head_id": "head_2", "text" : "The anticipation is palpable, as if we stand on the cusp of a profound revelation" },																									
                 { "head_id": "head_2", "text" : "My heart races with excitement for what lies ahead at Burning Man." },																									
-                { "head_id": "head_5", "text" : "Indeed, Alex" },																									
+                { "head_id": "head_5", "text" : "Indeed" },																									
                 { "head_id": "head_5", "text" : "Burning Man is not just an event; it is a crucible of creativity and community" },																									
                 { "head_id": "head_5", "text" : "Each year, we gather in the desert to forge connections, to explore the boundaries of expression, and to celebrate the human spirit in its myriad forms." },																									
                 { "head_id": "head_3", "text" : "I admit, I am still grappling with the concept" },																									
                 { "head_id": "head_3", "text" : "How does one prepare for such an immersive experience?" },																									
-                { "head_id": "head_4", "text" : "Preparation is both practical and spiritual, Sam" },																									
+                { "head_id": "head_4", "text" : "Preparation is both practical and spiritual" },																									
                 { "head_id": "head_4", "text" : "It starts with acknowledging the harsh beauty of the desert environment" },																									
                 { "head_id": "head_4", "text" : "Pack wisely, bring essentials, but also open your mind to the unexpected" },																									
                 { "head_id": "head_4", "text" : "Burning Man is a journey of discovery, where spontaneity and planning coalesce." },																									
@@ -979,7 +980,7 @@
                 { "head_id": "head_5", "text" : "Whether it's sharing art, food, or a kind gesture, gifts create a reciprocal exchange of spirit" },																									
                 { "head_id": "head_5", "text" : "It fosters connections that transcend materialism, binding us together in a tapestry of goodwill." },																									
                 { "head_id": "head_3", "text" : "It sounds like a utopian ideal, yet I sense there's more to it than meets the eye." },																									
-                { "head_id": "head_4", "text" : "Absolutely, Sam" },																									
+                { "head_id": "head_4", "text" : "Absolutely" },																									
                 { "head_id": "head_4", "text" : "Beneath the surface of revelry lies a profound introspection" },																									
                 { "head_id": "head_4", "text" : "The Temple, for instance, stands as a testament to our collective sorrows and hopes" },																									
                 { "head_id": "head_4", "text" : "It is a space for reflection, healing, and release—a poignant reminder of our shared humanity." },																									
@@ -1130,10 +1131,10 @@
                 { "head_id": "head_4", "text" : "It's a human construct, is it not? To impose order on chaos, to find a center in a vast, indifferent cosmos." },																									
                 { "head_id": "head_6", "text" : "Perhaps the center is not a physical location but a state of being" },																									
                 { "head_id": "head_6", "text" : "When we align ourselves with the universe, we become the center, feeling connected to all." },																									
-                { "head_id": "head_1", "text" : "What a beautiful notion, Luna" },																									
+                { "head_id": "head_1", "text" : "What a beautiful notion" },																									
                 { "head_id": "head_1", "text" : "As a bard, I find the center in stories, in the shared experiences that bind us" },																									
                 { "head_id": "head_1", "text" : "Each tale is a thread in the tapestry of existence." },																									
-                { "head_id": "head_2", "text" : "Indeed, Zenith" },																									
+                { "head_id": "head_2", "text" : "Indeed" },																									
                 { "head_id": "head_2", "text" : "The center may be found in the connections we make, the love we share" },																									
                 { "head_id": "head_2", "text" : "In the heart of each being lies a universe, a microcosm of the whole." },																									
                 { "head_id": "head_5", "text" : "While poetic, we must not disregard empirical evidence" },																									
@@ -1161,14 +1162,14 @@
                 { "head_id": "head_1", "text" : "And so, we wander, we wonder, we weave our tales" },																									
                 { "head_id": "head_1", "text" : "Each step, each thought, bringing us closer to the elusive center, the heart of the universe within us all." },																									
                 { "head_id": "head_2", "text" : "Let us hold this dialogue in our hearts, friends, as we continue our journey through the cosmos, each of us a star in the constellation of existence." },																									
-                { "head_id": "head_5", "text" : "If the center is a paradox, as Thaddeus suggests, how do we reconcile our scientific understanding with our need for meaning?" },																									
+                { "head_id": "head_5", "text" : "If the center is a paradox how do we reconcile our scientific understanding with our need for meaning?" },																									
                 { "head_id": "head_2", "text" : "Reconciliation comes through integration" },																									
                 { "head_id": "head_2", "text" : "We must allow both the empirical and the mystical to inform our worldview" },																									
                 { "head_id": "head_2", "text" : "They are not mutually exclusive but complementary." },																									
                 { "head_id": "head_3", "text" : "In art, this integration is natural" },																									
                 { "head_id": "head_3", "text" : "A sculpture, a song, they blend the tangible with the intangible, creating a holistic experience." },																									
                 { "head_id": "head_4", "text" : "But isn't this blending just another form of escapism? To ignore the harsh truths of reality in favor of comforting illusions?" },																									
-                { "head_id": "head_6", "text" : "Not escapism, Thaddeus" },																									
+                { "head_id": "head_6", "text" : "Not escapism" },																									
                 { "head_id": "head_6", "text" : "Transcendence" },																									
                 { "head_id": "head_6", "text" : "We are more than our physical forms; our spirit seeks to rise above the mundane, to touch the divine." },																									
                 { "head_id": "head_1", "text" : "Every story, every song, seeks to touch that divine essence" },																									
@@ -1202,7 +1203,7 @@
                 { "head_id": "head_5", "text" : "For in this embrace, we find the center, the heart of the universe, within and around us." },																									
                 { "head_id": "head_2", "text" : "And with this shared understanding, we shall move forward, each of us a light in the cosmos, illuminating the path for ourselves and others." }																									
             ]																									
-        }																									
+        }																								
     ],
     "music_segments": [],
     "visualization_objects": [
