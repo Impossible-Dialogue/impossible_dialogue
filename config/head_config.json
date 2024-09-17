@@ -12,10 +12,10 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design1.obj",
             "led_config": "../config/design1/led_config.json",
-            "led_pattern_id": "0x3",
+            "led_pattern_id": "1x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-B",
+                "voice_name": "en-US-Standard-I",
                 "speaking_rate": 0.7,
                 "pitch": -10.0,
                 "volume_gain_db": 0.0
@@ -37,12 +37,12 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design2.obj",
             "led_config": "../config/design2/led_config.json",
-            "led_pattern_id": "1x3",
+            "led_pattern_id": "2x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-I",
+                "voice_name": "en-US-Standard-C",
                 "speaking_rate": 0.7,
-                "pitch": -10.0,
+                "pitch": 10.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -62,12 +62,12 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design3.obj",
             "led_config": "../config/design3/led_config.json",
-            "led_pattern_id": "2x3",
+            "led_pattern_id": "3x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-H",
+                "voice_name": "en-US-Standard-D",
                 "speaking_rate": 0.7,
-                "pitch": -5.0,
+                "pitch": -20.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -87,7 +87,7 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design4.obj",
             "led_config": "../config/design4/led_config.json",
-            "led_pattern_id": "3x3",
+            "led_pattern_id": "4x3",
             "audio_config": {
                 "language_code": "en-US",
                 "voice_name": "en-US-Standard-G",
@@ -112,13 +112,14 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design5.obj",
             "led_config": "../config/design5/led_config.json",
-            "led_pattern_id": "4x3",
+            "led_pattern_id": "5x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-D",
+                "voice_name": "en-US-Standard-H",
                 "speaking_rate": 0.7,
-                "pitch": -20.0,
-                "volume_gain_db": 0.0
+                "pitch": 0.0,
+                "volume_gain_db": 0.0,
+                "effect": "robotic"
             },
             "opc": {
                 "server_ip": "10.10.3.16",
@@ -137,12 +138,12 @@
             "orientation_topic": "imu/head_orientation",
             "mesh": "../light_controller/mesh/head_design6.obj",
             "led_config": "../config/design6/led_config.json",
-            "led_pattern_id": "5x3",
+            "led_pattern_id": "6x3",
             "audio_config": {
                 "language_code": "en-US",
-                "voice_name": "en-US-Standard-C",
+                "voice_name": "en-US-Standard-B",
                 "speaking_rate": 0.7,
-                "pitch": 10.0,
+                "pitch": -10.0,
                 "volume_gain_db": 0.0
             },
             "opc": {
@@ -159,7 +160,8 @@
             "y": 0,
             "z": 0
         },
-        "mesh": "../light_controller/mesh/head_design1.obj",
+        "orientation": 0,
+        "mesh": "../light_controller/mesh/fire_pit.obj",
         "led_config": "../config/fire_pit/led_config.json",
         "led_pattern_id": "0x0",
         "opc": {
@@ -175,28 +177,28 @@
         "mode": "SPEECH",
         "center_fading": false,
         "speech_config": {
-            "monologue_volume": 0.1,
-            "dialogue_volume": 0.2
+            "monologue_volume": 0.9,
+            "dialogue_volume": 1.0
         }
     },
     "light_config": {
         "not_centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
-                { "head_id": "head_2", "pattern_id": "4x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
-                { "head_id": "head_3", "pattern_id": "5x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
-                { "head_id": "head_4", "pattern_id": "3x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
-                { "head_id": "head_5", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_1", "pattern_id": "1x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_2", "pattern_id": "2x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_3", "pattern_id": "3x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_4", "pattern_id": "4x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
+                { "head_id": "head_5", "pattern_id": "5x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] },
                 { "head_id": "head_6", "pattern_id": "6x3", "effect_pattern_ids": ["1x7"], "brightness_pattern_ids": ["6x7"] }
             ]
         },
         "centered": {
             "patterns": [
-                { "head_id": "head_1", "pattern_id": "0x3", "brightness_pattern_ids": ["5x7"] },
-                { "head_id": "head_2", "pattern_id": "4x3", "brightness_pattern_ids": ["5x7"] },
-                { "head_id": "head_3", "pattern_id": "5x3", "brightness_pattern_ids": ["5x7"] },
-                { "head_id": "head_4", "pattern_id": "3x3", "brightness_pattern_ids": ["5x7"] },
-                { "head_id": "head_5", "pattern_id": "1x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_1", "pattern_id": "1x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_2", "pattern_id": "2x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_3", "pattern_id": "3x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_4", "pattern_id": "4x3", "brightness_pattern_ids": ["5x7"] },
+                { "head_id": "head_5", "pattern_id": "5x3", "brightness_pattern_ids": ["5x7"] },
                 { "head_id": "head_6", "pattern_id": "6x3", "brightness_pattern_ids": ["5x7"] }
             ]
         },
@@ -214,7 +216,7 @@
     "effect_segments": {
         "id": "effects",
         "segments": [
-            { "id": "chime", "filename": "chimes.wav"}
+            { "id": "chime", "filename": "effects/chimes.wav"}
         ]
     },
     "monologue_segments": [
@@ -222,6 +224,10 @@
             "id": "self",
             "head_id": "all",
             "segments": [
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "A subject that lies at the heart of our journey, our pilgrimage into the unknown - the self" },																									
                 { "text" : "This enigmatic entity, this ever-shifting shadow that dances at the edge of our consciousness, is both our greatest mystery and our most intimate companion." },																									
                 { "text" : "The self is not a static thing" },																									
@@ -235,6 +241,10 @@
                 { "text" : "No, it is a chorus of voices, a symphony of desires, fears, dreams, and doubts" },																									
                 { "text" : "It is the child who marveled at the world with wide-eyed wonder, the teenager who raged against the confines of conformity, the adult who seeks meaning in the mundane" },																									
                 { "text" : "It is all of these and more." },																									
+                { "text" : "Could you please turn the other heads? I am waiting to have a conversation with them." },		
+                { "text" : "I am waiting for the other heads to be ready for having a conversation." },		
+                { "text" : "I am now ready to discuss, could you please turn the other heads?" },		
+                { "text" : "You will probably need friends to help you align all the other heads toward their good direction." },		
                 { "text" : "As we walk the dusty paths of this temporary city, we encounter reflections of ourselves in others" },																									
                 { "text" : "In the eyes of a stranger, we see our own vulnerabilities" },																									
                 { "text" : "In the laughter of a friend, we hear echoes of our own joy" },																									
@@ -261,6 +271,10 @@
                 { "text" : "We are not fixed entities; we are beings in constant flux, growing and transforming with every heartbeat." },																									
                 { "text" : "As we gather around the fire, sharing stories and songs, we see that the self is also a storyteller" },																									
                 { "text" : "It weaves narratives from the fabric of our experiences, creating meaning from chaos, coherence from confusion" },																									
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },	
                 { "text" : "Our stories define us, and in telling them, we find connection, understanding, and sometimes, healing." },																									
                 { "text" : "In this shared space, we also recognize that the self is a seeker" },																									
                 { "text" : "It yearns for truth, for purpose, for a sense of belonging" },																									
@@ -283,6 +297,10 @@
             "id": "dust",
             "head_id": "all",
             "segments": [
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "Dust" },																									
                 { "text" : "It's a simple word, a collection of minute particles, barely perceptible to the naked eye, yet it holds a profound significance, a weight that transcends its physical lightness" },																									
                 { "text" : "In the context of Black Rock City, dust is not merely a nuisance or a byproduct of our desert home; it is an integral part of our shared experience, a silent witness to our collective journey." },																									
@@ -296,6 +314,10 @@
                 { "text" : "The city we build each year rises from the dust and returns to it, a cycle as ancient as time itself" },																									
                 { "text" : "In the dust, we confront the fleeting nature of our endeavors, the transient beauty of our creations" },																									
                 { "text" : "We are compelled to embrace the moment, to revel in the now, for we know that soon, it will all be gone, scattered to the winds, leaving only memories and a trace of dust in our hearts." },																									
+                { "text" : "Could you please turn the other heads? I am waiting to have a conversation with them." },		
+                { "text" : "I am waiting for the other heads to be ready for having a conversation." },		
+                { "text" : "I am now ready to discuss, could you please turn the other heads?" },		
+                { "text" : "You will probably need friends to help you align all the other heads toward their good direction." },		
                 { "text" : "And in this impermanence, there is freedom" },																									
                 { "text" : "The dust encourages us to shed our inhibitions, to cast off the shackles of convention and conformity" },																									
                 { "text" : "It invites us to dance wildly, to create boldly, to live authentically" },																									
@@ -312,6 +334,10 @@
                 { "text" : "It strips away the superficial, leaving only what is essential, what is true." },																									
                 { "text" : "So let us embrace the dust, for in it lies the essence of our experience, the heart of our journey" },																									
                 { "text" : "Let us honor its presence, for it is a teacher, a guide, a reminder of our shared humanity and our connection to the greater whole" },																									
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "In the dust, we find not only the reflection of our world but the essence of our souls" },																									
                 { "text" : "And in that essence, we discover the true meaning of our time together, the beauty of our fleeting existence, and the profound magic of the moment." },																									
                 { "text" : "In the dust, we also find community" },																									
@@ -326,6 +352,10 @@
                 { "text" : "And through this intimate relationship with the dust, we are reminded of our own fragility, our own impermanence" },																									
                 { "text" : "But in this fragility, we find strength" },																									
                 { "text" : "We find the courage to be vulnerable, to open our hearts to one another, to trust in the collective spirit of our community." },																									
+                { "text" : "Could you please turn the other heads? I am waiting to have a conversation with them." },		
+                { "text" : "I am waiting for the other heads to be ready for having a conversation." },		
+                { "text" : "I am now ready to discuss, could you please turn the other heads?" },		
+                { "text" : "You will probably need friends to help you align all the other heads toward their good direction." },		
                 { "text" : "The dust also challenges us to rethink our relationship with our environment" },																									
                 { "text" : "It forces us to adapt, to innovate, to find new ways to thrive in a harsh and unforgiving landscape" },																									
                 { "text" : "It is a catalyst for creativity, for ingenuity" },																									
@@ -351,6 +381,10 @@
             "id": "fire",
             "head_id": "all",
             "segments": [
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "Gather 'round as the sun dips below the horizon, casting its final golden hues upon this desert canvas" },
                 { "text" : "We stand on the edge of the night, and it's here, in this sacred space, that we pay homage to an ancient and elemental force- fire." },
                 { "text" : "Fire" },
@@ -372,6 +406,10 @@
                 { "text" : "It challenges us to embrace change, to understand that destruction is not an end, but a prelude to rebirth" },
                 { "text" : "From the ashes, new life emerges, stronger and more resilient" },
                 { "text" : "So too, must we rise from our own trials and tribulations, reborn and renewed." },
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "As we stand around this fire tonight, let us reflect on our own inner flames" },
                 { "text" : "What fuels us? What passions burn within us? What do we need to let go of, to burn away, in order to illuminate our path forward? Let this fire be a mirror, reflecting our innermost selves and our deepest truths." },
                 { "text" : "In the warmth of the flames, we find community" },
@@ -384,6 +422,10 @@
                 { "text" : "And so, as we stand here tonight, feeling the heat on our faces, let us delve deeper into the metaphor of fire" },
                 { "text" : "Fire is the original storyteller" },
                 { "text" : "Long before the written word, our ancestors gathered around communal fires, sharing myths, legends, and the tales of their days" },
+                { "text" : "Could you please turn the other heads? I am waiting to have a conversation with them." },		
+                { "text" : "I am waiting for the other heads to be ready for having a conversation." },		
+                { "text" : "I am now ready to discuss, could you please turn the other heads?" },		
+                { "text" : "You will probably need friends to help you align all the other heads toward their good direction." },		
                 { "text" : "In the flickering light, shadows danced upon cave walls, turning simple stone into living canvas" },
                 { "text" : "Stories sprang to life, knitting communities together with threads of shared experience and collective imagination." },
                 { "text" : "The flames have a way of pulling us into the present moment" },
@@ -407,6 +449,10 @@
                 { "text" : "But together, when we bring our individual flames into a collective blaze, we become a force of nature, capable of transforming the world around us." },
                 { "text" : "As the night deepens and the stars emerge, let us carry the spirit of this fire into our hearts" },
                 { "text" : "Let it fuel our creativity, our kindness, our courage" },
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									                
                 { "text" : "Let it remind us that, like the fire, we are agents of change, capable of both destruction and creation" },
                 { "text" : "And in this dance of opposites, we find the essence of our humanity." },
                 { "text" : "Burning Man is not just an event; it is an experiment in radical expression and communal effort" },
@@ -427,6 +473,10 @@
             "id": "self_expression",
             "head_id": "all",
             "segments": [
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "Self-expression, ah, it's a fundamental pillar of what it means to be human" },																									
                 { "text" : "We live in a world that's constantly trying to shape us, mold us, and sometimes, stifle us" },																									
                 { "text" : "But within each of us, there's a spark, a unique flame that yearns to dance, to burn brightly, to be seen and heard." },																									
@@ -436,6 +486,10 @@
                 { "text" : "Self-expression is not just about art or performance; it's about authenticity" },																									
                 { "text" : "It's about digging deep into your soul and bringing forth whatever you find there, without fear of judgment or ridicule" },																									
                 { "text" : "It's about honesty with oneself and with others" },																									
+                { "text" : "Could you please turn the other heads? I am waiting to have a conversation with them." },		
+                { "text" : "I am waiting for the other heads to be ready for having a conversation." },		
+                { "text" : "I am now ready to discuss, could you please turn the other heads?" },		
+                { "text" : "You will probably need friends to help you align all the other heads toward their good direction." },		
                 { "text" : "When you express yourself, you are saying, 'This is who I am" },																									
                 { "text" : "This is my truth.'" },																									
                 { "text" : "At Burning Man, you see it everywhere" },																									
@@ -447,6 +501,10 @@
                 { "text" : "It reminds us that we're all in this together, that we're all part of a larger, vibrant tapestry" },																									
                 { "text" : "Each thread, each person, contributes to the whole" },																									
                 { "text" : "And in this collective celebration of individuality, we find community" },																									
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									                
                 { "text" : "We find a place where we belong, just as we are." },																									
                 { "text" : "So, my friends, let us embrace our inner flames" },																									
                 { "text" : "Let us celebrate our differences and find joy in our shared humanity" },																									
@@ -474,6 +532,10 @@
                 { "text" : "But self-expression is not confined to monumental works of art" },																									
                 { "text" : "It's in the costumes, the performances, the music that fills the air" },																									
                 { "text" : "It’s in the way people greet each other with open arms, the spontaneous acts of kindness, and the unfiltered conversations that happen around the communal fires" },																									
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									                
                 { "text" : "Every gesture, every interaction, is an opportunity to express who you are and to connect with others on a profound level." },																									
                 { "text" : "We live in a world that often prizes conformity over creativity, consumption over creation" },																									
                 { "text" : "But Burning Man flips that script" },																									
@@ -495,6 +557,10 @@
             "id": "immediacy",
             "head_id": "all",
             "segments": [
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "You see, immediacy isn't just about the here and now—it's about breaking through the barriers of the ordinary" },
                 { "text" : "It's about that electric pulse when you realize the moment is alive, right now, pulsing through your veins" },
                 { "text" : "Immediacy is the raw heartbeat of experience, unfiltered and undiluted by the mundane constraints of everyday life." },
@@ -511,6 +577,10 @@
                 { "text" : "It’s the pulse that drives us to create, to explore, to challenge the boundaries of what is possible." },
                 { "text" : "As we gather here, under the vast expanse of the desert sky, let us embrace immediacy in all its exhilarating chaos" },
                 { "text" : "Let us surrender to the moment, to the unpredictable beauty that unfolds when we dare to live fully and authentically" },
+                { "text" : "Please turn me toward my sweet spot, I would like to have a conversation with everybody!" },	
+                { "text" : "I feel lonely and would like to make friends, could you please turn me until I am in a good spot?" },		
+                { "text" : "I am so bored talking to myself, could you please turn my direction?" },																									
+                { "text" : "I would like to have a conversation with the others, I need to find my right direction." },																									
                 { "text" : "For in the end, it is the fleeting moments of immediacy that define us, that remind us of our humanity and our capacity to thrive in the ever-changing tapestry of life." },
                 { "text" : "Immediacy is a revolution against the tyranny of routine, a rebellion against the mundane" },
                 { "text" : "It calls upon us to cast off the shackles of expectation and immerse ourselves fully in the vibrant tapestry of life unfolding around us" },
@@ -555,7 +625,7 @@
                 { "head_id": "head_5", "text" : "I used to feel that way too" },
                 { "head_id": "head_5", "text" : "But then I started seeing moments of kindness and connection that changed my perspective." },
                 { "head_id": "head_3", "text" : "how do you stay positive amidst all this?" },
-                { "head_id": "head_4", "text" : "It's not about ignoring the bad, but finding strength in the good, George." },
+                { "head_id": "head_4", "text" : "It's not about ignoring the bad, but finding strength in the good." },
                 { "head_id": "head_6", "text" : "But what if there's more bad than good?" },
                 { "head_id": "head_1", "text" : "It can feel overwhelming" },
                 { "head_id": "head_1", "text" : "But even in darkness, there are sparks of light if we look closely." },
@@ -908,7 +978,7 @@
                 { "head_id": "head_5", "text" : "This will be my fifth passage, and each year I am reborn." },																									
                 { "head_id": "head_3", "text" : "I must confess, I harbor reservations" },																									
                 { "head_id": "head_3", "text" : "Is it not simply an extravagant festivity in the desert?" },																									
-                { "head_id": "head_4", "text" : "Ah, but it is so much more, Sam" },																									
+                { "head_id": "head_4", "text" : "Ah, but it is so much more" },																									
                 { "head_id": "head_4", "text" : "It is an alchemical marriage of art and community" },																									
                 { "head_id": "head_4", "text" : "The creations that rise from the playa are manifestations of collective dreams and individual genius." },																									
                 { "head_id": "head_6", "text" : "Practicalities must not be overlooked, my friends" },																									
@@ -918,7 +988,7 @@
                 { "head_id": "head_1", "text" : "In this environment, one finds both solitude and connection, a paradox that is as old as time itself." },																									
                 { "head_id": "head_2", "text" : "The principle of radical self-reliance speaks to my core" },																									
                 { "head_id": "head_2", "text" : "What wisdom can you impart to a novice such as myself?" },																									
-                { "head_id": "head_5", "text" : "Expect the unexpected, Alex" },																									
+                { "head_id": "head_5", "text" : "Expect the unexpected" },																									
                 { "head_id": "head_5", "text" : "Embrace serendipity" },																									
                 { "head_id": "head_5", "text" : "Open yourself to encounters that will expand your consciousness" },																									
                 { "head_id": "head_5", "text" : "The community is a mosaic of humanity, each individual a vibrant tile." },																									
@@ -943,7 +1013,7 @@
                 { "head_id": "head_4", "text" : "It is an economy of the heart, where the currency is not measured in material wealth but in the richness of spirit." },																									
                 { "head_id": "head_3", "text" : "I see now the depth of this experience" },																									
                 { "head_id": "head_3", "text" : "It is not a transaction but a transformation." },																									
-                { "head_id": "head_6", "text" : "Indeed, Sam" },																									
+                { "head_id": "head_6", "text" : "Indeed" },																									
                 { "head_id": "head_6", "text" : "Prepare for the unknown with a flexible mind and a resilient spirit" },																									
                 { "head_id": "head_6", "text" : "The desert will test you, but it will also reveal your hidden strengths." },																									
                 { "head_id": "head_1", "text" : "And amidst the trials, there will be moments of sublime beauty" },																									
@@ -958,12 +1028,12 @@
                 { "head_id": "head_5", "text" : "Let us create a world anew." },																									
                 { "head_id": "head_2", "text" : "The anticipation is palpable, as if we stand on the cusp of a profound revelation" },																									
                 { "head_id": "head_2", "text" : "My heart races with excitement for what lies ahead at Burning Man." },																									
-                { "head_id": "head_5", "text" : "Indeed, Alex" },																									
+                { "head_id": "head_5", "text" : "Indeed" },																									
                 { "head_id": "head_5", "text" : "Burning Man is not just an event; it is a crucible of creativity and community" },																									
                 { "head_id": "head_5", "text" : "Each year, we gather in the desert to forge connections, to explore the boundaries of expression, and to celebrate the human spirit in its myriad forms." },																									
                 { "head_id": "head_3", "text" : "I admit, I am still grappling with the concept" },																									
                 { "head_id": "head_3", "text" : "How does one prepare for such an immersive experience?" },																									
-                { "head_id": "head_4", "text" : "Preparation is both practical and spiritual, Sam" },																									
+                { "head_id": "head_4", "text" : "Preparation is both practical and spiritual" },																									
                 { "head_id": "head_4", "text" : "It starts with acknowledging the harsh beauty of the desert environment" },																									
                 { "head_id": "head_4", "text" : "Pack wisely, bring essentials, but also open your mind to the unexpected" },																									
                 { "head_id": "head_4", "text" : "Burning Man is a journey of discovery, where spontaneity and planning coalesce." },																									
@@ -979,7 +1049,7 @@
                 { "head_id": "head_5", "text" : "Whether it's sharing art, food, or a kind gesture, gifts create a reciprocal exchange of spirit" },																									
                 { "head_id": "head_5", "text" : "It fosters connections that transcend materialism, binding us together in a tapestry of goodwill." },																									
                 { "head_id": "head_3", "text" : "It sounds like a utopian ideal, yet I sense there's more to it than meets the eye." },																									
-                { "head_id": "head_4", "text" : "Absolutely, Sam" },																									
+                { "head_id": "head_4", "text" : "Absolutely" },																									
                 { "head_id": "head_4", "text" : "Beneath the surface of revelry lies a profound introspection" },																									
                 { "head_id": "head_4", "text" : "The Temple, for instance, stands as a testament to our collective sorrows and hopes" },																									
                 { "head_id": "head_4", "text" : "It is a space for reflection, healing, and release—a poignant reminder of our shared humanity." },																									
@@ -1130,10 +1200,10 @@
                 { "head_id": "head_4", "text" : "It's a human construct, is it not? To impose order on chaos, to find a center in a vast, indifferent cosmos." },																									
                 { "head_id": "head_6", "text" : "Perhaps the center is not a physical location but a state of being" },																									
                 { "head_id": "head_6", "text" : "When we align ourselves with the universe, we become the center, feeling connected to all." },																									
-                { "head_id": "head_1", "text" : "What a beautiful notion, Luna" },																									
+                { "head_id": "head_1", "text" : "What a beautiful notion" },																									
                 { "head_id": "head_1", "text" : "As a bard, I find the center in stories, in the shared experiences that bind us" },																									
                 { "head_id": "head_1", "text" : "Each tale is a thread in the tapestry of existence." },																									
-                { "head_id": "head_2", "text" : "Indeed, Zenith" },																									
+                { "head_id": "head_2", "text" : "Indeed" },																									
                 { "head_id": "head_2", "text" : "The center may be found in the connections we make, the love we share" },																									
                 { "head_id": "head_2", "text" : "In the heart of each being lies a universe, a microcosm of the whole." },																									
                 { "head_id": "head_5", "text" : "While poetic, we must not disregard empirical evidence" },																									
@@ -1161,14 +1231,14 @@
                 { "head_id": "head_1", "text" : "And so, we wander, we wonder, we weave our tales" },																									
                 { "head_id": "head_1", "text" : "Each step, each thought, bringing us closer to the elusive center, the heart of the universe within us all." },																									
                 { "head_id": "head_2", "text" : "Let us hold this dialogue in our hearts, friends, as we continue our journey through the cosmos, each of us a star in the constellation of existence." },																									
-                { "head_id": "head_5", "text" : "If the center is a paradox, as Thaddeus suggests, how do we reconcile our scientific understanding with our need for meaning?" },																									
+                { "head_id": "head_5", "text" : "If the center is a paradox how do we reconcile our scientific understanding with our need for meaning?" },																									
                 { "head_id": "head_2", "text" : "Reconciliation comes through integration" },																									
                 { "head_id": "head_2", "text" : "We must allow both the empirical and the mystical to inform our worldview" },																									
                 { "head_id": "head_2", "text" : "They are not mutually exclusive but complementary." },																									
                 { "head_id": "head_3", "text" : "In art, this integration is natural" },																									
                 { "head_id": "head_3", "text" : "A sculpture, a song, they blend the tangible with the intangible, creating a holistic experience." },																									
                 { "head_id": "head_4", "text" : "But isn't this blending just another form of escapism? To ignore the harsh truths of reality in favor of comforting illusions?" },																									
-                { "head_id": "head_6", "text" : "Not escapism, Thaddeus" },																									
+                { "head_id": "head_6", "text" : "Not escapism" },																									
                 { "head_id": "head_6", "text" : "Transcendence" },																									
                 { "head_id": "head_6", "text" : "We are more than our physical forms; our spirit seeks to rise above the mundane, to touch the divine." },																									
                 { "head_id": "head_1", "text" : "Every story, every song, seeks to touch that divine essence" },																									
@@ -1202,23 +1272,23 @@
                 { "head_id": "head_5", "text" : "For in this embrace, we find the center, the heart of the universe, within and around us." },																									
                 { "head_id": "head_2", "text" : "And with this shared understanding, we shall move forward, each of us a light in the cosmos, illuminating the path for ourselves and others." }																									
             ]																									
-        }																									
+        }																								
     ],
-    "music_segments": [],
-    "visualization_objects": [
+    "music_segments": [
         {
-            "id": "fire_pit",
-            "type": "fire_pit",
-            "position": {
-                "x": 0,
-                "y": 0.55,
-                "z": 0
-            },
-            "orientation": 0,
-            "mesh": "../light_controller/mesh/fire_pit.obj",
-            "led_config": "../config/fire_pit/led_config.json",
-            "led_pattern_id": "0x0"
-        },
+            "id": "nebulous_samples",
+            "head_id": "all",
+            "segments": [
+                { "head_id": "head_1", "filename": "nebulous_samples/head_1.wav" },
+                { "head_id": "head_2", "filename": "nebulous_samples/head_2.wav" },
+                { "head_id": "head_3", "filename": "nebulous_samples/head_3.wav" },
+                { "head_id": "head_4", "filename": "nebulous_samples/head_4.wav" },
+                { "head_id": "head_5", "filename": "nebulous_samples/head_5.wav" },
+                { "head_id": "head_6", "filename": "nebulous_samples/head_6.wav" }
+            ]
+        }
+    ],
+    "visualization_objects": [
         {
             "id": "person_1",
             "type": "person",
