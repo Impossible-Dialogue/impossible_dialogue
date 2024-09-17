@@ -116,6 +116,8 @@ function HeadManager(editor) {
         }, 100);
 
         ws.onmessage = function (event) {
+            if (event.data == "") 
+                return;
             var data = JSON.parse(event.data);
             for (const head_state of data.head_states) {
                 signals.updateHeadState.dispatch(head_state);
