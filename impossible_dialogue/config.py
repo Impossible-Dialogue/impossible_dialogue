@@ -126,7 +126,6 @@ class Segment:
         segment_list_id = self.segment_list.id
         if self._filename:
             return os.path.join(self.base_folder,
-                                segment_list_id, 
                                 self._filename)
         head_id = self.head_id()
         assert head_id
