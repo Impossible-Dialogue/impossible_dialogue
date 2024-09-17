@@ -47,8 +47,9 @@ class OpenPixelControlConnection:
             opc = head.opc
             self._opc_tasks.append(self._connect_to_opc(head_id, self._generator, opc.server_ip, opc.server_port))
 
-        opc = self._fire_pit_config.opc
-        self._opc_tasks.append(self._connect_to_opc(self._fire_pit_config.id, self._generator, opc.server_ip, opc.server_port))
+        if self._fire_pit_config:
+            opc = self._fire_pit_config.opc
+            self._opc_tasks.append(self._connect_to_opc(self._fire_pit_config.id, self._generator, opc.server_ip, opc.server_port))
 
         try:
             results = await asyncio.gather(
