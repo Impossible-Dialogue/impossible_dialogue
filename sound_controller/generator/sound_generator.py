@@ -222,7 +222,7 @@ class SoundGenerator:
             if head_state.is_centered() and not self._heads_centered[head_id]:
                 generator.play_effect(self._effects.find_segment("chime"))
         self.update_heads_centered()
-
+        
         for generator in self._head_generators:
             generator.loop() 
 
@@ -230,6 +230,7 @@ class SoundGenerator:
 
     async def run(self):
         poll_interval = 0.1
+        self.update_heads_centered()
         while (True):
             self.loop()
             await asyncio.sleep(poll_interval)
