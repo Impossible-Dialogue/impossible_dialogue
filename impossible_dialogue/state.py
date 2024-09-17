@@ -19,7 +19,7 @@ class HeadState:
         return data
     
     def is_centered(self):
-        return self._orientation <= 20 and self._orientation > -20
+        return self._orientation <= 45 and self._orientation > -45
 
     def orientation(self):
         return self._orientation
