@@ -29,7 +29,7 @@ async def main():
                         help="Enable pattern caching")
     parser.add_argument("-a", "--animation_rate", type=int, default=20, 
                         help="The target animation rate in Hz")
-    parser.add_argument("--enable_websockets", action='store_true', default=False,
+    parser.add_argument("--enable_websockets", action='store_true', default=True,
                         help="Enable the light controler WebSockets.")
     parser.add_argument("--websockets_port", type=int, default=5678, 
                         help="The light controler WebSockets port.")
