@@ -70,6 +70,7 @@ class HeadSoundGenerator:
 
     def stop(self):
         if self._state not in [_STOPPING, _STOPPED]:
+            self._main_source.stop()
             self._set_state(_STOPPING)
 
     def pause(self, pause_time):
