@@ -36,6 +36,8 @@ function SidebarLoadConfig( editor) {
                     // Create a head object.
                     signals.addHead.dispatch(obj);
                 }
+                // Fire pit
+                createObject(json.fire_pit);
                 for (var obj of json.visualization_objects) {
                     // Create threejs objects
                     createObject(obj);
