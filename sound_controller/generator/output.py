@@ -32,9 +32,32 @@ class Output:
         else:
             self._input_streams = [Stream(channels=channels, blocksize=blocksize, dtype=dtype)
                                    for i in range(state.num_heads())]
-            for i in range(3):
+            
+            output_configs = [
+                {
+                    "device_index": 0,
+                    "head_index_channel_1": 0,
+                    "head_index_channel_2": 1,
+                },
+                {
+                    "device_index": 2,
+                    "head_index_channel_1": 2,
+                    "head_index_channel_2": 3,
+                },
+                {
+                    "device_index": 1,
+                    "head_index_channel_1": 4,
+                    "head_index_channel_2": 5,
+                }
+            ]
+            
+            for output_config in output_configs:
                 self._pyaudio_tasks.append(asyncio.create_task(
-                    pyaudio_output_stereo(self._input_streams[2 * i], self._input_streams[2 * i + 1], device_index=i, samplerate=sample_rate, channels=channels, blocksize=blocksize, dtype=dtype)))
+                    pyaudio_output_stereo(
+                        self._input_streams[output_config["head_index_channel_1"]], 
+                        self._input_streams[output_config["head_index_channel_2"]], 
+                        device_index=output_config["device_index"], 
+                        samplerate=sample_rate, channels=channels, blocksize=blocksize, dtype=dtype)))
 
 
     def input_stream(self, index):
