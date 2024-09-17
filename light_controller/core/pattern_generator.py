@@ -25,7 +25,10 @@ class PatternGenerator:
         self._args = args
         self._results = asyncio.Future()
         self._head_configs = HeadConfigs(config["heads"])
-        self._fire_pit_config = FirePitConfig(config["fire_pit"])
+        self._fire_pit_config = None
+        if "fire_pit" in config:
+            self._fire_pit_config = FirePitConfig(config["fire_pit"])
+        self._fire_pit_generator = None
         self._light_config = LightConfig(config["light_config"])
         self._generation_time_delta = 1.0 / args.animation_rate
         self._cur_generation_time = time.time()
@@ -40,7 +43,8 @@ class PatternGenerator:
         for i, head_config in enumerate(self._head_configs.heads.values()):
             generator = HeadPatternGenerator(head_config, args)
             self._head_generators.append(generator)
-        self._fire_pit_generator = HeadPatternGenerator(self._fire_pit_config, args)
+        if self._fire_pit_config:
+            self._fire_pit_generator = HeadPatternGenerator(self._fire_pit_config, args)
 
         self._LOG_RATE = 1.0
 
@@ -55,9 +59,10 @@ class PatternGenerator:
             segments = await generator.loop(self._iteration, self._generation_time_delta) 
             results[head_id] = self.Results(head_id, segments)
         
-        fire_pit_id = self._fire_pit_config.id
-        segments = await self._fire_pit_generator.loop(self._iteration, self._generation_time_delta)
-        results[fire_pit_id] = self.Results(fire_pit_id, segments)
+        if self._fire_pit_config:
+            fire_pit_id = self._fire_pit_config.id
+            segments = await self._fire_pit_generator.loop(self._iteration, self._generation_time_delta)
+            results[fire_pit_id] = self.Results(fire_pit_id, segments)
 
         # Update results future for processing by IO
         self._results.set_result(results)
@@ -82,6 +87,24 @@ class PatternGenerator:
             generator.set_effect_pattern_ids(pattern_config.effect_pattern_ids)
             generator.set_replace_pattern_ids(pattern_config.replace_pattern_ids)
             generator.set_brightness_pattern_ids(pattern_config.brightness_pattern_ids)
+        # Update fire pit
+        if self._fire_pit_generator:
+            fire_pit_pattern_id = "0x0"
+            fire_pit_set_replace_pattern_ids = []
+            fire_pit_effect_pattern_ids = []
+            fire_pit_brightness_pattern_ids = []
+            for generator in self._head_generators:
+                head_id = generator.head_id()
+                head_state = self._installation_state.head_state(head_id)
+                if self._installation_state.all_heads_centered():
+                    fire_pit_pattern_id = "1x1"
+                elif head_state.is_centered():
+                    fire_pit_set_replace_pattern_ids.append(f"{head_id}x5")
+                    fire_pit_brightness_pattern_ids.append(f"{head_id}x4")
+            self._fire_pit_generator.set_pattern_id(fire_pit_pattern_id)
+            self._fire_pit_generator.set_effect_pattern_ids(fire_pit_effect_pattern_ids)
+            self._fire_pit_generator.set_replace_pattern_ids(fire_pit_set_replace_pattern_ids)
+            self._fire_pit_generator.set_brightness_pattern_ids(fire_pit_brightness_pattern_ids)    
 
 
     def update_state(self):
@@ -150,7 +173,8 @@ class PatternGenerator:
     async def run(self):
         for generator in self._head_generators:
             await generator.initialize()
-        await self._fire_pit_generator.initialize()
+        if self._fire_pit_generator:
+            await self._fire_pit_generator.initialize()
 
         while (True):
             await self.loop()

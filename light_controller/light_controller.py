@@ -29,6 +29,8 @@ async def main():
                         help="Enable pattern caching")
     parser.add_argument("-a", "--animation_rate", type=int, default=20, 
                         help="The target animation rate in Hz")
+    parser.add_argument("--enable_websockets", action='store_true', default=False,
+                        help="Enable the light controler WebSockets.")
     parser.add_argument("--websockets_port", type=int, default=5678, 
                         help="The light controler WebSockets port.")
     parser.add_argument("--websockets_host", default="0.0.0.0", 
@@ -40,7 +42,10 @@ async def main():
 
     config = json.load(args.config)
     head_configs = HeadConfigs(config["heads"])
-    fire_pit_config = FirePitConfig(config["fire_pit"])
+    if "fire_pit" in config:
+        fire_pit_config = FirePitConfig(config["fire_pit"])
+    else:
+        fire_pit_config = None
     state = InstallationState(config)
 
     tasks = []
@@ -54,9 +59,10 @@ async def main():
     tasks.append(pattern_generator.run())
     
     # WS servers for the web visualization
-    ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
-    tasks.append(ws.run())
-  
+    if args.enable_websockets:
+        ws = LightControllerWebSocketsServer(pattern_generator, args.websockets_host, args.websockets_port)
+        tasks.append(ws.run())
+    
     opc = OpenPixelControlConnection(
         pattern_generator, head_configs, fire_pit_config)
     tasks.append(opc.run())
